@@ -1,9 +1,9 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
 /**
- * Classe de migração para criar a tabela 'permissoes'.
+ * Classe de migração para criar a tabela 'situacao'.
  *
- * Esta migração verifica se a tabela 'permissoes' já existe no banco de dados.
+ * Esta migração verifica se a tabela 'situacao' já existe no banco de dados.
  * Se não existir, a tabela é criada com as colunas especificadas.
  * Se já existir, nada é feito no método 'up'.
  *
@@ -25,11 +25,11 @@ export default class extends BaseSchema {
    * @protected
    * @type {string}
    */
-  protected tableName: string = 'permissoes'
+  protected tableName: string = 'situacao'
 
   /**
    * Método 'up' da migração.
-   * Cria a tabela 'permissoes' se ela não existir.
+   * Cria a tabela 'situacao' se ela não existir.
    *
    * @public
    * @returns {Promise<void>}
@@ -42,10 +42,8 @@ export default class extends BaseSchema {
     if (!hasTable) {
       this.schema.withSchema(this.schemaName)
         .createTable(this.tableName, (table) => {
-          table.integer('usuario_id').notNullable().unsigned().references('id').inTable('public.usuarios').onDelete('CASCADE').onUpdate('CASCADE')
-          table.integer('modulo_id').notNullable().unsigned().references('id').inTable('public.modulos').onDelete('CASCADE').onUpdate('CASCADE')
-          table.integer('unidade_id').notNullable().unsigned().references('id').inTable('public.unidades').onDelete('CASCADE').onUpdate('CASCADE')
-          table.specificType('acao', 'character varying[]').notNullable()
+          table.increments('id').primary()
+          table.string('descricao', 150).notNullable()
           table.boolean('ativo').notNullable().defaultTo(true).comment('Se valor for TRUE o mesmo não aparece nas listagens, exceto nas rotas de busca geral.')
           table.timestamp('created_at', { useTz: true }).notNullable().defaultTo(this.now())
           table.string('created_by', 150).notNullable()
@@ -57,7 +55,7 @@ export default class extends BaseSchema {
 
   /**
    * Método 'down' da migração.
-   * Exclui a tabela 'permissoes' se ela existir.
+   * Exclui a tabela 'situacao' se ela existir.
    *
    * @public
    * @returns {Promise<void>}

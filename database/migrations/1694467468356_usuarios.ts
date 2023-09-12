@@ -1,9 +1,9 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
 /**
- * Classe de migração para criar a tabela 'usuarios'.
+ * Classe de migração para criar a tabela 'usuario'.
  *
- * Esta migração verifica se a tabela 'usuarios' já existe no banco de dados.
+ * Esta migração verifica se a tabela 'usuario' já existe no banco de dados.
  * Se não existir, a tabela é criada com as colunas especificadas.
  * Se já existir, nada é feito no método 'up'.
  *
@@ -25,11 +25,11 @@ export default class extends BaseSchema {
    * @protected
    * @type {string}
    */
-  protected tableName: string = 'usuarios'
+  protected tableName: string = 'usuario'
 
   /**
    * Método 'up' da migração.
-   * Cria a tabela 'usuarios' se ela não existir.
+   * Cria a tabela 'usuario' se ela não existir.
    *
    * @public
    * @returns {Promise<void>}
@@ -43,9 +43,9 @@ export default class extends BaseSchema {
       this.schema.withSchema(this.schemaName)
         .createTable(this.tableName, (table) => {
           table.increments('id').primary()
-          table.integer('unidade_id').notNullable().unsigned().references('id').inTable('public.unidades').onDelete('NO ACTION').onUpdate('NO ACTION')
-          table.integer('setor_id').notNullable().unsigned().references('id').inTable('public.setores').onDelete('NO ACTION').onUpdate('NO ACTION')
-          table.integer('funcao_id').notNullable().unsigned().references('id').inTable('public.funcoes').onDelete('NO ACTION').onUpdate('NO ACTION')
+          table.integer('unidade_id').notNullable().unsigned().references('id').inTable('public.unidade').onDelete('NO ACTION').onUpdate('NO ACTION')
+          table.integer('setor_id').notNullable().unsigned().references('id').inTable('public.setor').onDelete('NO ACTION').onUpdate('NO ACTION')
+          table.integer('funcao_id').notNullable().unsigned().references('id').inTable('public.funcao').onDelete('NO ACTION').onUpdate('NO ACTION')
           table.string('nome', 150).notNullable()
           table.string('cpf', 150).notNullable()
           table.string('senha', 50).notNullable()
@@ -65,7 +65,7 @@ export default class extends BaseSchema {
 
   /**
    * Método 'down' da migração.
-   * Exclui a tabela 'usuarios' se ela existir.
+   * Exclui a tabela 'usuario' se ela existir.
    *
    * @public
    * @returns {Promise<void>}

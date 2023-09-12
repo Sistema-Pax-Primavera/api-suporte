@@ -1,9 +1,9 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
 /**
- * Classe de migração para criar a tabela 'funcoes'.
+ * Classe de migração para criar a tabela 'concorrente'.
  *
- * Esta migração verifica se a tabela 'funcoes' já existe no banco de dados.
+ * Esta migração verifica se a tabela 'concorrente' já existe no banco de dados.
  * Se não existir, a tabela é criada com as colunas especificadas.
  * Se já existir, nada é feito no método 'up'.
  *
@@ -25,11 +25,11 @@ export default class extends BaseSchema {
    * @protected
    * @type {string}
    */
-  protected tableName: string = 'funcoes'
+  protected tableName: string = 'concorrente'
 
   /**
    * Método 'up' da migração.
-   * Cria a tabela 'funcoes' se ela não existir.
+   * Cria a tabela 'concorrente' se ela não existir.
    *
    * @public
    * @returns {Promise<void>}
@@ -55,7 +55,7 @@ export default class extends BaseSchema {
 
   /**
    * Método 'down' da migração.
-   * Exclui a tabela 'funcoes' se ela existir.
+   * Exclui a tabela 'concorrente' se ela existir.
    *
    * @public
    * @returns {Promise<void>}

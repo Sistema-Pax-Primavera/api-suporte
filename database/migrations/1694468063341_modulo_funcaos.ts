@@ -31,6 +31,8 @@ export default class extends BaseSchema {
    * Método 'up' da migração.
    * Cria a tabela 'modulo_funcao' se ela não existir.
    *
+   * Essa tabela é apenas para fins de auxílio. Ao cadastrar um usuário com determinada função, esses valores irão ser pré-carregados, para serem alterados e assim inseridos na tabela 'permissao'.
+   * 
    * @public
    * @returns {Promise<void>}
    */
@@ -42,9 +44,9 @@ export default class extends BaseSchema {
     if (!hasTable) {
       this.schema.withSchema(this.schemaName)
         .createTable(this.tableName, (table) => {
-          table.integer('modulo_id').notNullable().unsigned().references('id').inTable('public.modulos').onDelete('CASCADE').onUpdate('CASCADE')
-          table.integer('funcao_id').notNullable().unsigned().references('id').inTable('public.funcoes').onDelete('CASCADE').onUpdate('CASCADE')
-          table.specificType('acao', 'character varying[]').notNullable()
+          table.integer('modulo_id').notNullable().unsigned().references('id').inTable('public.modulo').onDelete('CASCADE').onUpdate('CASCADE')
+          table.integer('funcao_id').notNullable().unsigned().references('id').inTable('public.funcao').onDelete('CASCADE').onUpdate('CASCADE')
+          table.specificType('acao', 'character varying[]').notNullable().comment('Aceita os valores (LER, GRAVAR). Especificando a ação que o usuário com determinada função poderá realizar no módulo.')
           table.boolean('ativo').notNullable().defaultTo(true).comment('Se valor for TRUE o mesmo não aparece nas listagens, exceto nas rotas de busca geral.')
           table.timestamp('created_at', { useTz: true }).notNullable().defaultTo(this.now())
           table.string('created_by', 150).notNullable()

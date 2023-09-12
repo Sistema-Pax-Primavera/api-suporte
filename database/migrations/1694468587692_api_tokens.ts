@@ -43,7 +43,7 @@ export default class extends BaseSchema {
       this.schema.withSchema(this.schemaName)
         .createTable(this.tableName, (table) => {
           table.increments('id').primary()
-          table.integer('user_id').unsigned().references('id').inTable('public.usuarios').onDelete('CASCADE')
+          table.integer('user_id').unsigned().references('id').inTable('public.usuario').onDelete('CASCADE')
           table.string('name').notNullable()
           table.string('type').notNullable()
           table.string('token', 64).notNullable().unique()
