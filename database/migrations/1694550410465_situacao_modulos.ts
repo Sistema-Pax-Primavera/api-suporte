@@ -49,6 +49,8 @@ export default class extends BaseSchema {
           table.string('created_by', 150).notNullable()
           table.timestamp('updated_at', { useTz: true }).nullable()
           table.string('updated_by', 150).nullable()
+
+          table.primary(['situacao_id', 'modulo_id'])
         })
     }
   }
