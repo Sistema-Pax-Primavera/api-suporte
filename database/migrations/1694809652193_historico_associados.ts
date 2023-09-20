@@ -1,9 +1,9 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
 /**
- * Classe de migração para criar a tabela 'forma_pagamento'.
+ * Classe de migração para criar a tabela 'historico_associado'.
  *
- * Esta migração verifica se a tabela 'forma_pagamento' já existe no banco de dados.
+ * Esta migração verifica se a tabela 'historico_associado' já existe no banco de dados.
  * Se não existir, a tabela é criada com as colunas especificadas.
  * Se já existir, nada é feito no método 'up'.
  *
@@ -17,7 +17,7 @@ export default class extends BaseSchema {
    * @protected
    * @type {string}
    */
-  protected schemaName: string = 'public'
+  protected schemaName: string = 'arquivo'
 
   /**
    * Nome da tabela que esta migração cria.
@@ -25,11 +25,11 @@ export default class extends BaseSchema {
    * @protected
    * @type {string}
    */
-  protected tableName: string = 'forma_pagamento'
+  protected tableName: string = 'historico_associado'
 
   /**
    * Método 'up' da migração.
-   * Cria a tabela 'forma_pagamento' se ela não existir.
+   * Cria a tabela 'historico_associado' se ela não existir.
    *
    * @public
    * @returns {Promise<void>}
@@ -43,8 +43,8 @@ export default class extends BaseSchema {
       this.schema.withSchema(this.schemaName)
         .createTable(this.tableName, (table) => {
           table.increments('id').primary()
-          table.string('descricao', 150).notNullable()
-          table.string('tipo', 1).notNullable().comment('T-Tesouraria B-Bancario C-Cartão P-Provisória')
+          table.integer('historico_id').notNullable().unsigned().references('id').inTable('associado.historico').onDelete('NO ACTION').onUpdate('NO ACTION')
+          table.text('documento').notNullable()
           table.boolean('ativo').notNullable().defaultTo(true).comment('Se valor for TRUE o mesmo não aparece nas listagens, exceto nas rotas de busca geral.')
           table.timestamp('created_at', { useTz: true }).notNullable().defaultTo(this.now())
           table.string('created_by', 150).notNullable()
@@ -56,7 +56,7 @@ export default class extends BaseSchema {
 
   /**
    * Método 'down' da migração.
-   * Exclui a tabela 'forma_pagamento' se ela existir.
+   * Exclui a tabela 'historico_associado' se ela existir.
    *
    * @public
    * @returns {Promise<void>}

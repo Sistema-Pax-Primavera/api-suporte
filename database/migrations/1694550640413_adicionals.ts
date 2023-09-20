@@ -1,9 +1,9 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
 /**
- * Classe de migração para criar a tabela 'forma_pagamento'.
+ * Classe de migração para criar a tabela 'adicional'.
  *
- * Esta migração verifica se a tabela 'forma_pagamento' já existe no banco de dados.
+ * Esta migração verifica se a tabela 'adicional' já existe no banco de dados.
  * Se não existir, a tabela é criada com as colunas especificadas.
  * Se já existir, nada é feito no método 'up'.
  *
@@ -17,7 +17,7 @@ export default class extends BaseSchema {
    * @protected
    * @type {string}
    */
-  protected schemaName: string = 'public'
+  protected schemaName: string = 'cobranca'
 
   /**
    * Nome da tabela que esta migração cria.
@@ -25,11 +25,11 @@ export default class extends BaseSchema {
    * @protected
    * @type {string}
    */
-  protected tableName: string = 'forma_pagamento'
+  protected tableName: string = 'adicional'
 
   /**
    * Método 'up' da migração.
-   * Cria a tabela 'forma_pagamento' se ela não existir.
+   * Cria a tabela 'adicional' se ela não existir.
    *
    * @public
    * @returns {Promise<void>}
@@ -44,7 +44,9 @@ export default class extends BaseSchema {
         .createTable(this.tableName, (table) => {
           table.increments('id').primary()
           table.string('descricao', 150).notNullable()
-          table.string('tipo', 1).notNullable().comment('T-Tesouraria B-Bancario C-Cartão P-Provisória')
+          table.boolean('pet').notNullable().defaultTo(false)
+          table.string('porte', 3).nullable()
+          table.boolean('resgate').defaultTo(true)
           table.boolean('ativo').notNullable().defaultTo(true).comment('Se valor for TRUE o mesmo não aparece nas listagens, exceto nas rotas de busca geral.')
           table.timestamp('created_at', { useTz: true }).notNullable().defaultTo(this.now())
           table.string('created_by', 150).notNullable()
@@ -56,7 +58,7 @@ export default class extends BaseSchema {
 
   /**
    * Método 'down' da migração.
-   * Exclui a tabela 'forma_pagamento' se ela existir.
+   * Exclui a tabela 'adicional' se ela existir.
    *
    * @public
    * @returns {Promise<void>}
