@@ -50,7 +50,6 @@ export default class extends BaseSchema {
           table.integer('usuario_id').notNullable().unsigned().references('id').inTable('public.usuario').onDelete('NO ACTION').onUpdate('NO ACTION') 
           table.date('data_vencimento').notNullable()
           table.decimal('valor_pagar', 10, 2).notNullable()
-          table.boolean('lancamento_manual').notNullable().defaultTo(true)
           table.integer('unidade_id').notNullable().unsigned().references('id').inTable('financeiro.unidade_financeira').onDelete('NO ACTION').onUpdate('NO ACTION')
           table.integer('status').notNullable().defaultTo(1).comment('1-NORMAL 2-COMPARTILHADA ANTES DE LIQUIDAR AGUARDANDO 3-COMPARTILHADA ANTES DE LIQUIDAR ACEITA 4-COMPARTILHADA ANTES DE LIQUIDAR REJEITADA 5-COMPARTILHADA EM ABERTO 6-COMPARTILHADA LIQUIDADA A ACEITAR 7-COMPARTILHADA LIQUIDADA ACEITA 8-COMPARTILHADA LIQUIDADA REJEITADA 9-LIQUIDADA NORMAL 10-CONFERIDA 11-CONFERIDA COM ALERTA 12-CONFERIDA REJEITADA')
           table.integer('tipo_despesa').notNullable().defaultTo(1).comment('1-NORMAL 2-COMPARTILHADA ANTES DE LIQUIDAR 3-COMPARTILHADA APOS LIQUIDAR 4-DESPESA PROVISORIA')

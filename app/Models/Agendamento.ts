@@ -2,20 +2,32 @@ import { BaseModel, beforeSave, column } from '@ioc:Adonis/Lucid/Orm'
 import { formatarString } from 'App/Util/Format'
 import { DateTime } from 'luxon'
 
-export default class SituacaoModulo extends BaseModel {
+export default class Agendamento extends BaseModel {
   // Definição do nome da tabela.
-  public static table = 'public.situacao_modulo'
+  public static table = 'associado.agendamento'
 
   @column({ isPrimary: true })
   public id: number
-
-  // ID da situação a ser liberada.
-  @column()
-  public situacaoId: number
   
-  // ID do módulo a ser liberado.
+  // ID do associado vinculado ao agendamento.
   @column()
-  public moduloId: number
+  public associadoId: number
+
+  // ID do cobrador vinculado ao agendamento.
+  @column()
+  public cobradorId: number
+
+  // Indica o tipo do agendamento: 1-Cobrador  2-Atendimento.
+  @column()
+  public tipo: number
+
+  // Status do agendamento: 0-Pendente  1-Finalizado.
+  @column()
+  public status: number
+
+  // Data/Hora de retorno do agendamento.
+  @column()
+  public retorno: DateTime
 
   // Indica se o resgistro está ativo.
   @column()
@@ -40,13 +52,13 @@ export default class SituacaoModulo extends BaseModel {
   /**
   * Método de gancho (hook) que formata os campos do registro antes de salvá-los.
   *
-  * @param {SituacaoModulo} situacaoModulo - O objeto SituacaoModulo a ser formatado.
+  * @param {Agendamento} agendamento - O objeto Agendamento a ser formatado.
   *
-  * @memberOf SituacaoModulo
+  * @memberOf Agendamento
   */
   @beforeSave()
-  public static async formatFields(situacaoModulo: SituacaoModulo) {
-    situacaoModulo.createdBy = formatarString(situacaoModulo.createdBy)
-    situacaoModulo.updatedBy = formatarString(situacaoModulo.updatedBy)
+  public static async formatFields(agendamento: Agendamento) {
+    agendamento.createdBy = formatarString(agendamento.createdBy)
+    agendamento.updatedBy = formatarString(agendamento.updatedBy)
   }
 }

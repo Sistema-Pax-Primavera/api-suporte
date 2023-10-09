@@ -43,7 +43,7 @@ export default class extends BaseSchema {
       this.schema.withSchema(this.schemaName)
         .createTable(this.tableName, (table) => {
           table.increments('id').primary()
-
+          // Dados titular!
           table.integer('unidade_id').notNullable().unsigned().references('id').inTable('public.unidade').onDelete('NO ACTION').onUpdate('NO ACTION')
           table.integer('situacao_id').notNullable().unsigned().references('id').inTable('public.situacao').onDelete('NO ACTION').onUpdate('NO ACTION')
           table.string('nome', 150).notNullable()

@@ -2,20 +2,25 @@ import { BaseModel, beforeSave, column } from '@ioc:Adonis/Lucid/Orm'
 import { formatarString } from 'App/Util/Format'
 import { DateTime } from 'luxon'
 
-export default class SituacaoModulo extends BaseModel {
+export default class Permissao extends BaseModel {
   // Definição do nome da tabela.
-  public static table = 'public.situacao_modulo'
+  public static table = 'public.permissao'
 
-  @column({ isPrimary: true })
-  public id: number
-
-  // ID da situação a ser liberada.
+  // ID do usuário a ser liberado.
   @column()
-  public situacaoId: number
-  
+  public usuarioId: number
+
   // ID do módulo a ser liberado.
   @column()
   public moduloId: number
+
+  // ID da unidade a ser liberada.
+  @column()
+  public unidadeId: number
+
+  // Aceita os valores (LER, GRAVAR). Especificando a ação que o usuário poderá realizar no módulo.
+  @column()
+  public acao: string[]
 
   // Indica se o resgistro está ativo.
   @column()
@@ -40,13 +45,13 @@ export default class SituacaoModulo extends BaseModel {
   /**
   * Método de gancho (hook) que formata os campos do registro antes de salvá-los.
   *
-  * @param {SituacaoModulo} situacaoModulo - O objeto SituacaoModulo a ser formatado.
+  * @param {Permissao} permissao - O objeto Permissao a ser formatado.
   *
-  * @memberOf SituacaoModulo
+  * @memberOf Permissao
   */
   @beforeSave()
-  public static async formatFields(situacaoModulo: SituacaoModulo) {
-    situacaoModulo.createdBy = formatarString(situacaoModulo.createdBy)
-    situacaoModulo.updatedBy = formatarString(situacaoModulo.updatedBy)
+  public static async formatFields(permissao: Permissao) {
+    permissao.createdBy = formatarString(permissao.createdBy)
+    permissao.updatedBy = formatarString(permissao.updatedBy)
   }
 }

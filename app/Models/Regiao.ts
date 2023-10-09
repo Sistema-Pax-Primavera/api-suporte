@@ -2,20 +2,24 @@ import { BaseModel, beforeSave, column } from '@ioc:Adonis/Lucid/Orm'
 import { formatarString } from 'App/Util/Format'
 import { DateTime } from 'luxon'
 
-export default class SituacaoModulo extends BaseModel {
+export default class Regiao extends BaseModel {
   // Definição do nome da tabela.
-  public static table = 'public.situacao_modulo'
+  public static table = 'cobranca.regiao'
 
   @column({ isPrimary: true })
   public id: number
 
-  // ID da situação a ser liberada.
+  // ID da unidade vinculada a região.
   @column()
-  public situacaoId: number
-  
-  // ID do módulo a ser liberado.
+  public unidadeId: number
+
+  // ID do cobrador vinculado a região.
   @column()
-  public moduloId: number
+  public cobradorId: number
+
+  // Nome do região.
+  @column()
+  public descricao: string | null
 
   // Indica se o resgistro está ativo.
   @column()
@@ -40,13 +44,14 @@ export default class SituacaoModulo extends BaseModel {
   /**
   * Método de gancho (hook) que formata os campos do registro antes de salvá-los.
   *
-  * @param {SituacaoModulo} situacaoModulo - O objeto SituacaoModulo a ser formatado.
+  * @param {Regiao} regiao - O objeto Regiao a ser formatado.
   *
-  * @memberOf SituacaoModulo
+  * @memberOf Regiao
   */
   @beforeSave()
-  public static async formatFields(situacaoModulo: SituacaoModulo) {
-    situacaoModulo.createdBy = formatarString(situacaoModulo.createdBy)
-    situacaoModulo.updatedBy = formatarString(situacaoModulo.updatedBy)
+  public static async formatFields(regiao: Regiao) {
+    regiao.descricao = formatarString(regiao.descricao)
+    regiao.createdBy = formatarString(regiao.createdBy)
+    regiao.updatedBy = formatarString(regiao.updatedBy)
   }
 }
