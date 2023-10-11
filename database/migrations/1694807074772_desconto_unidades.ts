@@ -25,7 +25,7 @@ export default class extends BaseSchema {
    * @protected
    * @type {string}
    */
-  protected tableName: string = 'parentesco_unidade'
+  protected tableName: string = 'desconto_unidade'
 
   /**
    * Método 'up' da migração.

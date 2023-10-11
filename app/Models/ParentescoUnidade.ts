@@ -2,28 +2,21 @@ import { BaseModel, beforeSave, column } from '@ioc:Adonis/Lucid/Orm'
 import { formatarString } from 'App/Util/Format'
 import { DateTime } from 'luxon'
 
-export default class Solicitacao extends BaseModel {
+export default class ParentescoUnidade extends BaseModel {
   // Definição do nome da tabela.
-  public static table = 'public.solicitacao'
+  public static table = 'cobranca.parentesco_unidade'
 
-  @column({ isPrimary: true })
-  public id: number
-
-  // ID da categoria da solicitação.
+  // ID do parentesco.
   @column()
-  public categoriaId: number
+  public parentescoId: number
 
-  // Conteúdo JSON da solicitação.
+  // ID da unidade.
   @column()
-  public conteudo: Object
+  public unidadeId: number
 
-  // ID do usuário que registrou a solicitação.
+  // Indica se o parentesco é um adicional.
   @column()
-  public usuarioId: number
-
-  // Status da solicitação: 0-Pendente 1-Em atendimento 2-Cancelado 3-Finalizado.
-  @column()
-  public status: number
+  public adicional: boolean
 
   // Indica se o resgistro está ativo.
   @column()
@@ -48,13 +41,13 @@ export default class Solicitacao extends BaseModel {
   /**
   * Método de gancho (hook) que formata os campos do registro antes de salvá-los.
   *
-  * @param {Solicitacao} solicitacao - O objeto Solicitacao a ser formatado.
+  * @param {ParentescoUnidade} parentescoUnidade - O objeto ParentescoUnidade a ser formatado.
   *
-  * @memberOf Solicitacao
+  * @memberOf ParentescoUnidade
   */
   @beforeSave()
-  public static async formatFields(solicitacao: Solicitacao) {
-    solicitacao.createdBy = formatarString(solicitacao.createdBy)
-    solicitacao.updatedBy = formatarString(solicitacao.updatedBy)
+  public static async formatFields(parentescoUnidade: ParentescoUnidade) {
+    parentescoUnidade.createdBy = formatarString(parentescoUnidade.createdBy)
+    parentescoUnidade.updatedBy = formatarString(parentescoUnidade.updatedBy)
   }
 }

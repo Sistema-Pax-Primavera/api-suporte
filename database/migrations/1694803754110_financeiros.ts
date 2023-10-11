@@ -60,7 +60,7 @@ export default class extends BaseSchema {
           table.integer('origem').notNullable().defaultTo(4).comment('1-ESCRITORIO 2-COBRANCA 3-OS 4-FINANCEIRO 5-BANCARIO 6-VENDAS')
           table.boolean('lancamento_manual').notNullable().defaultTo(true)
           table.boolean('parcial').notNullable().defaultTo(false)
-          table.integer('transferido').nullable()
+          table.boolean('transferido').nullable()
           table.boolean('ativo').notNullable().defaultTo(true).comment('Se valor for TRUE o mesmo não aparece nas listagens, exceto nas financeiros de busca geral.')
           table.timestamp('created_at', { useTz: true }).notNullable().defaultTo(this.now())
           table.string('created_by', 150).notNullable()

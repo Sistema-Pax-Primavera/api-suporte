@@ -2,28 +2,20 @@ import { BaseModel, beforeSave, column } from '@ioc:Adonis/Lucid/Orm'
 import { formatarString } from 'App/Util/Format'
 import { DateTime } from 'luxon'
 
-export default class Solicitacao extends BaseModel {
+export default class ArquivoTitularVenda extends BaseModel {
   // Definição do nome da tabela.
-  public static table = 'public.solicitacao'
+  public static table = 'arquivo.titular_venda'
 
   @column({ isPrimary: true })
   public id: number
 
-  // ID da categoria da solicitação.
+  // ID do titular.
   @column()
-  public categoriaId: number
+  public titularId: number
 
-  // Conteúdo JSON da solicitação.
+  // Caminho do documento.
   @column()
-  public conteudo: Object
-
-  // ID do usuário que registrou a solicitação.
-  @column()
-  public usuarioId: number
-
-  // Status da solicitação: 0-Pendente 1-Em atendimento 2-Cancelado 3-Finalizado.
-  @column()
-  public status: number
+  public documento: string | null
 
   // Indica se o resgistro está ativo.
   @column()
@@ -48,13 +40,13 @@ export default class Solicitacao extends BaseModel {
   /**
   * Método de gancho (hook) que formata os campos do registro antes de salvá-los.
   *
-  * @param {Solicitacao} solicitacao - O objeto Solicitacao a ser formatado.
+  * @param {ArquivoTitularVenda} arquivoTitularVenda - O objeto ArquivoTitularVenda a ser formatado.
   *
-  * @memberOf Solicitacao
+  * @memberOf ArquivoTitularVenda
   */
   @beforeSave()
-  public static async formatFields(solicitacao: Solicitacao) {
-    solicitacao.createdBy = formatarString(solicitacao.createdBy)
-    solicitacao.updatedBy = formatarString(solicitacao.updatedBy)
+  public static async formatFields(arquivoTitularVenda: ArquivoTitularVenda) {
+    arquivoTitularVenda.createdBy = formatarString(arquivoTitularVenda.createdBy)
+    arquivoTitularVenda.updatedBy = formatarString(arquivoTitularVenda.updatedBy)
   }
 }

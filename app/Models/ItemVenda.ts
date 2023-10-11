@@ -1,22 +1,22 @@
+import { DateTime } from 'luxon'
 import { BaseModel, beforeSave, column } from '@ioc:Adonis/Lucid/Orm'
 import { formatarString } from 'App/Util/Format'
-import { DateTime } from 'luxon'
 
-export default class Item extends BaseModel {
-  // Definição do nome da tabela.
-  public static table = 'public.item'
-
-  @column({ isPrimary: true })
-  public id: number
-
-  // ID da categoria vinculada ao item.
+export default class ItemVenda extends BaseModel {
+  public static table = 'venda.item_venda'
+  
+  // ID do titular associado a este item.
   @column()
-  public categoriaItemId: number
+  public titularId: number
 
-  // Nome do item.
+  // ID do item liberado ao titular.
   @column()
-  public descricao: string | null
+  public itemId: number
 
+  // Quantidade adicionada ao plano.
+  @column()
+  public quantidade: number
+  
   // Indica se o resgistro está ativo.
   @column()
   public ativo: boolean
@@ -38,15 +38,14 @@ export default class Item extends BaseModel {
   public updatedBy: string | null
 
   /**
-  * Método de gancho (hook) que formata os campos do registro antes de salvá-los.
-  *
-  * @param {Item} item - O objeto Item a ser formatado.
-  *
-  * @memberOf Item
-  */
+   * Método de gancho (hook) que formata os campos do dependente antes de salvá-los.
+   *
+   * @param {ItemVenda} item - O objeto ItemVenda a ser formatado.
+   *
+   * @memberOf ItemVenda
+   */
   @beforeSave()
-  public static async formatFields(item: Item) {
-    item.descricao = formatarString(item.descricao)
+  public static async formatFields(item: ItemVenda){
     item.createdBy = formatarString(item.createdBy)
     item.updatedBy = formatarString(item.updatedBy)
   }

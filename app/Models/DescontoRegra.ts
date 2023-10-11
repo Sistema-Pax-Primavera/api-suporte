@@ -1,29 +1,29 @@
 import { BaseModel, beforeSave, column } from '@ioc:Adonis/Lucid/Orm'
-import { formatarString } from 'App/Util/Format'
+import { formatarDecimal, formatarString } from 'App/Util/Format'
 import { DateTime } from 'luxon'
 
-export default class Solicitacao extends BaseModel {
+export default class DescontoRegra extends BaseModel {
   // Definição do nome da tabela.
-  public static table = 'public.solicitacao'
+  public static table = 'cobranca.desconto_regra'
 
   @column({ isPrimary: true })
   public id: number
 
-  // ID da categoria da solicitação.
+  // Tipo do desconto: 1-Atrasadas 2-Adiantadas.
   @column()
-  public categoriaId: number
+  public tipo: number
 
-  // Conteúdo JSON da solicitação.
+  // Quantidade de parcelas.
   @column()
-  public conteudo: Object
+  public quantidade: number
 
-  // ID do usuário que registrou a solicitação.
+  // Operador para validação da regra.
   @column()
-  public usuarioId: number
+  public operador: string
 
-  // Status da solicitação: 0-Pendente 1-Em atendimento 2-Cancelado 3-Finalizado.
+  // Desconto a ser aplicado.
   @column()
-  public status: number
+  public desconto: number | null
 
   // Indica se o resgistro está ativo.
   @column()
@@ -48,13 +48,14 @@ export default class Solicitacao extends BaseModel {
   /**
   * Método de gancho (hook) que formata os campos do registro antes de salvá-los.
   *
-  * @param {Solicitacao} solicitacao - O objeto Solicitacao a ser formatado.
+  * @param {DescontoRegra} descontoRegra - O objeto DescontoRegra a ser formatado.
   *
-  * @memberOf Solicitacao
+  * @memberOf DescontoRegra
   */
   @beforeSave()
-  public static async formatFields(solicitacao: Solicitacao) {
-    solicitacao.createdBy = formatarString(solicitacao.createdBy)
-    solicitacao.updatedBy = formatarString(solicitacao.updatedBy)
+  public static async formatFields(descontoRegra: DescontoRegra) {
+    descontoRegra.desconto = formatarDecimal(descontoRegra.desconto)
+    descontoRegra.createdBy = formatarString(descontoRegra.createdBy)
+    descontoRegra.updatedBy = formatarString(descontoRegra.updatedBy)
   }
 }
