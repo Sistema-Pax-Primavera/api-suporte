@@ -9,7 +9,17 @@
 */
 
 import { validator } from '@ioc:Adonis/Core/Validator'
-import { formatarNumero, validaCnpj } from 'App/Util/Format'
+import { formatarNumero, validaCnpj, validaCpf } from 'App/Util/Format'
+
+validator.rule('cpf', (value, _, options) => {
+    const valida = validaCpf(value)
+    if (!valida) {
+        options.errorReporter.report(options.pointer,
+            'cpf',
+            'O CPF informado é inválido',
+            options.arrayExpressionPointer)
+    }
+})
 
 validator.rule('cnpj', (value, _, options) => {
     const valida = validaCnpj(value)
@@ -47,6 +57,7 @@ validator.rule('cep', (value, _, options)=>{
 
 declare module '@ioc:Adonis/Core/Validator' {
     interface Rules {
+        cpf(): Rule
         cnpj(): Rule
         telefone(): Rule
         cep(): Rule

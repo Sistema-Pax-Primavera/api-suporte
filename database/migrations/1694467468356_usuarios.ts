@@ -47,7 +47,7 @@ export default class extends BaseSchema {
           table.integer('setor_id').notNullable().unsigned().references('id').inTable('public.setor').onDelete('NO ACTION').onUpdate('NO ACTION')
           table.integer('funcao_id').notNullable().unsigned().references('id').inTable('public.funcao').onDelete('NO ACTION').onUpdate('NO ACTION')
           table.string('nome', 150).notNullable()
-          table.string('cpf', 150).notNullable()
+          table.string('cpf', 11).notNullable()
           table.string('senha').notNullable()
           table.decimal('porcentagem_desconto', 10, 2).nullable().defaultTo(0).comment('Porcentagem máxima de desconto que o usuário pode aplicar nos recebimentos. Caso seja definido como 0, segue o padrão das regras de desconto.')
           table.timestamp('ultimo_acesso').nullable().comment('Data/Hora do ultimo acesso do usuário.')
