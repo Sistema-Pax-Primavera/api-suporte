@@ -45,7 +45,7 @@ export default class extends BaseSchema {
           table.increments('id').primary()
           table.integer('unidade_id').notNullable().unsigned().references('id').inTable('public.unidade').onDelete('NO ACTION').onUpdate('NO ACTION')
           table.integer('cobrador_id').notNullable().unsigned().references('id').inTable('cobranca.cobrador').onDelete('NO ACTION').onUpdate('NO ACTION')
-          table.string('descricao', 150).notNullable()
+          table.string('descricao', 150).notNullable().unique()
           table.boolean('ativo').notNullable().defaultTo(true).comment('Se valor for TRUE o mesmo não aparece nas listagens, exceto nas rotas de busca geral.')
           table.timestamp('created_at', { useTz: true }).notNullable().defaultTo(this.now())
           table.string('created_by', 150).notNullable()
