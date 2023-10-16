@@ -43,7 +43,7 @@ export default class extends BaseSchema {
       this.schema.withSchema(this.schemaName)
         .createTable(this.tableName, (table) => {
           table.increments('id').primary()
-          table.string('descricao', 150).notNullable()
+          table.string('descricao', 150).notNullable().unique()
           table.boolean('ativo').notNullable().defaultTo(true).comment('Se valor for TRUE o mesmo não aparece nas listagens, exceto nas rotas de busca geral.')
           table.timestamp('created_at', { useTz: true }).notNullable().defaultTo(this.now())
           table.string('created_by', 150).notNullable()
