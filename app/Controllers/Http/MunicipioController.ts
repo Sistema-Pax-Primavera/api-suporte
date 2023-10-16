@@ -16,11 +16,11 @@ export default class MunicipioController {
         try {
 
             // Valida os campos informados.
-            const { descricao } = await request.validate(CreateMunicipioValidator)
+            const { descricao, uf } = await request.validate(CreateMunicipioValidator)
 
             // Insere o registro no banco de dados.
             const municipio = await Municipio.create({
-                descricao,
+                descricao, uf,
                 createdBy: auth.user?.nome
             })
 
@@ -51,10 +51,11 @@ export default class MunicipioController {
             const municipio = await Municipio.findOrFail(params.id)
 
             // Valida os campos informados.
-            const { descricao } = await request.validate(CreateMunicipioValidator)
+            const { descricao, uf } = await request.validate(CreateMunicipioValidator)
 
             // Atualiza o objeto com os dados novos.
             municipio.descricao = descricao
+            municipio.uf = uf
             municipio.updatedBy = auth.user?.nome ?? null
 
             // Persiste no banco o objeto atualizado.
