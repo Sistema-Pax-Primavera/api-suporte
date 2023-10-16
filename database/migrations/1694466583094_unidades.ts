@@ -43,7 +43,7 @@ export default class extends BaseSchema {
       this.schema.withSchema(this.schemaName)
         .createTable(this.tableName, (table) => {
           table.increments('id').primary()
-          table.string('descricao', 150).notNullable()
+          table.string('descricao', 150).notNullable().unique()
           table.string('razao_social', 150).notNullable()
           table.string('cnpj').notNullable()
           table.string('telefone').notNullable()

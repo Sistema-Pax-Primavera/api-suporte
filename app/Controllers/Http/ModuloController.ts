@@ -3,14 +3,14 @@ import CustomErrorException from 'App/Exceptions/CustomErrorException'
 import Modulo from 'App/Models/Modulo'
 import CreateModuloValidator from 'App/Validators/CreateModuloValidator'
 
-export default class ModulosController {
+export default class ModuloController {
 
     /**
      * Método para cadastrar módulo.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
-     * @memberof ModulosController
+     * @memberof ModuloController
      */
     public async cadastrar({ request, response, auth }: HttpContextContract): Promise<any> {
         try {
@@ -42,7 +42,7 @@ export default class ModulosController {
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
-     * @memberof ModulosController
+     * @memberof ModuloController
      */
     public async atualizar({ request, response, params, auth }: HttpContextContract): Promise<any> {
         try {
@@ -78,7 +78,7 @@ export default class ModulosController {
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
-     * @memberof ModulosController
+     * @memberof ModuloController
      */
     public async ativar({ response, params, auth }: HttpContextContract): Promise<any> {
         try {
@@ -111,7 +111,7 @@ export default class ModulosController {
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
-     * @memberof ModulosController
+     * @memberof ModuloController
      */
     public async buscarTodos({ response }: HttpContextContract): Promise<any> {
         try {
@@ -142,7 +142,7 @@ export default class ModulosController {
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
-     * @memberof ModulosController
+     * @memberof ModuloController
      */
     public async buscarAtivos({ response }: HttpContextContract): Promise<any> {
         try {
@@ -173,7 +173,7 @@ export default class ModulosController {
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
-     * @memberof ModulosController
+     * @memberof ModuloController
      */
     public async buscarPorId({ response, params }: HttpContextContract): Promise<any> {
         try {
