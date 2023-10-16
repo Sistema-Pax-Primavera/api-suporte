@@ -46,7 +46,7 @@ export default class extends BaseSchema {
           table.string('descricao', 150).notNullable()
           table.boolean('pet').notNullable().defaultTo(false)
           table.string('porte', 3).nullable()
-          table.boolean('resgate').defaultTo(true)
+          table.boolean('resgate').notNullable().defaultTo(true)
           table.boolean('ativo').notNullable().defaultTo(true).comment('Se valor for TRUE o mesmo não aparece nas listagens, exceto nas rotas de busca geral.')
           table.timestamp('created_at', { useTz: true }).notNullable().defaultTo(this.now())
           table.string('created_by', 150).notNullable()
