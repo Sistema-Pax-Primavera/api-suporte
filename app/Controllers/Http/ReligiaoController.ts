@@ -138,7 +138,7 @@ export default class ReligiaoController {
     }
 
     /**
-     * Método para buscar as religiões ativos.
+     * Método para buscar as religiões ativas.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
@@ -146,7 +146,7 @@ export default class ReligiaoController {
      */
     public async buscarAtivos({ response }: HttpContextContract): Promise<any> {
         try {
-            // Busca todas as religiões ativos.
+            // Busca todas as religiões ativas.
             const religioes = await Religiao.query().where('ativo', true)
 
             // Verifica se não foi retornado nenhum registro.

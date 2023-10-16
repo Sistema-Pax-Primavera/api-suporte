@@ -138,7 +138,7 @@ export default class FuncaoController {
     }
 
     /**
-     * Método para buscar as funções ativos.
+     * Método para buscar as funções ativas.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
@@ -146,7 +146,7 @@ export default class FuncaoController {
      */
     public async buscarAtivos({ response }: HttpContextContract): Promise<any> {
         try {
-            // Busca todas as funções ativos.
+            // Busca todas as funções ativas.
             const funcoes = await Funcao.query().where('ativo', true)
 
             // Verifica se não foi retornado nenhum registro.

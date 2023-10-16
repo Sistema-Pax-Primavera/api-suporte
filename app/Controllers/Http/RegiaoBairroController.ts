@@ -138,7 +138,7 @@ export default class RegiaoBairroController {
     }
 
     /**
-     * Método para buscar as regiões ativos.
+     * Método para buscar as regiões ativas.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
@@ -146,7 +146,7 @@ export default class RegiaoBairroController {
      */
     public async buscarAtivos({ response }: HttpContextContract): Promise<any> {
         try {
-            // Busca todas as regiões ativos.
+            // Busca todas as regiões ativas.
             const regioes = await RegiaoBairro.query().where('ativo', true)
 
             // Verifica se não foi retornado nenhum registro.

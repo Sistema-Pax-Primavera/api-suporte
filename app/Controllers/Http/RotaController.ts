@@ -145,7 +145,7 @@ export default class RotaController {
     }
 
     /**
-     * Método para buscar as rotas ativos.
+     * Método para buscar as rotas ativas.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
@@ -153,7 +153,7 @@ export default class RotaController {
      */
     public async buscarAtivos({ response }: HttpContextContract): Promise<any> {
         try {
-            // Busca todas as rotas ativos.
+            // Busca todas as rotas ativas.
             const rotas = await Rota.query().where('ativo', true)
 
             // Verifica se não foi retornado nenhum registro.

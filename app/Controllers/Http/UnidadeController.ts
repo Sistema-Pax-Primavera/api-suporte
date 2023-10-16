@@ -153,7 +153,7 @@ export default class UnidadeController {
     }
 
     /**
-     * Método para buscar as unidades ativos.
+     * Método para buscar as unidades ativas.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
@@ -161,7 +161,7 @@ export default class UnidadeController {
      */
     public async buscarAtivos({ response }: HttpContextContract): Promise<any> {
         try {
-            // Busca todas as unidades ativos.
+            // Busca todas as unidades ativas.
             const unidades = await Unidade.query().where('ativo', true)
 
             // Verifica se não foi retornado nenhum registro.
