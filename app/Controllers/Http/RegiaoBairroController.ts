@@ -1,25 +1,25 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import CustomErrorException from 'App/Exceptions/CustomErrorException'
-import Funcao from 'App/Models/Funcao'
-import CreateFuncaoValidator from 'App/Validators/CreateFuncaoValidator'
+import RegiaoBairro from 'App/Models/RegiaoBairro'
+import CreateRegiaoBairroValidator from 'App/Validators/CreateRegiaoBairroValidator'
 
-export default class FuncaoController {
+export default class RegiaoBairroController {
 
     /**
-     * Método para cadastrar função.
+     * Método para cadastrar região bairro.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
-     * @memberof FuncaoController
+     * @memberof RegiaoBairroController
      */
     public async cadastrar({ request, response, auth }: HttpContextContract): Promise<any> {
         try {
 
             // Valida os campos informados.
-            const { descricao } = await request.validate(CreateFuncaoValidator)
+            const { descricao } = await request.validate(CreateRegiaoBairroValidator)
 
             // Insere o registro no banco de dados.
-            const funcao = await Funcao.create({
+            const regiaoBairro = await RegiaoBairro.create({
                 descricao,
                 createdBy: auth.user?.nome
             })
@@ -27,7 +27,7 @@ export default class FuncaoController {
             return response.status(201).send({
                 status: true,
                 message: 'Registro cadastrado com sucesso!',
-                data: funcao
+                data: regiaoBairro
             })
         } catch (error) {
             return response.status(500).send({
@@ -38,32 +38,32 @@ export default class FuncaoController {
     }
 
     /**
-     * Método para atualizar função.
+     * Método para atualizar região bairro.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
-     * @memberof FuncaoController
+     * @memberof RegiaoBairroController
      */
     public async atualizar({ request, response, params, auth }: HttpContextContract): Promise<any> {
         try {
 
-            // Busca o função pelo id informado.
-            const funcao = await Funcao.findOrFail(params.id)
+            // Busca a região bairro pelo id informado.
+            const regiaoBairro = await RegiaoBairro.findOrFail(params.id)
 
             // Valida os campos informados.
-            const { descricao } = await request.validate(CreateFuncaoValidator)
+            const { descricao } = await request.validate(CreateRegiaoBairroValidator)
 
             // Atualiza o objeto com os dados novos.
-            funcao.descricao = descricao
-            funcao.updatedBy = auth.user?.nome ?? null
+            regiaoBairro.descricao = descricao
+            regiaoBairro.updatedBy = auth.user?.nome ?? null
 
             // Persiste no banco o objeto atualizado.
-            await funcao.save()
+            await regiaoBairro.save()
 
             return response.status(200).send({
                 status: true,
                 message: 'Registro atualizado com sucesso',
-                data: funcao
+                data: regiaoBairro
             })
         } catch (error) {
             return response.status(500).send({
@@ -74,28 +74,28 @@ export default class FuncaoController {
     }
 
     /**
-     * Método para ativar/inativar função.
+     * Método para ativar/inativar região bairro.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
-     * @memberof FuncaoController
+     * @memberof RegiaoBairroController
      */
     public async ativar({ response, params, auth }: HttpContextContract): Promise<any> {
         try {
-            // Busca a função pelo id informado.
-            const funcao = await Funcao.findOrFail(params.id)
+            // Busca a região bairro pelo id informado.
+            const regiaoBairro = await RegiaoBairro.findOrFail(params.id)
 
             // Atualiza o objeto com os dados novos.
-            funcao.ativo = !funcao.ativo
-            funcao.updatedBy = auth.user?.nome ?? null
+            regiaoBairro.ativo = !regiaoBairro.ativo
+            regiaoBairro.updatedBy = auth.user?.nome ?? null
 
             // Persiste no banco o objeto atualizado.
-            await funcao.save()
+            await regiaoBairro.save()
 
             return response.status(200).send({
                 status: true,
-                message: `Registro ${funcao.ativo ? 'ativado' : 'inativado'} com sucesso`,
-                data: funcao
+                message: `Registro ${regiaoBairro.ativo ? 'ativado' : 'inativado'} com sucesso`,
+                data: regiaoBairro
             })
 
         } catch (error) {
@@ -107,26 +107,26 @@ export default class FuncaoController {
     }
 
     /**
-     * Método para buscar todos as funções.
+     * Método para buscar todas as regiões.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
-     * @memberof FuncaoController
+     * @memberof RegiaoBairroController
      */
     public async buscarTodos({ response }: HttpContextContract): Promise<any> {
         try {
-            // Busca todas as funções existentes.
-            const funcoes = await Funcao.query()
+            // Busca todas as regiões existentes.
+            const regioes = await RegiaoBairro.query()
 
             // Verifica se não foi retornado nenhum registro.
-            if (funcoes.length <= 0) {
+            if (regioes.length <= 0) {
                 throw new CustomErrorException("Nenhum registro encontrado", 404);
             }
 
             return response.status(200).send({
                 status: true,
                 message: `Registros retornados com sucesso`,
-                data: funcoes
+                data: regioes
             })
 
         } catch (error) {
@@ -138,26 +138,26 @@ export default class FuncaoController {
     }
 
     /**
-     * Método para buscar as funções ativos.
+     * Método para buscar as regiões ativos.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
-     * @memberof FuncaoController
+     * @memberof RegiaoBairroController
      */
     public async buscarAtivos({ response }: HttpContextContract): Promise<any> {
         try {
-            // Busca todas as funções ativos.
-            const funcoes = await Funcao.query().where('ativo', true)
+            // Busca todas as regiões ativos.
+            const regioes = await RegiaoBairro.query().where('ativo', true)
 
             // Verifica se não foi retornado nenhum registro.
-            if (funcoes.length <= 0) {
+            if (regioes.length <= 0) {
                 throw new CustomErrorException("Nenhum registro encontrado", 404);
             }
 
             return response.status(200).send({
                 status: true,
                 message: `Registros retornados com sucesso`,
-                data: funcoes
+                data: regioes
             })
 
         } catch (error) {
@@ -169,21 +169,21 @@ export default class FuncaoController {
     }
 
     /**
-     * Método para buscar a função por id.
+     * Método para buscar a região bairro por id.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
-     * @memberof FuncaoController
+     * @memberof RegiaoBairroController
      */
     public async buscarPorId({ response, params }: HttpContextContract): Promise<any> {
         try {
-            // Busca a função pelo id informado.
-            const funcao = await Funcao.findOrFail(params.id)
+            // Busca a região bairro pelo id informado.
+            const regiaoBairro = await RegiaoBairro.findOrFail(params.id)
 
             return response.status(200).send({
                 status: true,
                 message: `Registro retornado com sucesso`,
-                data: funcao
+                data: regiaoBairro
             })
 
         } catch (error) {

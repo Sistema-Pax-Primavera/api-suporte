@@ -47,7 +47,7 @@ export default class ReligiaoController {
     public async atualizar({ request, response, params, auth }: HttpContextContract): Promise<any> {
         try {
 
-            // Busca o religião pelo id informado.
+            // Busca a religião pelo id informado.
             const religiao = await Religiao.findOrFail(params.id)
 
             // Valida os campos informados.
@@ -82,7 +82,7 @@ export default class ReligiaoController {
      */
     public async ativar({ response, params, auth }: HttpContextContract): Promise<any> {
         try {
-            // Busca o religião pelo id informado.
+            // Busca a religião pelo id informado.
             const religiao = await Religiao.findOrFail(params.id)
 
             // Atualiza o objeto com os dados novos.
@@ -107,7 +107,7 @@ export default class ReligiaoController {
     }
 
     /**
-     * Método para buscar todos as religiões.
+     * Método para buscar todas as religiões.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
@@ -115,7 +115,7 @@ export default class ReligiaoController {
      */
     public async buscarTodos({ response }: HttpContextContract): Promise<any> {
         try {
-            // Busca todos as religiões existentes.
+            // Busca todas as religiões existentes.
             const religioes = await Religiao.query()
 
             // Verifica se não foi retornado nenhum registro.
@@ -146,7 +146,7 @@ export default class ReligiaoController {
      */
     public async buscarAtivos({ response }: HttpContextContract): Promise<any> {
         try {
-            // Busca todos as religiões ativos.
+            // Busca todas as religiões ativos.
             const religioes = await Religiao.query().where('ativo', true)
 
             // Verifica se não foi retornado nenhum registro.
@@ -169,7 +169,7 @@ export default class ReligiaoController {
     }
 
     /**
-     * Método para buscar o religião por id.
+     * Método para buscar a religião por id.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
@@ -177,7 +177,7 @@ export default class ReligiaoController {
      */
     public async buscarPorId({ response, params }: HttpContextContract): Promise<any> {
         try {
-            // Busca o religião pelo id informado.
+            // Busca a religião pelo id informado.
             const religiao = await Religiao.findOrFail(params.id)
 
             return response.status(200).send({

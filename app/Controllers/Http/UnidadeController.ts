@@ -53,7 +53,7 @@ export default class UnidadeController {
     public async atualizar({ request, response, params, auth }: HttpContextContract): Promise<any> {
         try {
 
-            // Busca o unidade pelo id informado.
+            // Busca a unidade pelo id informado.
             let unidade = await Unidade.findOrFail(params.id)
 
             // Valida os campos informados.
@@ -97,7 +97,7 @@ export default class UnidadeController {
      */
     public async ativar({ response, params, auth }: HttpContextContract): Promise<any> {
         try {
-            // Busca o unidade pelo id informado.
+            // Busca a unidade pelo id informado.
             const unidade = await Unidade.findOrFail(params.id)
 
             // Atualiza o objeto com os dados novos.
@@ -122,7 +122,7 @@ export default class UnidadeController {
     }
 
     /**
-     * Método para buscar todos os unidades.
+     * Método para buscar todas as unidades.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
@@ -130,7 +130,7 @@ export default class UnidadeController {
      */
     public async buscarTodos({ response }: HttpContextContract): Promise<any> {
         try {
-            // Busca todos os unidades existentes.
+            // Busca todas as unidades existentes.
             const unidades = await Unidade.query()
 
             // Verifica se não foi retornado nenhum registro.
@@ -153,7 +153,7 @@ export default class UnidadeController {
     }
 
     /**
-     * Método para buscar os unidades ativos.
+     * Método para buscar as unidades ativos.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
@@ -161,7 +161,7 @@ export default class UnidadeController {
      */
     public async buscarAtivos({ response }: HttpContextContract): Promise<any> {
         try {
-            // Busca todos os unidades ativos.
+            // Busca todas as unidades ativos.
             const unidades = await Unidade.query().where('ativo', true)
 
             // Verifica se não foi retornado nenhum registro.
@@ -184,7 +184,7 @@ export default class UnidadeController {
     }
 
     /**
-     * Método para buscar o unidade por id.
+     * Método para buscar a unidade por id.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
@@ -192,7 +192,7 @@ export default class UnidadeController {
      */
     public async buscarPorId({ response, params }: HttpContextContract): Promise<any> {
         try {
-            // Busca o unidade pelo id informado.
+            // Busca a unidade pelo id informado.
             const unidade = await Unidade.findOrFail(params.id)
 
             return response.status(200).send({

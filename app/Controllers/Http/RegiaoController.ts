@@ -47,7 +47,7 @@ export default class RegiaoController {
     public async atualizar({ request, response, params, auth }: HttpContextContract): Promise<any> {
         try {
 
-            // Busca o região pelo id informado.
+            // Busca a região pelo id informado.
             const regiao = await Regiao.findOrFail(params.id)
 
             // Valida os campos informados.
@@ -82,7 +82,7 @@ export default class RegiaoController {
      */
     public async ativar({ response, params, auth }: HttpContextContract): Promise<any> {
         try {
-            // Busca o região pelo id informado.
+            // Busca a região pelo id informado.
             const regiao = await Regiao.findOrFail(params.id)
 
             // Atualiza o objeto com os dados novos.
@@ -107,7 +107,7 @@ export default class RegiaoController {
     }
 
     /**
-     * Método para buscar todos as regiões.
+     * Método para buscar todas as regiões.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
@@ -115,7 +115,7 @@ export default class RegiaoController {
      */
     public async buscarTodos({ response }: HttpContextContract): Promise<any> {
         try {
-            // Busca todos as regiões existentes.
+            // Busca todas as regiões existentes.
             const regioes = await Regiao.query()
 
             // Verifica se não foi retornado nenhum registro.
@@ -146,7 +146,7 @@ export default class RegiaoController {
      */
     public async buscarAtivos({ response }: HttpContextContract): Promise<any> {
         try {
-            // Busca todos as regiões ativos.
+            // Busca todas as regiões ativos.
             const regioes = await Regiao.query().where('ativo', true)
 
             // Verifica se não foi retornado nenhum registro.
@@ -169,7 +169,7 @@ export default class RegiaoController {
     }
 
     /**
-     * Método para buscar o região por id.
+     * Método para buscar a região por id.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
@@ -177,7 +177,7 @@ export default class RegiaoController {
      */
     public async buscarPorId({ response, params }: HttpContextContract): Promise<any> {
         try {
-            // Busca o região pelo id informado.
+            // Busca a região pelo id informado.
             const regiao = await Regiao.findOrFail(params.id)
 
             return response.status(200).send({
