@@ -15,7 +15,7 @@ export default class Bairro extends BaseModel {
 
   // ID da região vinculada ao bairro.
   @column()
-  public regiaoBairroId: number
+  public regiaoBairroId: number | null
 
   // Nome do bairro.
   @column()
