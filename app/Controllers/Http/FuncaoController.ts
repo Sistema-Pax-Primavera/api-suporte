@@ -107,7 +107,7 @@ export default class FuncaoController {
     }
 
     /**
-     * Método para buscar todos os funçãos.
+     * Método para buscar todos os funções.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
@@ -115,18 +115,18 @@ export default class FuncaoController {
      */
     public async buscarTodos({ response }: HttpContextContract): Promise<any> {
         try {
-            // Busca todos os funçãos existentes.
-            const funcaos = await Funcao.query()
+            // Busca todos os funções existentes.
+            const funcoes = await Funcao.query()
 
             // Verifica se não foi retornado nenhum registro.
-            if (funcaos.length <= 0) {
+            if (funcoes.length <= 0) {
                 throw new CustomErrorException("Nenhum registro encontrado", 404);
             }
 
             return response.status(200).send({
                 status: true,
                 message: `Registros retornados com sucesso`,
-                data: funcaos
+                data: funcoes
             })
 
         } catch (error) {
@@ -138,7 +138,7 @@ export default class FuncaoController {
     }
 
     /**
-     * Método para buscar os funçãos ativos.
+     * Método para buscar os funções ativos.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
@@ -146,18 +146,18 @@ export default class FuncaoController {
      */
     public async buscarAtivos({ response }: HttpContextContract): Promise<any> {
         try {
-            // Busca todos os funçãos ativos.
-            const funcaos = await Funcao.query().where('ativo', true)
+            // Busca todos os funções ativos.
+            const funcoes = await Funcao.query().where('ativo', true)
 
             // Verifica se não foi retornado nenhum registro.
-            if (funcaos.length <= 0) {
+            if (funcoes.length <= 0) {
                 throw new CustomErrorException("Nenhum registro encontrado", 404);
             }
 
             return response.status(200).send({
                 status: true,
                 message: `Registros retornados com sucesso`,
-                data: funcaos
+                data: funcoes
             })
 
         } catch (error) {

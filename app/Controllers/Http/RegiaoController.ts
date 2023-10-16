@@ -107,7 +107,7 @@ export default class RegiaoController {
     }
 
     /**
-     * Método para buscar todos os regiãos.
+     * Método para buscar todos os regiões.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
@@ -115,18 +115,18 @@ export default class RegiaoController {
      */
     public async buscarTodos({ response }: HttpContextContract): Promise<any> {
         try {
-            // Busca todos os regiãos existentes.
-            const regiaos = await Regiao.query()
+            // Busca todos os regiões existentes.
+            const regioes = await Regiao.query()
 
             // Verifica se não foi retornado nenhum registro.
-            if (regiaos.length <= 0) {
+            if (regioes.length <= 0) {
                 throw new CustomErrorException("Nenhum registro encontrado", 404);
             }
 
             return response.status(200).send({
                 status: true,
                 message: `Registros retornados com sucesso`,
-                data: regiaos
+                data: regioes
             })
 
         } catch (error) {
@@ -138,7 +138,7 @@ export default class RegiaoController {
     }
 
     /**
-     * Método para buscar os regiãos ativos.
+     * Método para buscar os regiões ativos.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
@@ -146,18 +146,18 @@ export default class RegiaoController {
      */
     public async buscarAtivos({ response }: HttpContextContract): Promise<any> {
         try {
-            // Busca todos os regiãos ativos.
-            const regiaos = await Regiao.query().where('ativo', true)
+            // Busca todos os regiões ativos.
+            const regioes = await Regiao.query().where('ativo', true)
 
             // Verifica se não foi retornado nenhum registro.
-            if (regiaos.length <= 0) {
+            if (regioes.length <= 0) {
                 throw new CustomErrorException("Nenhum registro encontrado", 404);
             }
 
             return response.status(200).send({
                 status: true,
                 message: `Registros retornados com sucesso`,
-                data: regiaos
+                data: regioes
             })
 
         } catch (error) {

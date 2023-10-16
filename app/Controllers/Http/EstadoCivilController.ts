@@ -1,26 +1,25 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import CustomErrorException from 'App/Exceptions/CustomErrorException'
-import Setor from 'App/Models/Setor'
-import CreateSetorValidator from 'App/Validators/CreateSetorValidator'
+import EstadoCivil from 'App/Models/EstadoCivil'
+import CreateEstadoCivilValidator from 'App/Validators/CreateEstadoCivilValidator'
 
-export default class SetorController {
-    
+export default class EstadoCivilController {
+
     /**
-     * Método para cadastrar setor.
+     * Método para cadastrar estado civil.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
-     * @memberof SetorController
+     * @memberof EstadoCivilController
      */
     public async cadastrar({ request, response, auth }: HttpContextContract): Promise<any> {
         try {
 
             // Valida os campos informados.
-            const { descricao } = await request.validate(CreateSetorValidator)
+            const { descricao } = await request.validate(CreateEstadoCivilValidator)
 
             // Insere o registro no banco de dados.
-            const setor = await Setor
-            .create({
+            const estadoCivi = await EstadoCivil.create({
                 descricao,
                 createdBy: auth.user?.nome
             })
@@ -28,7 +27,7 @@ export default class SetorController {
             return response.status(201).send({
                 status: true,
                 message: 'Registro cadastrado com sucesso!',
-                data: setor
+                data: estadoCivi
             })
         } catch (error) {
             return response.status(500).send({
@@ -39,32 +38,32 @@ export default class SetorController {
     }
 
     /**
-     * Método para atualizar setor.
+     * Método para atualizar estado civil.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
-     * @memberof SetorController
+     * @memberof EstadoCivilController
      */
     public async atualizar({ request, response, params, auth }: HttpContextContract): Promise<any> {
         try {
 
-            // Busca o setor pelo id informado.
-            const setor = await Setor.findOrFail(params.id)
+            // Busca o estado civil pelo id informado.
+            const estadoCivi = await EstadoCivil.findOrFail(params.id)
 
             // Valida os campos informados.
-            const { descricao } = await request.validate(CreateSetorValidator)
+            const { descricao } = await request.validate(CreateEstadoCivilValidator)
 
             // Atualiza o objeto com os dados novos.
-            setor.descricao = descricao
-            setor.updatedBy = auth.user?.nome ?? null
+            estadoCivi.descricao = descricao
+            estadoCivi.updatedBy = auth.user?.nome ?? null
 
             // Persiste no banco o objeto atualizado.
-            await setor.save()
+            await estadoCivi.save()
 
             return response.status(200).send({
                 status: true,
                 message: 'Registro atualizado com sucesso',
-                data: setor
+                data: estadoCivi
             })
         } catch (error) {
             return response.status(500).send({
@@ -75,28 +74,28 @@ export default class SetorController {
     }
 
     /**
-     * Método para ativar/inativar setor.
+     * Método para ativar/inativar estado civil.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
-     * @memberof SetorController
+     * @memberof EstadoCivilController
      */
     public async ativar({ response, params, auth }: HttpContextContract): Promise<any> {
         try {
-            // Busca o setor pelo id informado.
-            const setor = await Setor.findOrFail(params.id)
+            // Busca o estado civil pelo id informado.
+            const estadoCivi = await EstadoCivil.findOrFail(params.id)
 
             // Atualiza o objeto com os dados novos.
-            setor.ativo = !setor.ativo
-            setor.updatedBy = auth.user?.nome ?? null
+            estadoCivi.ativo = !estadoCivi.ativo
+            estadoCivi.updatedBy = auth.user?.nome ?? null
 
             // Persiste no banco o objeto atualizado.
-            await setor.save()
+            await estadoCivi.save()
 
             return response.status(200).send({
                 status: true,
-                message: `Registro ${setor.ativo ? 'ativado' : 'inativado'} com sucesso`,
-                data: setor
+                message: `Registro ${estadoCivi.ativo ? 'ativado' : 'inativado'} com sucesso`,
+                data: estadoCivi
             })
 
         } catch (error) {
@@ -108,26 +107,26 @@ export default class SetorController {
     }
 
     /**
-     * Método para buscar todos os setores.
+     * Método para buscar todos os estados civis.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
-     * @memberof SetorController
+     * @memberof EstadoCivilController
      */
     public async buscarTodos({ response }: HttpContextContract): Promise<any> {
         try {
-            // Busca todos os setores existentes.
-            const setores = await Setor.query()
+            // Busca todos os estados civis existentes.
+            const estadosCivis = await EstadoCivil.query()
 
             // Verifica se não foi retornado nenhum registro.
-            if (setores.length <= 0) {
+            if (estadosCivis.length <= 0) {
                 throw new CustomErrorException("Nenhum registro encontrado", 404);
             }
 
             return response.status(200).send({
                 status: true,
                 message: `Registros retornados com sucesso`,
-                data: setores
+                data: estadosCivis
             })
 
         } catch (error) {
@@ -139,26 +138,26 @@ export default class SetorController {
     }
 
     /**
-     * Método para buscar os setores ativos.
+     * Método para buscar os estados civis ativos.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
-     * @memberof SetorController
+     * @memberof EstadoCivilController
      */
     public async buscarAtivos({ response }: HttpContextContract): Promise<any> {
         try {
-            // Busca todos os setores ativos.
-            const setores = await Setor.query().where('ativo', true)
+            // Busca todos os estados civis ativos.
+            const estadosCivis = await EstadoCivil.query().where('ativo', true)
 
             // Verifica se não foi retornado nenhum registro.
-            if (setores.length <= 0) {
+            if (estadosCivis.length <= 0) {
                 throw new CustomErrorException("Nenhum registro encontrado", 404);
             }
 
             return response.status(200).send({
                 status: true,
                 message: `Registros retornados com sucesso`,
-                data: setores
+                data: estadosCivis
             })
 
         } catch (error) {
@@ -170,21 +169,21 @@ export default class SetorController {
     }
 
     /**
-     * Método para buscar o setor por id.
+     * Método para buscar o estado civil por id.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
-     * @memberof SetorController
+     * @memberof EstadoCivilController
      */
     public async buscarPorId({ response, params }: HttpContextContract): Promise<any> {
         try {
-            // Busca o setor pelo id informado.
-            const setor = await Setor.findOrFail(params.id)
+            // Busca o estado civil pelo id informado.
+            const estadoCivi = await EstadoCivil.findOrFail(params.id)
 
             return response.status(200).send({
                 status: true,
                 message: `Registro retornado com sucesso`,
-                data: setor
+                data: estadoCivi
             })
 
         } catch (error) {
