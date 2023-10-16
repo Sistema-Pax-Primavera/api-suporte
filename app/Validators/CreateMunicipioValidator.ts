@@ -1,8 +1,8 @@
 import { schema, rules, CustomMessages } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-export default class CreateUnidadeValidator {
-  constructor(protected ctx: HttpContextContract) {}
+export default class CreateMunicipioValidator {
+  constructor(protected ctx: HttpContextContract) { }
 
   /*
    * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
@@ -27,44 +27,8 @@ export default class CreateUnidadeValidator {
     descricao: schema.string([
       rules.maxLength(150)
     ]),
-    razaoSocial: schema.string([
-      rules.maxLength(150)
-    ]),
-    cnpj: schema.string([
-      rules.cnpj()
-    ]),
-    telefone: schema.string([
-      rules.telefone()
-    ]),
-    email: schema.string([
-      rules.email()
-    ]),
-    cep: schema.string([
-      rules.cep()
-    ]),
     uf: schema.string([
       rules.regex(/^[A-Z]{2}/)
-    ]),
-    municipio: schema.string([
-      rules.maxLength(150)
-    ]),
-    bairro: schema.string([
-      rules.maxLength(150)
-    ]),
-    rua: schema.string([
-      rules.maxLength(150)
-    ]),
-    numero: schema.string([
-      rules.maxLength(50)
-    ]),
-    complemento: schema.string.nullable([
-      rules.maxLength(150)
-    ]),
-    inscricaoEstadual: schema.string.nullable([
-      rules.maxLength(50)
-    ]),
-    inscricaoMunicipal: schema.string.nullable([
-      rules.maxLength(50)
     ])
   })
 
