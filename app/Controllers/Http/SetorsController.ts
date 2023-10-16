@@ -1,25 +1,26 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import CustomErrorException from 'App/Exceptions/CustomErrorException'
-import Funcao from 'App/Models/Funcao'
-import CreateFuncaoValidator from 'App/Validators/CreateFuncaoValidator'
+import Setor from 'App/Models/Setor'
+import CreateSetorValidator from 'App/Validators/CreateSetorValidator'
 
-export default class FuncaoController {
-
+export default class SetorController {
+    
     /**
-     * Método para cadastrar função.
+     * Método para cadastrar setor.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
-     * @memberof FuncaoController
+     * @memberof SetorController
      */
     public async cadastrar({ request, response, auth }: HttpContextContract): Promise<any> {
         try {
 
             // Valida os campos informados.
-            const { descricao } = await request.validate(CreateFuncaoValidator)
+            const { descricao } = await request.validate(CreateSetorValidator)
 
             // Insere o registro no banco de dados.
-            const funcao = await Funcao.create({
+            const setor = await Setor
+            .create({
                 descricao,
                 createdBy: auth.user?.nome
             })
@@ -27,7 +28,7 @@ export default class FuncaoController {
             return response.status(201).send({
                 status: true,
                 message: 'Registro cadastrado com sucesso!',
-                data: funcao
+                data: setor
             })
         } catch (error) {
             return response.status(500).send({
@@ -38,32 +39,32 @@ export default class FuncaoController {
     }
 
     /**
-     * Método para atualizar função.
+     * Método para atualizar setor.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
-     * @memberof FuncaoController
+     * @memberof SetorController
      */
     public async atualizar({ request, response, params, auth }: HttpContextContract): Promise<any> {
         try {
 
-            // Busca o função pelo id informado.
-            const funcao = await Funcao.findOrFail(params.id)
+            // Busca o setor pelo id informado.
+            const setor = await Setor.findOrFail(params.id)
 
             // Valida os campos informados.
-            const { descricao } = await request.validate(CreateFuncaoValidator)
+            const { descricao } = await request.validate(CreateSetorValidator)
 
             // Atualiza o objeto com os dados novos.
-            funcao.descricao = descricao
-            funcao.updatedBy = auth.user?.nome ?? null
+            setor.descricao = descricao
+            setor.updatedBy = auth.user?.nome ?? null
 
             // Persiste no banco o objeto atualizado.
-            await funcao.save()
+            await setor.save()
 
             return response.status(200).send({
                 status: true,
                 message: 'Registro atualizado com sucesso',
-                data: funcao
+                data: setor
             })
         } catch (error) {
             return response.status(500).send({
@@ -74,28 +75,28 @@ export default class FuncaoController {
     }
 
     /**
-     * Método para ativar/inativar função.
+     * Método para ativar/inativar setor.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
-     * @memberof FuncaoController
+     * @memberof SetorController
      */
     public async ativar({ response, params, auth }: HttpContextContract): Promise<any> {
         try {
-            // Busca o função pelo id informado.
-            const funcao = await Funcao.findOrFail(params.id)
+            // Busca o setor pelo id informado.
+            const setor = await Setor.findOrFail(params.id)
 
             // Atualiza o objeto com os dados novos.
-            funcao.ativo = !funcao.ativo
-            funcao.updatedBy = auth.user?.nome ?? null
+            setor.ativo = !setor.ativo
+            setor.updatedBy = auth.user?.nome ?? null
 
             // Persiste no banco o objeto atualizado.
-            await funcao.save()
+            await setor.save()
 
             return response.status(200).send({
                 status: true,
-                message: `Registro ${funcao.ativo ? 'ativado' : 'inativado'} com sucesso`,
-                data: funcao
+                message: `Registro ${setor.ativo ? 'ativado' : 'inativado'} com sucesso`,
+                data: setor
             })
 
         } catch (error) {
@@ -107,26 +108,26 @@ export default class FuncaoController {
     }
 
     /**
-     * Método para buscar todos os funçãos.
+     * Método para buscar todos os setors.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
-     * @memberof FuncaoController
+     * @memberof SetorController
      */
     public async buscarTodos({ response }: HttpContextContract): Promise<any> {
         try {
-            // Busca todos os funçãos existentes.
-            const funcaos = await Funcao.query()
+            // Busca todos os setors existentes.
+            const setors = await Setor.query()
 
             // Verifica se não foi retornado nenhum registro.
-            if (funcaos.length <= 0) {
+            if (setors.length <= 0) {
                 throw new CustomErrorException("Nenhum registro encontrado", 404);
             }
 
             return response.status(200).send({
                 status: true,
                 message: `Registros retornados com sucesso`,
-                data: funcaos
+                data: setors
             })
 
         } catch (error) {
@@ -138,26 +139,26 @@ export default class FuncaoController {
     }
 
     /**
-     * Método para buscar os funçãos ativos.
+     * Método para buscar os setors ativos.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
-     * @memberof FuncaoController
+     * @memberof SetorController
      */
     public async buscarAtivos({ response }: HttpContextContract): Promise<any> {
         try {
-            // Busca todos os funçãos ativos.
-            const funcaos = await Funcao.query().where('ativo', true)
+            // Busca todos os setors ativos.
+            const setors = await Setor.query().where('ativo', true)
 
             // Verifica se não foi retornado nenhum registro.
-            if (funcaos.length <= 0) {
+            if (setors.length <= 0) {
                 throw new CustomErrorException("Nenhum registro encontrado", 404);
             }
 
             return response.status(200).send({
                 status: true,
                 message: `Registros retornados com sucesso`,
-                data: funcaos
+                data: setors
             })
 
         } catch (error) {
@@ -169,21 +170,21 @@ export default class FuncaoController {
     }
 
     /**
-     * Método para buscar o função por id.
+     * Método para buscar o setor por id.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
-     * @memberof FuncaoController
+     * @memberof SetorController
      */
     public async buscarPorId({ response, params }: HttpContextContract): Promise<any> {
         try {
-            // Busca o função pelo id informado.
-            const funcao = await Funcao.findOrFail(params.id)
+            // Busca o setor pelo id informado.
+            const setor = await Setor.findOrFail(params.id)
 
             return response.status(200).send({
                 status: true,
                 message: `Registro retornado com sucesso`,
-                data: funcao
+                data: setor
             })
 
         } catch (error) {
