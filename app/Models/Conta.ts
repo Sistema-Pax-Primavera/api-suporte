@@ -11,11 +11,11 @@ export default class Conta extends BaseModel {
 
   // ID da unidade vinculada a conta.
   @column()
-  public unidadeId: number
+  public unidadeId: number | null | undefined
 
   // ID do banco vinculado a conta.
   @column()
-  public bancoId: number
+  public bancoId: number | null | undefined
 
   // Nome da conta.
   @column()
@@ -23,23 +23,23 @@ export default class Conta extends BaseModel {
 
   // Agência da conta.
   @column()
-  public agencia: number | null
+  public agencia: number | null | undefined
 
   // Dígito da agência da conta.
   @column()
-  public digitoAgencia: number | null
+  public digitoAgencia: number | null | undefined
 
   // Número da conta.
   @column()
-  public conta: number
+  public conta: number | null | undefined
 
   // Dígito do número da conta.
   @column()
-  public digitoConta: number
+  public digitoConta: number | null | undefined
 
   // Tipo da conta bancária: 1-Poupança 2-Conta corrente.
   @column()
-  public tipoContaBancaria: number
+  public tipoContaBancaria: number | null | undefined
 
   // Tipo da conta: T-Tesouraria B-Bancario C-Cartão P-Provisória.
   @column()
