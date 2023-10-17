@@ -11,7 +11,7 @@ export default class PlanoConta extends BaseModel {
 
   // ID do plano raiz vinculado a este plano de conta.
   @column()
-  public planoRaiz: number
+  public planoRaiz: number | null | undefined
 
   // Nome do plano de conta.
   @column()
