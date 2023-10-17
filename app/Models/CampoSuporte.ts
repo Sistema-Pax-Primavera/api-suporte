@@ -23,7 +23,7 @@ export default class CampoSuporte extends BaseModel {
 
   // Opções em caso de multípla escolha.
   @column()
-  public opcoes: Object[]
+  public opcoes: Object[] | null | undefined
 
   // Indica se o resgistro está ativo.
   @column()
