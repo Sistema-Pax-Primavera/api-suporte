@@ -1,7 +1,7 @@
-import { schema, rules, CustomMessages } from '@ioc:Adonis/Core/Validator'
+import { schema, CustomMessages } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-export default class CreatePlanoContaValidator {
+export default class CreateDescontoRegraValidator {
   constructor(protected ctx: HttpContextContract) { }
 
   /*
@@ -24,18 +24,14 @@ export default class CreatePlanoContaValidator {
    *    ```
    */
   public schema = schema.create({
-    planoRaiz: schema.number.nullableAndOptional(),
-    descricao: schema.string([
-      rules.maxLength(150)
-    ]),
-    codigo: schema.string([
-      rules.maxLength(100)
-    ]),
     tipo: schema.enum([
       1, 2
     ]),
-    nivel: schema.number(),
-    visivel: schema.boolean()
+    quantidade: schema.number(),
+    operador: schema.enum([
+      '<', '<=', '=', '>=', '>'
+    ]),
+    desconto: schema.number()
   })
 
   /**
@@ -51,7 +47,6 @@ export default class CreatePlanoContaValidator {
    */
   public messages: CustomMessages = {
     'required': 'Campo {{field}} é obrigatório',
-    'maxLength': 'Campo {{field}} deve possuir tamanho máximo de {{options.maxLength}}',
     'enum': 'Campo {{field}} deve ser de uma das opções a seguir: ({{options.choices}})'
   }
 }

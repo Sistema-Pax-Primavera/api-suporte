@@ -56,7 +56,7 @@ export default class extends BaseSchema {
           table.timestamp('updated_at', { useTz: true }).nullable()
           table.string('updated_by', 150).nullable()
 
-          table.unique(['plano_id', 'item_id', 'unidade_id'])
+          table.primary(['plano_id', 'item_id', 'unidade_id'])
         })
     }
   }
