@@ -69,18 +69,6 @@ export default class Financeiro extends BaseModel {
   @column()
   public origem: number
 
-  // Indica se é um lançamento manual, ou automático.
-  @column()
-  public lancamentoManual: boolean
-
-  // Indica se é um lançamento com valor parcial.
-  @column()
-  public parcial: boolean
-
-  // Indica se a movimentação foi transferida.
-  @column()
-  public transferido: boolean
-
   // Indica se o resgistro está ativo.
   @column()
   public ativo: boolean
