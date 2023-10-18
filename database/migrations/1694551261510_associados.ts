@@ -113,7 +113,7 @@ export default class extends BaseSchema {
           table.date('ultimo_mes_pago_anterior').nullable()
           table.string('empresa_anterior', 150).nullable()
           table.text('observacao').nullable()
-          table.integer('local_cobranca').notNullable().defaultTo(1).comment('1-Escritorio 2-Boleto 3-Cobrança Residencial 4-Cobrança Comercial 4-Pagamento Recorrente')
+          table.integer('local_cobranca').notNullable().defaultTo(1).comment('1-Escritorio 2-Boleto 3-Cobrança Residencial 4-Cobrança Comercial 5-Pagamento Recorrente')
           table.time('horario_cobranca').nullable()
           table.boolean('termo_reajuste').nullable().defaultTo(false).comment('Se valor for TRUE indica que o termo foi entregue e assinado.')
           table.boolean('boleto_entregue').nullable().defaultTo(false).comment('Se valor for TRUE indica que os boletos de ajuste foram entregues.')

@@ -15,7 +15,7 @@ export default class Agendamento extends BaseModel {
 
   // ID do cobrador vinculado ao agendamento.
   @column()
-  public cobradorId: number
+  public cobradorId: number | null | undefined
 
   // Indica o tipo do agendamento: 1-Cobrador  2-Atendimento.
   @column()
@@ -27,7 +27,11 @@ export default class Agendamento extends BaseModel {
 
   // Data/Hora de retorno do agendamento.
   @column()
-  public retorno: DateTime
+  public retorno: DateTime | null | undefined
+
+  // Motivo do agendamento.
+  @column()
+  public motivo: string | null
 
   // Indica se o resgistro está ativo.
   @column()
@@ -58,6 +62,7 @@ export default class Agendamento extends BaseModel {
   */
   @beforeSave()
   public static async formatFields(agendamento: Agendamento) {
+    agendamento.motivo = formatarString(agendamento.motivo)
     agendamento.createdBy = formatarString(agendamento.createdBy)
     agendamento.updatedBy = formatarString(agendamento.updatedBy)
   }
