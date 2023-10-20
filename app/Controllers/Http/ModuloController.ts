@@ -30,9 +30,9 @@ export default class ModuloController {
                 data: modulo
             })
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -60,15 +60,15 @@ export default class ModuloController {
             // Persiste no banco o objeto atualizado.
             await modulo.save()
 
-            return response.status(200).send({
+            return response.status(201).send({
                 status: true,
                 message: 'Registro atualizado com sucesso',
                 data: modulo
             })
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -99,9 +99,9 @@ export default class ModuloController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -130,9 +130,9 @@ export default class ModuloController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -161,9 +161,9 @@ export default class ModuloController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -187,9 +187,9 @@ export default class ModuloController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }

@@ -30,6 +30,10 @@ export default class ExceptionHandler extends HttpExceptionHandler {
       return ctx.response.status(422).send(error.messages)
     }
 
+    if (error.code === 'E_ROW_NOT_FOUND') {
+      return ctx.response.status(404).send(error.message)
+    }
+
     /**
      * Forward rest of the exceptions to the parent class
      */

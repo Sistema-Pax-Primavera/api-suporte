@@ -28,4 +28,4 @@ Route.group(() => {
   Route.get('', 'ModuloController.buscarTodos')
   Route.get('ativos', 'ModuloController.buscarAtivos')
   Route.get(':id', 'ModuloController.buscarPorId')
-}).prefix('ap1/v1/modulo').middleware('auth')
+}).prefix('api/v1/modulo').middleware(['auth'])
