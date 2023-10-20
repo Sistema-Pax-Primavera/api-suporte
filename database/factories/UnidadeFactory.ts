@@ -6,10 +6,10 @@ export const UnidadeFactory = Factory
     return {
       descricao: faker.company.name(),
       razao_social: faker.company.name(),
-      cnpj: faker.number.bigInt({ min: 10000000000000, max: 99999999999999 }).toString(),
-      telefone: faker.phone.number(),
+      cnpj: '68.084.003/0001-94',
+      telefone: '(63) 3222-3744',
       email: faker.internet.email(),
-      cep: faker.location.zipCode('########'),
+      cep: '79.841-175',
       uf: faker.location.countryCode(),
       municipio: faker.location.city(),
       bairro: faker.location.county(),

@@ -9,7 +9,7 @@
 */
 
 import { validator } from '@ioc:Adonis/Core/Validator'
-import { formatarNumero, validaCnpj, validaCpf } from 'App/Util/Format'
+import { validaCnpj, validaCpf } from 'App/Util/Format'
 
 validator.rule('cpf', (value, _, options) => {
     const valida = validaCpf(value)
@@ -32,12 +32,10 @@ validator.rule('cnpj', (value, _, options) => {
 })
 
 validator.rule('telefone', (value, _, options) => {
-    const numeroFormatado = formatarNumero(value)
-
     const regexBrasil = /^(\(\d{2}\)\s?|\(\d{2}\))\s?\d{4,5}-\d{4}$/
     const regexParaguai = /^(\(\d{3}\))\s?\d{3}-\d{4}$/
 
-    if(!numeroFormatado || !regexBrasil.test(numeroFormatado) || !regexParaguai.test(numeroFormatado)){
+    if(typeof(value) !== 'string' || (!regexBrasil.test(value) && !regexParaguai.test(value))){
         options.errorReporter.report(options.pointer,
             'telefone',
             'O telefone informado é inválido',

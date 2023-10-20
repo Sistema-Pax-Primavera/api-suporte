@@ -29,3 +29,12 @@ Route.group(() => {
   Route.get('ativos', 'ModuloController.buscarAtivos')
   Route.get(':id', 'ModuloController.buscarPorId')
 }).prefix('api/v1/modulo').middleware(['auth'])
+
+Route.group(() => {
+  Route.post('', 'UnidadeController.cadastrar')
+  Route.put(':id', 'UnidadeController.atualizar')
+  Route.patch(':id', 'UnidadeController.ativar')
+  Route.get('', 'UnidadeController.buscarTodos')
+  Route.get('ativos', 'UnidadeController.buscarAtivos')
+  Route.get(':id', 'UnidadeController.buscarPorId')
+}).prefix('api/v1/unidade').middleware(['auth'])

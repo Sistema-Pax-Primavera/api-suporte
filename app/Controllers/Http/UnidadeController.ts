@@ -36,9 +36,9 @@ export default class UnidadeController {
                 data: unidade
             })
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -64,26 +64,35 @@ export default class UnidadeController {
             } = await request.validate(CreateUnidadeValidator)
 
             // Atualiza o objeto com os dados novos.
-            unidade = {
-                ...unidade,
-                descricao, razaoSocial, cnpj, telefone, email, cep,
-                uf, municipio, bairro, rua, numero, complemento,
-                inscricaoEstadual, inscricaoMunicipal,
-                updatedBy: auth.user?.nome ?? null
-            }
+            unidade.descricao = descricao
+            unidade.razaoSocial = razaoSocial
+            unidade.cnpj = cnpj
+            unidade.telefone = telefone
+            unidade.email = email
+            unidade.cep = cep
+            unidade.uf = uf
+            unidade.municipio = municipio
+            unidade.bairro = bairro
+            unidade.rua = rua
+            unidade.numero = numero
+            unidade.complemento = complemento
+            unidade.inscricaoEstadual = inscricaoEstadual
+            unidade.inscricaoMunicipal = inscricaoMunicipal
+            unidade.updatedBy = auth.user?.nome ?? null
+
 
             // Persiste no banco o objeto atualizado.
             await unidade.save()
 
-            return response.status(200).send({
+            return response.status(201).send({
                 status: true,
                 message: 'Registro atualizado com sucesso',
                 data: unidade
             })
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -107,16 +116,16 @@ export default class UnidadeController {
             // Persiste no banco o objeto atualizado.
             await unidade.save()
 
-            return response.status(200).send({
+            return response.status(201).send({
                 status: true,
                 message: `Registro ${unidade.ativo ? 'ativado' : 'inativado'} com sucesso`,
                 data: unidade
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -145,9 +154,9 @@ export default class UnidadeController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -176,9 +185,9 @@ export default class UnidadeController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -202,9 +211,9 @@ export default class UnidadeController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }

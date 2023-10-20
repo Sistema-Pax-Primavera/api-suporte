@@ -32,6 +32,13 @@ test.group('Modulo', async (group) => {
     response.assertStatus(404)
   });
 
+  test('Ativar/inativar módulo', async ({ client }) => {
+    const usuario = await Usuario.query().firstOrFail()
+    const moduloAntigo = await Modulo.query().firstOrFail()
+    const response = await client.patch(`api/v1/modulo/${moduloAntigo.id}`).loginAs(usuario)
+    response.assertStatus(201)
+  });
+
   test('Buscar todos os módulos', async ({ client }) => {
     const usuario = await Usuario.query().firstOrFail()
     const response = await client.get('api/v1/modulo').loginAs(usuario)
