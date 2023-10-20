@@ -20,6 +20,12 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', async () => {
-  return { hello: 'world' }
-})
+
+Route.group(() => {
+  Route.post('', 'ModuloController.cadastrar')
+  Route.put(':id', 'ModuloController.atualizar')
+  Route.patch(':id', 'ModuloController.ativar')
+  Route.get('', 'ModuloController.buscarTodos')
+  Route.get('ativos', 'ModuloController.buscarAtivos')
+  Route.get(':id', 'ModuloController.buscarPorId')
+}).prefix('ap1/v1/modulo').middleware('auth')
