@@ -3,8 +3,56 @@ import CustomErrorException from 'App/Exceptions/CustomErrorException'
 import Usuario from 'App/Models/Usuario'
 import CreateUsuarioValidator from 'App/Validators/CreateUsuarioValidator'
 import UpdateUsuarioValidator from 'App/Validators/UpdateUsuarioValidator'
+import { schema, rules } from '@ioc:Adonis/Core/Validator'
 
 export default class UsuarioController {
+
+    /**
+     * Método para autenticar usuário.
+     *
+     * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
+     * @return {*} 
+     * @memberof UsuarioController
+     */
+    public async autenticar({ request, response, auth }: HttpContextContract): Promise<any> {
+        try {
+            // Valida os campos informados.
+            const { cpf, senha } = await request.validate({
+                schema: schema.create({
+                    cpf: schema.string([
+                        rules.cpf()
+                    ]),
+                    senha: schema.string()
+                }),
+                messages: {
+                    'required': 'Campo {{field}} é obrigatório',
+                }
+            })
+
+            // Valida as credenciais e gera o token.
+            const token = await auth.use('api').attempt(cpf.replace(/[^0-9]/g, ''), senha, {
+                expiresIn: '12 hours',
+            })
+
+            // Busca informações adicionais do usuario.
+            const usuario = await Usuario.find(token.user.id)
+
+            return response.status(200).send({
+                status: true,
+                message: "Usuário autorizado!",
+                data: {
+                    ...usuario,
+                    token: token.token
+                }
+            })
+
+        } catch (error) {
+            return response.status(error.status).send({
+                status: false,
+                message: error.message
+            })
+        }
+    }
 
     /**
      * Método para cadastrar usuário.
@@ -64,12 +112,12 @@ export default class UsuarioController {
 
             // Atualiza o objeto com os dados novos.
             usuario.unidadeId = unidadeId,
-            usuario.setorId = setorId,
-            usuario.funcaoId = funcaoId,
-            usuario.nome = nome,
-            usuario.porcentagemDesconto = porcentagemDesconto,
-            usuario.password = password ?? usuario.password,
-            usuario.updatedBy = auth.user?.nome ?? null
+                usuario.setorId = setorId,
+                usuario.funcaoId = funcaoId,
+                usuario.nome = nome,
+                usuario.porcentagemDesconto = porcentagemDesconto,
+                usuario.password = password ?? usuario.password,
+                usuario.updatedBy = auth.user?.nome ?? null
 
             // Persiste no banco o objeto atualizado.
             await usuario.save()

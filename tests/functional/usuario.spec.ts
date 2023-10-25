@@ -9,6 +9,26 @@ test.group('Usuario', async (group) => {
     return () => Database.rollbackGlobalTransaction()
   })
 
+  test('Autenticar usuário', async ({ client }) => {
+    const usuarioNovo = await UsuarioFactory.make()
+    const usuario = await Usuario.create(usuarioNovo)
+
+    const response = await client.post('api/v1/usuario/login').form({
+      cpf: usuario.cpf,
+      senha: '1234'
+    })
+    response.assertStatus(200)
+  })
+
+  test('Autenticar usuário inválido', async ({ client }) => {
+    const response = await client.post('api/v1/usuario/login').form({
+      cpf: '353.274.275-60',
+      senha: '1234'
+    })
+
+    response.assertStatus(400)
+  })
+
   test('Cadastrar usuário', async ({ client }) => {
     const usuario = await Usuario.query().firstOrFail()
     const usuarioNovo = await UsuarioFactory.make()
