@@ -33,7 +33,7 @@ export default class UpdateUsuarioValidator {
     cpf: schema.string([
       rules.cpf()
     ]),
-    senha: schema.string.nullable(),
+    password: schema.string.nullable(),
     porcentagemDesconto: schema.number()
   })
 

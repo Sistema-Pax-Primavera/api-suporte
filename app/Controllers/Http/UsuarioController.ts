@@ -5,7 +5,7 @@ import CreateUsuarioValidator from 'App/Validators/CreateUsuarioValidator'
 import UpdateUsuarioValidator from 'App/Validators/UpdateUsuarioValidator'
 
 export default class UsuarioController {
-    
+
     /**
      * Método para cadastrar usuário.
      *
@@ -17,16 +17,16 @@ export default class UsuarioController {
         try {
 
             // Valida os campos informados.
-            const { 
-                unidadeId, setorId, funcaoId, nome, cpf, 
-                senha, porcentagemDesconto
+            const {
+                unidadeId, setorId, funcaoId, nome, cpf,
+                password, porcentagemDesconto
             } = await request.validate(CreateUsuarioValidator)
 
             // Insere o registro no banco de dados.
             const usuario = await Usuario.create({
                 unidadeId, setorId, funcaoId,
                 nome, cpf, porcentagemDesconto,
-                password: senha,
+                password: password,
                 createdBy: auth.user?.nome
             })
 
@@ -57,23 +57,24 @@ export default class UsuarioController {
             let usuario = await Usuario.findOrFail(params.id)
 
             // Valida os campos informados.
-            const { 
-                unidadeId, setorId, funcaoId, nome, 
-                senha, porcentagemDesconto
+            const {
+                unidadeId, setorId, funcaoId, nome,
+                password, porcentagemDesconto
             } = await request.validate(UpdateUsuarioValidator)
 
             // Atualiza o objeto com os dados novos.
-            usuario = {
-                ...usuario, 
-                unidadeId, setorId, funcaoId, nome, porcentagemDesconto,
-                password: senha ?? usuario.password,
-                updatedBy: auth.user?.nome ?? null
-            }
+            usuario.unidadeId = unidadeId,
+            usuario.setorId = setorId,
+            usuario.funcaoId = funcaoId,
+            usuario.nome = nome,
+            usuario.porcentagemDesconto = porcentagemDesconto,
+            usuario.password = password ?? usuario.password,
+            usuario.updatedBy = auth.user?.nome ?? null
 
             // Persiste no banco o objeto atualizado.
             await usuario.save()
 
-            return response.status(200).send({
+            return response.status(201).send({
                 status: true,
                 message: 'Registro atualizado com sucesso',
                 data: usuario
@@ -105,7 +106,7 @@ export default class UsuarioController {
             // Persiste no banco o objeto atualizado.
             await usuario.save()
 
-            return response.status(200).send({
+            return response.status(201).send({
                 status: true,
                 message: `Registro ${usuario.ativo ? 'ativado' : 'inativado'} com sucesso`,
                 data: usuario

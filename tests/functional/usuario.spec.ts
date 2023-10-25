@@ -52,7 +52,7 @@ test.group('Usuario', async (group) => {
 
   test('Buscar usuário por id', async ({ client }) => {
     const usuario = await Usuario.query().firstOrFail()
-    const response = await client.get('api/v1/usuario/1').loginAs(usuario)
+    const response = await client.get(`api/v1/usuario/${usuario.id}`).loginAs(usuario)
     response.assertStatus(200)
   });
 

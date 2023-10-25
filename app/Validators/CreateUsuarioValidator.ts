@@ -33,7 +33,7 @@ export default class CreateUsuarioValidator {
     cpf: schema.string([
       rules.cpf()
     ]),
-    senha: schema.string(),
+    password: schema.string(),
     porcentagemDesconto: schema.number()
   })
 
