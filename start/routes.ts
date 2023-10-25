@@ -38,3 +38,13 @@ Route.group(() => {
   Route.get('ativos', 'UnidadeController.buscarAtivos')
   Route.get(':id', 'UnidadeController.buscarPorId')
 }).prefix('api/v1/unidade').middleware(['auth'])
+
+
+Route.group(() => {
+  Route.post('', 'FuncaoController.cadastrar')
+  Route.put(':id', 'FuncaoController.atualizar')
+  Route.patch(':id', 'FuncaoController.ativar')
+  Route.get('', 'FuncaoController.buscarTodos')
+  Route.get('ativos', 'FuncaoController.buscarAtivos')
+  Route.get(':id', 'FuncaoController.buscarPorId')
+}).prefix('api/v1/funcao').middleware(['auth'])
