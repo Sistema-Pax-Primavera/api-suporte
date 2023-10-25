@@ -39,13 +39,13 @@ test.group('Funcao', async (group) => {
     response.assertStatus(201)
   });
 
-  test('Buscar todos os funçãos', async ({ client }) => {
+  test('Buscar todos os funções', async ({ client }) => {
     const usuario = await Usuario.query().firstOrFail()
     const response = await client.get('api/v1/funcao').loginAs(usuario)
     response.assertStatus(200)
   });
 
-  test('Buscar todos os funçãos ativos', async ({ client }) => {
+  test('Buscar todos os funções ativos', async ({ client }) => {
     const usuario = await Usuario.query().firstOrFail()
     const response = await client.get('api/v1/funcao/ativos').loginAs(usuario)
     response.assertStatus(200)

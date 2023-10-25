@@ -31,9 +31,9 @@ export default class SetorController {
                 data: setor
             })
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -61,15 +61,15 @@ export default class SetorController {
             // Persiste no banco o objeto atualizado.
             await setor.save()
 
-            return response.status(200).send({
+            return response.status(201).send({
                 status: true,
                 message: 'Registro atualizado com sucesso',
                 data: setor
             })
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -93,16 +93,16 @@ export default class SetorController {
             // Persiste no banco o objeto atualizado.
             await setor.save()
 
-            return response.status(200).send({
+            return response.status(201).send({
                 status: true,
                 message: `Registro ${setor.ativo ? 'ativado' : 'inativado'} com sucesso`,
                 data: setor
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -131,9 +131,9 @@ export default class SetorController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -162,9 +162,9 @@ export default class SetorController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -188,9 +188,9 @@ export default class SetorController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }

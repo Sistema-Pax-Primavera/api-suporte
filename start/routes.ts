@@ -39,7 +39,6 @@ Route.group(() => {
   Route.get(':id', 'UnidadeController.buscarPorId')
 }).prefix('api/v1/unidade').middleware(['auth'])
 
-
 Route.group(() => {
   Route.post('', 'FuncaoController.cadastrar')
   Route.put(':id', 'FuncaoController.atualizar')
@@ -48,3 +47,12 @@ Route.group(() => {
   Route.get('ativos', 'FuncaoController.buscarAtivos')
   Route.get(':id', 'FuncaoController.buscarPorId')
 }).prefix('api/v1/funcao').middleware(['auth'])
+
+Route.group(() => {
+  Route.post('', 'SetorController.cadastrar')
+  Route.put(':id', 'SetorController.atualizar')
+  Route.patch(':id', 'SetorController.ativar')
+  Route.get('', 'SetorController.buscarTodos')
+  Route.get('ativos', 'SetorController.buscarAtivos')
+  Route.get(':id', 'SetorController.buscarPorId')
+}).prefix('api/v1/setor').middleware(['auth'])
