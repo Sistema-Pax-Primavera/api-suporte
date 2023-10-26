@@ -24,6 +24,8 @@ export default class CreateRegiaoValidator {
    *    ```
    */
   public schema = schema.create({
+    unidadeId: schema.number(),
+    cobradorId: schema.number(),
     descricao: schema.string([
       rules.maxLength(150)
     ])

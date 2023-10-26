@@ -66,3 +66,12 @@ Route.group(() => {
   Route.get('ativos', 'UsuarioController.buscarAtivos')
   Route.get(':id', 'UsuarioController.buscarPorId')
 }).prefix('api/v1/usuario').middleware(['auth'])
+
+Route.group(() => {
+  Route.post('', 'RegiaoController.cadastrar')
+  Route.put(':id', 'RegiaoController.atualizar')
+  Route.patch(':id', 'RegiaoController.ativar')
+  Route.get('', 'RegiaoController.buscarTodos')
+  Route.get('ativos', 'RegiaoController.buscarAtivos')
+  Route.get(':id', 'RegiaoController.buscarPorId')
+}).prefix('api/v1/regiao').middleware(['auth'])

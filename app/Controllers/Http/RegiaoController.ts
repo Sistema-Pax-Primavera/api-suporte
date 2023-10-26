@@ -16,10 +16,12 @@ export default class RegiaoController {
         try {
 
             // Valida os campos informados.
-            const { descricao } = await request.validate(CreateRegiaoValidator)
+            const { unidadeId, cobradorId, descricao } = await request.validate(CreateRegiaoValidator)
 
             // Insere o registro no banco de dados.
             const regiao = await Regiao.create({
+                unidadeId,
+                cobradorId,
                 descricao,
                 createdBy: auth.user?.nome
             })
@@ -30,9 +32,9 @@ export default class RegiaoController {
                 data: regiao
             })
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -51,24 +53,26 @@ export default class RegiaoController {
             const regiao = await Regiao.findOrFail(params.id)
 
             // Valida os campos informados.
-            const { descricao } = await request.validate(CreateRegiaoValidator)
+            const { unidadeId, cobradorId, descricao } = await request.validate(CreateRegiaoValidator)
 
             // Atualiza o objeto com os dados novos.
+            regiao.unidadeId = unidadeId
+            regiao.cobradorId = cobradorId
             regiao.descricao = descricao
             regiao.updatedBy = auth.user?.nome ?? null
 
             // Persiste no banco o objeto atualizado.
             await regiao.save()
 
-            return response.status(200).send({
+            return response.status(201).send({
                 status: true,
                 message: 'Registro atualizado com sucesso',
                 data: regiao
             })
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -92,16 +96,16 @@ export default class RegiaoController {
             // Persiste no banco o objeto atualizado.
             await regiao.save()
 
-            return response.status(200).send({
+            return response.status(201).send({
                 status: true,
                 message: `Registro ${regiao.ativo ? 'ativado' : 'inativado'} com sucesso`,
                 data: regiao
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -130,9 +134,9 @@ export default class RegiaoController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -161,9 +165,9 @@ export default class RegiaoController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -187,9 +191,9 @@ export default class RegiaoController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
