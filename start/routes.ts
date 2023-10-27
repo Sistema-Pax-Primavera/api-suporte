@@ -102,3 +102,12 @@ Route.group(() => {
   Route.get('ativos', 'ReligiaoController.buscarAtivos')
   Route.get(':id', 'ReligiaoController.buscarPorId')
 }).prefix('api/v1/religiao').middleware(['auth'])
+
+Route.group(() => {
+  Route.post('', 'MunicipioController.cadastrar')
+  Route.put(':id', 'MunicipioController.atualizar')
+  Route.patch(':id', 'MunicipioController.ativar')
+  Route.get('', 'MunicipioController.buscarTodos')
+  Route.get('ativos', 'MunicipioController.buscarAtivos')
+  Route.get(':id', 'MunicipioController.buscarPorId')
+}).prefix('api/v1/municipio').middleware(['auth'])
