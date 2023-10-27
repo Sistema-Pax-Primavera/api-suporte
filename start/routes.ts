@@ -138,3 +138,12 @@ Route.group(() => {
   Route.get('ativos', 'RotaController.buscarAtivos')
   Route.get(':id', 'RotaController.buscarPorId')
 }).prefix('api/v1/rota').middleware(['auth'])
+
+Route.group(() => {
+  Route.post('', 'ConcorrenteController.cadastrar')
+  Route.put(':id', 'ConcorrenteController.atualizar')
+  Route.patch(':id', 'ConcorrenteController.ativar')
+  Route.get('', 'ConcorrenteController.buscarTodos')
+  Route.get('ativos', 'ConcorrenteController.buscarAtivos')
+  Route.get(':id', 'ConcorrenteController.buscarPorId')
+}).prefix('api/v1/concorrente').middleware(['auth'])
