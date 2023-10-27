@@ -129,3 +129,12 @@ Route.group(() => {
   Route.get('ativos', 'BairroController.buscarAtivos')
   Route.get(':id', 'BairroController.buscarPorId')
 }).prefix('api/v1/bairro').middleware(['auth'])
+
+Route.group(() => {
+  Route.post('', 'RotaController.cadastrar')
+  Route.put(':id', 'RotaController.atualizar')
+  Route.patch(':id', 'RotaController.ativar')
+  Route.get('', 'RotaController.buscarTodos')
+  Route.get('ativos', 'RotaController.buscarAtivos')
+  Route.get(':id', 'RotaController.buscarPorId')
+}).prefix('api/v1/rota').middleware(['auth'])

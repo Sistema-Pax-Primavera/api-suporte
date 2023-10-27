@@ -32,9 +32,9 @@ export default class RotaController {
                 data: rota
             })
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -58,24 +58,24 @@ export default class RotaController {
             } = await request.validate(CreateRotaValidator)
 
             // Atualiza o objeto com os dados novos.
-            rota = {
-                ...rota,
-                descricao, unidadeId, cobradorId,
-                updatedBy: auth.user?.nome ?? null
-            }
+    
+            rota.descricao = descricao 
+            rota.unidadeId = unidadeId 
+            rota.cobradorId = cobradorId
+            rota.updatedBy = auth.user?.nome ?? null
 
             // Persiste no banco o objeto atualizado.
             await rota.save()
 
-            return response.status(200).send({
+            return response.status(201).send({
                 status: true,
                 message: 'Registro atualizado com sucesso',
                 data: rota
             })
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -99,16 +99,16 @@ export default class RotaController {
             // Persiste no banco o objeto atualizado.
             await rota.save()
 
-            return response.status(200).send({
+            return response.status(201).send({
                 status: true,
                 message: `Registro ${rota.ativo ? 'ativado' : 'inativado'} com sucesso`,
                 data: rota
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -137,9 +137,9 @@ export default class RotaController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -168,9 +168,9 @@ export default class RotaController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -194,9 +194,9 @@ export default class RotaController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
