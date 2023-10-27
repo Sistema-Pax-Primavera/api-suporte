@@ -75,3 +75,12 @@ Route.group(() => {
   Route.get('ativos', 'RegiaoController.buscarAtivos')
   Route.get(':id', 'RegiaoController.buscarPorId')
 }).prefix('api/v1/regiao').middleware(['auth'])
+
+Route.group(() => {
+  Route.post('', 'PlanoController.cadastrar')
+  Route.put(':id', 'PlanoController.atualizar')
+  Route.patch(':id', 'PlanoController.ativar')
+  Route.get('', 'PlanoController.buscarTodos')
+  Route.get('ativos', 'PlanoController.buscarAtivos')
+  Route.get(':id', 'PlanoController.buscarPorId')
+}).prefix('api/v1/plano').middleware(['auth'])
