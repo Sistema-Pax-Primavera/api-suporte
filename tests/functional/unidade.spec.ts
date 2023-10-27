@@ -39,13 +39,13 @@ test.group('Unidade', async (group) => {
     response.assertStatus(201)
   });
 
-  test('Buscar todos os unidades', async ({ client }) => {
+  test('Buscar todos as unidades', async ({ client }) => {
     const usuario = await Usuario.query().firstOrFail()
     const response = await client.get('api/v1/unidade').loginAs(usuario)
     response.assertStatus(200)
   });
 
-  test('Buscar todos os unidades ativos', async ({ client }) => {
+  test('Buscar todos as unidades ativas', async ({ client }) => {
     const usuario = await Usuario.query().firstOrFail()
     const response = await client.get('api/v1/unidade/ativos').loginAs(usuario)
     response.assertStatus(200)

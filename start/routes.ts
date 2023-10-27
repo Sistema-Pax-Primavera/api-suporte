@@ -84,3 +84,12 @@ Route.group(() => {
   Route.get('ativos', 'PlanoController.buscarAtivos')
   Route.get(':id', 'PlanoController.buscarPorId')
 }).prefix('api/v1/plano').middleware(['auth'])
+
+Route.group(() => {
+  Route.post('', 'EstadoCivilController.cadastrar')
+  Route.put(':id', 'EstadoCivilController.atualizar')
+  Route.patch(':id', 'EstadoCivilController.ativar')
+  Route.get('', 'EstadoCivilController.buscarTodos')
+  Route.get('ativos', 'EstadoCivilController.buscarAtivos')
+  Route.get(':id', 'EstadoCivilController.buscarPorId')
+}).prefix('api/v1/estadocivil').middleware(['auth'])

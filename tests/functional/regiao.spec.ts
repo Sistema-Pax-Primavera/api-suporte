@@ -39,13 +39,13 @@ test.group('Região', async (group) => {
     response.assertStatus(201)
   });
 
-  test('Buscar todos os regiões', async ({ client }) => {
+  test('Buscar todos as regiões', async ({ client }) => {
     const usuario = await Usuario.query().firstOrFail()
     const response = await client.get('api/v1/regiao').loginAs(usuario)
     response.assertStatus(200)
   });
 
-  test('Buscar todos os regiões ativos', async ({ client }) => {
+  test('Buscar todos as regiões ativas', async ({ client }) => {
     const usuario = await Usuario.query().firstOrFail()
     const response = await client.get('api/v1/regiao/ativos').loginAs(usuario)
     response.assertStatus(200)
