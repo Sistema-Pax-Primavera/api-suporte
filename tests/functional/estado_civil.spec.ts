@@ -4,7 +4,7 @@ import EstadoCivil from 'App/Models/EstadoCivil'
 import Usuario from 'App/Models/Usuario'
 import { EstadoCivilFactory } from 'Database/factories/EstadoCivilFactory'
 
-test.group('EstadoCivil', async (group) => {
+test.group('Estado Civil', async (group) => {
   group.each.setup(async () => {
     await Database.beginGlobalTransaction()
     return () => Database.rollbackGlobalTransaction()

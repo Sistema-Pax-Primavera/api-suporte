@@ -3,7 +3,7 @@ import { test } from '@japa/runner'
 import Usuario from 'App/Models/Usuario'
 import { UsuarioFactory } from 'Database/factories/UsuarioFactory'
 
-test.group('Usuario', async (group) => {
+test.group('Usuário', async (group) => {
   group.each.setup(async () => {
     await Database.beginGlobalTransaction()
     return () => Database.rollbackGlobalTransaction()

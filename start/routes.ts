@@ -93,3 +93,12 @@ Route.group(() => {
   Route.get('ativos', 'EstadoCivilController.buscarAtivos')
   Route.get(':id', 'EstadoCivilController.buscarPorId')
 }).prefix('api/v1/estadocivil').middleware(['auth'])
+
+Route.group(() => {
+  Route.post('', 'ReligiaoController.cadastrar')
+  Route.put(':id', 'ReligiaoController.atualizar')
+  Route.patch(':id', 'ReligiaoController.ativar')
+  Route.get('', 'ReligiaoController.buscarTodos')
+  Route.get('ativos', 'ReligiaoController.buscarAtivos')
+  Route.get(':id', 'ReligiaoController.buscarPorId')
+}).prefix('api/v1/religiao').middleware(['auth'])

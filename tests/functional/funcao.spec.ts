@@ -4,7 +4,7 @@ import Funcao from 'App/Models/Funcao'
 import Usuario from 'App/Models/Usuario'
 import { FuncaoFactory } from 'Database/factories/FuncaoFactory'
 
-test.group('Funcao', async (group) => {
+test.group('Função', async (group) => {
   group.each.setup(async () => {
     await Database.beginGlobalTransaction()
     return () => Database.rollbackGlobalTransaction()
