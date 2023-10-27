@@ -120,3 +120,12 @@ Route.group(() => {
   Route.get('ativos', 'RegiaoBairroController.buscarAtivos')
   Route.get(':id', 'RegiaoBairroController.buscarPorId')
 }).prefix('api/v1/regiaobairro').middleware(['auth'])
+
+Route.group(() => {
+  Route.post('', 'BairroController.cadastrar')
+  Route.put(':id', 'BairroController.atualizar')
+  Route.patch(':id', 'BairroController.ativar')
+  Route.get('', 'BairroController.buscarTodos')
+  Route.get('ativos', 'BairroController.buscarAtivos')
+  Route.get(':id', 'BairroController.buscarPorId')
+}).prefix('api/v1/bairro').middleware(['auth'])
