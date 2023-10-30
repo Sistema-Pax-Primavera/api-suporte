@@ -147,3 +147,12 @@ Route.group(() => {
   Route.get('ativos', 'ConcorrenteController.buscarAtivos')
   Route.get(':id', 'ConcorrenteController.buscarPorId')
 }).prefix('api/v1/concorrente').middleware(['auth'])
+
+Route.group(() => {
+  Route.post('', 'SituacaoController.cadastrar')
+  Route.put(':id', 'SituacaoController.atualizar')
+  Route.patch(':id', 'SituacaoController.ativar')
+  Route.get('', 'SituacaoController.buscarTodos')
+  Route.get('ativos', 'SituacaoController.buscarAtivos')
+  Route.get(':id', 'SituacaoController.buscarPorId')
+}).prefix('api/v1/situacao').middleware(['auth'])
