@@ -166,4 +166,13 @@ Route.group(() => {
   Route.get(':id', 'AdicionalController.buscarPorId')
 }).prefix('api/v1/adicional').middleware(['auth'])
 
+Route.group(() => {
+  Route.post('', 'TipoAtendimentoController.cadastrar')
+  Route.put(':id', 'TipoAtendimentoController.atualizar')
+  Route.patch(':id', 'TipoAtendimentoController.ativar')
+  Route.get('', 'TipoAtendimentoController.buscarTodos')
+  Route.get('ativos', 'TipoAtendimentoController.buscarAtivos')
+  Route.get(':id', 'TipoAtendimentoController.buscarPorId')
+}).prefix('api/v1/tipoatendimento').middleware(['auth'])
+
 
