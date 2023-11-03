@@ -202,5 +202,14 @@ Route.group(() => {
   Route.get(':id', 'EspecieController.buscarPorId')
 }).prefix('api/v1/especie').middleware(['auth'])
 
+Route.group(() => {
+  Route.post('', 'RacaController.cadastrar')
+  Route.put(':id', 'RacaController.atualizar')
+  Route.patch(':id', 'RacaController.ativar')
+  Route.get('', 'RacaController.buscarTodos')
+  Route.get('ativos', 'RacaController.buscarAtivos')
+  Route.get(':id', 'RacaController.buscarPorId')
+}).prefix('api/v1/raca').middleware(['auth'])
+
 
 

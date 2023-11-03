@@ -16,11 +16,11 @@ export default class RacaController {
         try {
 
             // Valida os campos informados.
-            const { descricao } = await request.validate(CreateRacaValidator)
+            const { descricao, especieId } = await request.validate(CreateRacaValidator)
 
             // Insere o registro no banco de dados.
             const raca = await Raca.create({
-                descricao,
+                descricao, especieId,
                 createdBy: auth.user?.nome
             })
 
@@ -30,9 +30,9 @@ export default class RacaController {
                 data: raca
             })
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -51,24 +51,25 @@ export default class RacaController {
             const raca = await Raca.findOrFail(params.id)
 
             // Valida os campos informados.
-            const { descricao } = await request.validate(CreateRacaValidator)
+            const { descricao, especieId } = await request.validate(CreateRacaValidator)
 
             // Atualiza o objeto com os dados novos.
             raca.descricao = descricao
+            raca.especieId = especieId
             raca.updatedBy = auth.user?.nome ?? null
 
             // Persiste no banco o objeto atualizado.
             await raca.save()
 
-            return response.status(200).send({
+            return response.status(201).send({
                 status: true,
                 message: 'Registro atualizado com sucesso',
                 data: raca
             })
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -92,16 +93,16 @@ export default class RacaController {
             // Persiste no banco o objeto atualizado.
             await raca.save()
 
-            return response.status(200).send({
+            return response.status(201).send({
                 status: true,
                 message: `Registro ${raca.ativo ? 'ativado' : 'inativado'} com sucesso`,
                 data: raca
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -130,9 +131,9 @@ export default class RacaController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -161,9 +162,9 @@ export default class RacaController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -187,9 +188,9 @@ export default class RacaController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
