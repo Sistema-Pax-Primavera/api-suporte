@@ -193,4 +193,14 @@ Route.group(() => {
   Route.get(':id', 'ParentescoController.buscarPorId')
 }).prefix('api/v1/parentesco').middleware(['auth'])
 
+Route.group(() => {
+  Route.post('', 'EspecieController.cadastrar')
+  Route.put(':id', 'EspecieController.atualizar')
+  Route.patch(':id', 'EspecieController.ativar')
+  Route.get('', 'EspecieController.buscarTodos')
+  Route.get('ativos', 'EspecieController.buscarAtivos')
+  Route.get(':id', 'EspecieController.buscarPorId')
+}).prefix('api/v1/especie').middleware(['auth'])
+
+
 
