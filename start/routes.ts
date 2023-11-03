@@ -175,4 +175,13 @@ Route.group(() => {
   Route.get(':id', 'TipoAtendimentoController.buscarPorId')
 }).prefix('api/v1/tipoatendimento').middleware(['auth'])
 
+Route.group(() => {
+  Route.post('', 'SubTipoAtendimentoController.cadastrar')
+  Route.put(':id', 'SubTipoAtendimentoController.atualizar')
+  Route.patch(':id', 'SubTipoAtendimentoController.ativar')
+  Route.get('', 'SubTipoAtendimentoController.buscarTodos')
+  Route.get('ativos', 'SubTipoAtendimentoController.buscarAtivos')
+  Route.get(':id', 'SubTipoAtendimentoController.buscarPorId')
+}).prefix('api/v1/subtipoatendimento').middleware(['auth'])
+
 
