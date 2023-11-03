@@ -184,4 +184,13 @@ Route.group(() => {
   Route.get(':id', 'SubTipoAtendimentoController.buscarPorId')
 }).prefix('api/v1/subtipoatendimento').middleware(['auth'])
 
+Route.group(() => {
+  Route.post('', 'ParentescoController.cadastrar')
+  Route.put(':id', 'ParentescoController.atualizar')
+  Route.patch(':id', 'ParentescoController.ativar')
+  Route.get('', 'ParentescoController.buscarTodos')
+  Route.get('ativos', 'ParentescoController.buscarAtivos')
+  Route.get(':id', 'ParentescoController.buscarPorId')
+}).prefix('api/v1/parentesco').middleware(['auth'])
+
 
