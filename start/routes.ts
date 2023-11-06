@@ -229,5 +229,14 @@ Route.group(() => {
   Route.get(':id', 'SubCategoriaHistoricoController.buscarPorId')
 }).prefix('api/v1/subcategoriahistorico').middleware(['auth'])
 
+Route.group(() => {
+  Route.post('', 'BancoController.cadastrar')
+  Route.put(':id', 'BancoController.atualizar')
+  Route.patch(':id', 'BancoController.ativar')
+  Route.get('', 'BancoController.buscarTodos')
+  Route.get('ativos', 'BancoController.buscarAtivos')
+  Route.get(':id', 'BancoController.buscarPorId')
+}).prefix('api/v1/banco').middleware(['auth'])
+
 
 
