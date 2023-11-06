@@ -247,5 +247,14 @@ Route.group(() => {
   Route.get(':id', 'TipoCaixaController.buscarPorId')
 }).prefix('api/v1/tipocaixa').middleware(['auth'])
 
+Route.group(() => {
+  Route.post('', 'ContaController.cadastrar')
+  Route.put(':id', 'ContaController.atualizar')
+  Route.patch(':id', 'ContaController.ativar')
+  Route.get('', 'ContaController.buscarTodos')
+  Route.get('ativos', 'ContaController.buscarAtivos')
+  Route.get(':id', 'ContaController.buscarPorId')
+}).prefix('api/v1/conta').middleware(['auth'])
+
 
 

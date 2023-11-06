@@ -34,9 +34,9 @@ export default class ContaController {
                 data: contaNova
             })
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -61,25 +61,30 @@ export default class ContaController {
             } = await request.validate(CreateContaValidator)
 
             // Atualiza o objeto com os dados novos.
-            contaAntiga = {
-                ...contaAntiga,
-                descricao, unidadeId, bancoId, agencia, digitoAgencia,
-                conta, digitoConta, tipoContaBancaria, tipo,
-                updatedBy: auth.user?.nome ?? null
-            }
+            contaAntiga.descricao = descricao
+            contaAntiga.unidadeId = unidadeId
+            contaAntiga.bancoId = bancoId
+            contaAntiga.agencia = agencia
+            contaAntiga.digitoAgencia = digitoAgencia
+            contaAntiga.conta = conta
+            contaAntiga.digitoConta = digitoConta
+            contaAntiga.tipoContaBancaria = tipoContaBancaria
+            contaAntiga.tipo = tipo
+            contaAntiga.updatedBy = auth.user?.nome ?? null
+
 
             // Persiste no banco o objeto atualizado.
             await contaAntiga.save()
 
-            return response.status(200).send({
+            return response.status(201).send({
                 status: true,
                 message: 'Registro atualizado com sucesso',
                 data: conta
             })
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -103,16 +108,16 @@ export default class ContaController {
             // Persiste no banco o objeto atualizado.
             await conta.save()
 
-            return response.status(200).send({
+            return response.status(201).send({
                 status: true,
                 message: `Registro ${conta.ativo ? 'ativado' : 'inativado'} com sucesso`,
                 data: conta
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -141,9 +146,9 @@ export default class ContaController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -172,9 +177,9 @@ export default class ContaController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -198,9 +203,9 @@ export default class ContaController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
