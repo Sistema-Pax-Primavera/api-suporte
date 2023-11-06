@@ -220,5 +220,14 @@ Route.group(() => {
   Route.get(':id', 'CategoriaHistoricoController.buscarPorId')
 }).prefix('api/v1/categoriahistorico').middleware(['auth'])
 
+Route.group(() => {
+  Route.post('', 'SubCategoriaHistoricoController.cadastrar')
+  Route.put(':id', 'SubCategoriaHistoricoController.atualizar')
+  Route.patch(':id', 'SubCategoriaHistoricoController.ativar')
+  Route.get('', 'SubCategoriaHistoricoController.buscarTodos')
+  Route.get('ativos', 'SubCategoriaHistoricoController.buscarAtivos')
+  Route.get(':id', 'SubCategoriaHistoricoController.buscarPorId')
+}).prefix('api/v1/subcategoriahistorico').middleware(['auth'])
+
 
 
