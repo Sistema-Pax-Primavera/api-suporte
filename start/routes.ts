@@ -282,3 +282,12 @@ Route.group(() => {
   Route.get('ativos', 'PlanoContaController.buscarAtivos')
   Route.get(':id', 'PlanoContaController.buscarPorId')
 }).prefix('api/v1/planoconta').middleware(['auth'])
+
+Route.group(() => {
+  Route.post('', 'UnidadeFinanceiraController.cadastrar')
+  Route.put(':id', 'UnidadeFinanceiraController.atualizar')
+  Route.patch(':id', 'UnidadeFinanceiraController.ativar')
+  Route.get('', 'UnidadeFinanceiraController.buscarTodos')
+  Route.get('ativos', 'UnidadeFinanceiraController.buscarAtivos')
+  Route.get(':id', 'UnidadeFinanceiraController.buscarPorId')
+}).prefix('api/v1/unidadefinanceira').middleware(['auth'])
