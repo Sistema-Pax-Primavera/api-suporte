@@ -256,5 +256,14 @@ Route.group(() => {
   Route.get(':id', 'ContaController.buscarPorId')
 }).prefix('api/v1/conta').middleware(['auth'])
 
+Route.group(() => {
+  Route.post('', 'FormaPagamentoController.cadastrar')
+  Route.put(':id', 'FormaPagamentoController.atualizar')
+  Route.patch(':id', 'FormaPagamentoController.ativar')
+  Route.get('', 'FormaPagamentoController.buscarTodos')
+  Route.get('ativos', 'FormaPagamentoController.buscarAtivos')
+  Route.get(':id', 'FormaPagamentoController.buscarPorId')
+}).prefix('api/v1/formapagamento').middleware(['auth'])
+
 
 
