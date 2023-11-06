@@ -14,7 +14,6 @@ export default class PlanoContaController {
      */
     public async cadastrar({ request, response, auth }: HttpContextContract): Promise<any> {
         try {
-
             // Valida os campos informados.
             const {
                 planoRaiz, descricao, codigo, tipo, nivel, visivel
@@ -32,9 +31,9 @@ export default class PlanoContaController {
                 data: planoConta
             })
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -56,24 +55,27 @@ export default class PlanoContaController {
             const { planoRaiz, descricao, codigo, tipo, nivel, visivel } = await request.validate(CreatePlanoContaValidator)
 
             // Atualiza o objeto com os dados novos.
-            planoConta = {
-                ...planoConta,
-                planoRaiz, descricao, codigo, tipo, nivel, visivel,
-                updatedBy: auth.user?.nome ?? null
-            }
+            planoConta.planoRaiz = planoRaiz
+            planoConta.descricao = descricao
+            planoConta.codigo = codigo
+            planoConta.tipo = tipo
+            planoConta.nivel = nivel
+            planoConta.visivel = visivel
+            planoConta.updatedBy = auth.user?.nome ?? null
+
 
             // Persiste no banco o objeto atualizado.
             await planoConta.save()
 
-            return response.status(200).send({
+            return response.status(201).send({
                 status: true,
                 message: 'Registro atualizado com sucesso',
                 data: planoConta
             })
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -97,16 +99,16 @@ export default class PlanoContaController {
             // Persiste no banco o objeto atualizado.
             await planoConta.save()
 
-            return response.status(200).send({
+            return response.status(201).send({
                 status: true,
                 message: `Registro ${planoConta.ativo ? 'ativado' : 'inativado'} com sucesso`,
                 data: planoConta
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -135,9 +137,9 @@ export default class PlanoContaController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -166,9 +168,9 @@ export default class PlanoContaController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -192,9 +194,9 @@ export default class PlanoContaController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }

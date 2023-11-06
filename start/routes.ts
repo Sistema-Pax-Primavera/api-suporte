@@ -274,5 +274,11 @@ Route.group(() => {
   Route.get(':id', 'FornecedorController.buscarPorId')
 }).prefix('api/v1/fornecedor').middleware(['auth'])
 
-
-
+Route.group(() => {
+  Route.post('', 'PlanoContaController.cadastrar')
+  Route.put(':id', 'PlanoContaController.atualizar')
+  Route.patch(':id', 'PlanoContaController.ativar')
+  Route.get('', 'PlanoContaController.buscarTodos')
+  Route.get('ativos', 'PlanoContaController.buscarAtivos')
+  Route.get(':id', 'PlanoContaController.buscarPorId')
+}).prefix('api/v1/planoconta').middleware(['auth'])

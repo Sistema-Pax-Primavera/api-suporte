@@ -31,9 +31,7 @@ export default class CreatePlanoContaValidator {
     codigo: schema.string([
       rules.maxLength(100)
     ]),
-    tipo: schema.enum([
-      1, 2
-    ]),
+    tipo: schema.number(),
     nivel: schema.number(),
     visivel: schema.boolean()
   })
