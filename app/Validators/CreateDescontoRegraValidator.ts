@@ -24,9 +24,7 @@ export default class CreateDescontoRegraValidator {
    *    ```
    */
   public schema = schema.create({
-    tipo: schema.enum([
-      1, 2
-    ]),
+    tipo: schema.number(),
     quantidade: schema.number(),
     operador: schema.enum([
       '<', '<=', '=', '>=', '>'

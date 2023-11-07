@@ -309,3 +309,12 @@ Route.group(() => {
   Route.get('ativos', 'ItemController.buscarAtivos')
   Route.get(':id', 'ItemController.buscarPorId')
 }).prefix('api/v1/item').middleware(['auth'])
+
+Route.group(() => {
+  Route.post('', 'DescontoRegraController.cadastrar')
+  Route.put(':id', 'DescontoRegraController.atualizar')
+  Route.patch(':id', 'DescontoRegraController.ativar')
+  Route.get('', 'DescontoRegraController.buscarTodos')
+  Route.get('ativos', 'DescontoRegraController.buscarAtivos')
+  Route.get(':id', 'DescontoRegraController.buscarPorId')
+}).prefix('api/v1/descontoregra').middleware(['auth'])
