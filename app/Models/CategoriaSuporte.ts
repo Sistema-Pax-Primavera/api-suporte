@@ -19,7 +19,7 @@ export default class CategoriaSuporte extends BaseModel {
 
   // IDs dos setores liberados.
   @column()
-  public setor: number[]
+  public setor: number[] | null | undefined
 
   // Indica se o resgistro está ativo.
   @column()

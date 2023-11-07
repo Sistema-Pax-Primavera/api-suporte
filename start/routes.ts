@@ -327,3 +327,13 @@ Route.group(() => {
   Route.get('ativos', 'TemplateController.buscarAtivos')
   Route.get(':id', 'TemplateController.buscarPorId')
 }).prefix('api/v1/template').middleware(['auth'])
+
+
+Route.group(() => {
+  Route.post('', 'CategoriaSuporteController.cadastrar')
+  Route.put(':id', 'CategoriaSuporteController.atualizar')
+  Route.patch(':id', 'CategoriaSuporteController.ativar')
+  Route.get('', 'CategoriaSuporteController.buscarTodos')
+  Route.get('ativos', 'CategoriaSuporteController.buscarAtivos')
+  Route.get(':id', 'CategoriaSuporteController.buscarPorId')
+}).prefix('api/v1/categoriasuporte').middleware(['auth'])

@@ -16,11 +16,11 @@ export default class CategoriaSuporteController {
         try {
 
             // Valida os campos informados.
-            const { descricao } = await request.validate(CreateCategoriaSuporteValidator)
+            const { descricao, prioridade, setor } = await request.validate(CreateCategoriaSuporteValidator)
 
             // Insere o registro no banco de dados.
             const categoriaSuporte = await CategoriaSuporte.create({
-                descricao,
+                descricao, prioridade, setor,
                 createdBy: auth.user?.nome
             })
 
@@ -30,9 +30,9 @@ export default class CategoriaSuporteController {
                 data: categoriaSuporte
             })
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -51,24 +51,26 @@ export default class CategoriaSuporteController {
             const categoriaSuporte = await CategoriaSuporte.findOrFail(params.id)
 
             // Valida os campos informados.
-            const { descricao } = await request.validate(CreateCategoriaSuporteValidator)
+            const { descricao, prioridade, setor } = await request.validate(CreateCategoriaSuporteValidator)
 
             // Atualiza o objeto com os dados novos.
             categoriaSuporte.descricao = descricao
+            categoriaSuporte.prioridade = prioridade
+            categoriaSuporte.setor = setor
             categoriaSuporte.updatedBy = auth.user?.nome ?? null
 
             // Persiste no banco o objeto atualizado.
             await categoriaSuporte.save()
 
-            return response.status(200).send({
+            return response.status(201).send({
                 status: true,
                 message: 'Registro atualizado com sucesso',
                 data: categoriaSuporte
             })
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -92,16 +94,16 @@ export default class CategoriaSuporteController {
             // Persiste no banco o objeto atualizado.
             await categoriaSuporte.save()
 
-            return response.status(200).send({
+            return response.status(201).send({
                 status: true,
                 message: `Registro ${categoriaSuporte.ativo ? 'ativado' : 'inativado'} com sucesso`,
                 data: categoriaSuporte
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -130,9 +132,9 @@ export default class CategoriaSuporteController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -161,9 +163,9 @@ export default class CategoriaSuporteController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -187,9 +189,9 @@ export default class CategoriaSuporteController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
