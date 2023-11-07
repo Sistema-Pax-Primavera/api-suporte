@@ -31,9 +31,10 @@ export default class TemplateController {
                 data: templateNovo
             })
         } catch (error) {
-            return response.status(500).send({
+            console.log(error.messages)
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -63,15 +64,15 @@ export default class TemplateController {
             // Persiste no banco o objeto atualizado.
             await templateAntigo.save()
 
-            return response.status(200).send({
+            return response.status(201).send({
                 status: true,
                 message: 'Registro atualizado com sucesso',
                 data: templateAntigo
             })
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -95,16 +96,16 @@ export default class TemplateController {
             // Persiste no banco o objeto atualizado.
             await template.save()
 
-            return response.status(200).send({
+            return response.status(201).send({
                 status: true,
                 message: `Registro ${template.ativo ? 'ativado' : 'inativado'} com sucesso`,
                 data: template
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -133,9 +134,9 @@ export default class TemplateController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -164,9 +165,9 @@ export default class TemplateController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -190,9 +191,9 @@ export default class TemplateController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }

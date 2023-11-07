@@ -318,3 +318,12 @@ Route.group(() => {
   Route.get('ativos', 'DescontoRegraController.buscarAtivos')
   Route.get(':id', 'DescontoRegraController.buscarPorId')
 }).prefix('api/v1/descontoregra').middleware(['auth'])
+
+Route.group(() => {
+  Route.post('', 'TemplateController.cadastrar')
+  Route.put(':id', 'TemplateController.atualizar')
+  Route.patch(':id', 'TemplateController.ativar')
+  Route.get('', 'TemplateController.buscarTodos')
+  Route.get('ativos', 'TemplateController.buscarAtivos')
+  Route.get(':id', 'TemplateController.buscarPorId')
+}).prefix('api/v1/template').middleware(['auth'])
