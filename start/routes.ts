@@ -300,3 +300,12 @@ Route.group(() => {
   Route.get('ativos', 'CategoriaItemController.buscarAtivos')
   Route.get(':id', 'CategoriaItemController.buscarPorId')
 }).prefix('api/v1/categoriaitem').middleware(['auth'])
+
+Route.group(() => {
+  Route.post('', 'ItemController.cadastrar')
+  Route.put(':id', 'ItemController.atualizar')
+  Route.patch(':id', 'ItemController.ativar')
+  Route.get('', 'ItemController.buscarTodos')
+  Route.get('ativos', 'ItemController.buscarAtivos')
+  Route.get(':id', 'ItemController.buscarPorId')
+}).prefix('api/v1/item').middleware(['auth'])
