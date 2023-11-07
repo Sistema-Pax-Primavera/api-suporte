@@ -328,7 +328,6 @@ Route.group(() => {
   Route.get(':id', 'TemplateController.buscarPorId')
 }).prefix('api/v1/template').middleware(['auth'])
 
-
 Route.group(() => {
   Route.post('', 'CategoriaSuporteController.cadastrar')
   Route.put(':id', 'CategoriaSuporteController.atualizar')
@@ -337,3 +336,13 @@ Route.group(() => {
   Route.get('ativos', 'CategoriaSuporteController.buscarAtivos')
   Route.get(':id', 'CategoriaSuporteController.buscarPorId')
 }).prefix('api/v1/categoriasuporte').middleware(['auth'])
+
+Route.group(() => {
+  Route.post('', 'CampoSuporteController.cadastrar')
+  Route.put(':id', 'CampoSuporteController.atualizar')
+  Route.patch(':id', 'CampoSuporteController.ativar')
+  Route.get('', 'CampoSuporteController.buscarTodos')
+  Route.get('ativos', 'CampoSuporteController.buscarAtivos')
+  Route.get(':id', 'CampoSuporteController.buscarPorId')
+}).prefix('api/v1/camposuporte').middleware(['auth'])
+

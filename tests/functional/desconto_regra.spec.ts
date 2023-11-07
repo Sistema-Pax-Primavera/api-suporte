@@ -39,13 +39,13 @@ test.group('Desconto Regra', async (group) => {
     response.assertStatus(201)
   });
 
-  test('Buscar todos os tipos de caixa', async ({ client }) => {
+  test('Buscar todos os descontos', async ({ client }) => {
     const usuario = await Usuario.query().firstOrFail()
     const response = await client.get('api/v1/descontoregra').loginAs(usuario)
     response.assertStatus(200)
   });
 
-  test('Buscar todos os tipos de caixa ativos', async ({ client }) => {
+  test('Buscar todos os descontos ativos', async ({ client }) => {
     const usuario = await Usuario.query().firstOrFail()
     const response = await client.get('api/v1/descontoregra/ativos').loginAs(usuario)
     response.assertStatus(200)

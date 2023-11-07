@@ -30,9 +30,9 @@ export default class CampoSuporteController {
                 data: campoNovo
             })
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -63,15 +63,15 @@ export default class CampoSuporteController {
             // Persiste no banco o objeto atualizado.
             await campoAntigo.save()
 
-            return response.status(200).send({
+            return response.status(201).send({
                 status: true,
                 message: 'Registro atualizado com sucesso',
                 data: campoAntigo
             })
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -95,16 +95,16 @@ export default class CampoSuporteController {
             // Persiste no banco o objeto atualizado.
             await campo.save()
 
-            return response.status(200).send({
+            return response.status(201).send({
                 status: true,
                 message: `Registro ${campo.ativo ? 'ativado' : 'inativado'} com sucesso`,
                 data: campo
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -133,9 +133,9 @@ export default class CampoSuporteController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -164,9 +164,9 @@ export default class CampoSuporteController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
@@ -190,9 +190,9 @@ export default class CampoSuporteController {
             })
 
         } catch (error) {
-            return response.status(500).send({
+            return response.status(error.status).send({
                 status: false,
-                message: error
+                message: error.message
             })
         }
     }
