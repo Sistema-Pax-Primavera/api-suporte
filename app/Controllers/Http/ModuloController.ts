@@ -193,4 +193,30 @@ export default class ModuloController {
             })
         }
     }
+
+    /**
+     * Método para buscar o módulo por descricao.
+     *
+     * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
+     * @return {*} 
+     * @memberof ModuloController
+     */
+    public async buscarPorDescricao({ response, params }: HttpContextContract): Promise<any> {
+        try {
+            // Busca o módulo pelo id informado.
+            const modulo = await Modulo.query().whereILike('descricao', params.descricao)
+
+            return response.status(200).send({
+                status: true,
+                message: `Registro retornado com sucesso`,
+                data: modulo
+            })
+
+        } catch (error) {
+            return response.status(error.status).send({
+                status: false,
+                message: error.message
+            })
+        }
+    }
 }

@@ -20,7 +20,7 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.post('api/v1/usuario/login', 'UsuarioController.autenticar')
+Route.post('api/v1/login', 'UsuarioController.autenticar')
 
 Route.group(() => {
   Route.post('', 'ModuloController.cadastrar')
@@ -29,7 +29,8 @@ Route.group(() => {
   Route.get('', 'ModuloController.buscarTodos')
   Route.get('ativos', 'ModuloController.buscarAtivos')
   Route.get(':id', 'ModuloController.buscarPorId')
-}).prefix('api/v1/modulo').middleware(['auth'])
+  Route.get('descricao/:descricao', 'ModuloController.buscarPorDescricao').where('descricao', /^[A-Za-z0-9]$/)
+}).prefix('api/v1/modulo').middleware(['auth']).where('id', Route.matchers.number())
 
 Route.group(() => {
   Route.post('', 'UnidadeController.cadastrar')
