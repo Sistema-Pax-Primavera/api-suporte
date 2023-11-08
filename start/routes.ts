@@ -29,7 +29,7 @@ Route.group(() => {
   Route.get('', 'ModuloController.buscarTodos')
   Route.get('ativos', 'ModuloController.buscarAtivos')
   Route.get(':id', 'ModuloController.buscarPorId')
-  Route.get('descricao/:descricao', 'ModuloController.buscarPorDescricao').where('descricao', /^[A-Za-z0-9]$/)
+  Route.get('descricao/:descricao', 'ModuloController.buscarPorDescricao').where('descricao', /^[%a-zA-Z0-9]+$/)
 }).prefix('api/v1/modulo').middleware(['auth']).where('id', Route.matchers.number())
 
 Route.group(() => {

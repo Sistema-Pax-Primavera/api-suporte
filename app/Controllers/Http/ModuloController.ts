@@ -203,8 +203,12 @@ export default class ModuloController {
      */
     public async buscarPorDescricao({ response, params }: HttpContextContract): Promise<any> {
         try {
+
+            // Converte a string para o formato aceito.
+            const descricao = params.descricao.replace('%20', ' ').toLowerCase()
+
             // Busca o módulo pelo id informado.
-            const modulo = await Modulo.query().whereILike('descricao', params.descricao)
+            const modulo = await Modulo.query().whereILike('descricao', `%${descricao}%`)
 
             return response.status(200).send({
                 status: true,
