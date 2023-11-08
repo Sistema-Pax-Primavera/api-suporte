@@ -36,6 +36,7 @@ export default class UnidadeController {
                 data: unidade
             })
         } catch (error) {
+            console.log(error.messages)
             return response.status(error.status).send({
                 status: false,
                 message: error.message
@@ -203,6 +204,36 @@ export default class UnidadeController {
         try {
             // Busca a unidade pelo id informado.
             const unidade = await Unidade.findOrFail(params.id)
+
+            return response.status(200).send({
+                status: true,
+                message: `Registro retornado com sucesso`,
+                data: unidade
+            })
+
+        } catch (error) {
+            return response.status(error.status).send({
+                status: false,
+                message: error.message
+            })
+        }
+    }
+
+    /**
+     * Método para buscar a unidade por descricao.
+     *
+     * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
+     * @return {*} 
+     * @memberof UnidadeController
+     */
+    public async buscarPorDescricao({ response, params }: HttpContextContract): Promise<any> {
+        try {
+
+            // Converte a string para o formato aceito.
+            const descricao = params.descricao.replace('%20', ' ').toLowerCase()
+
+            // Busca a unidade pela descrição informada.
+            const unidade = await Unidade.query().whereILike('descricao', `%${descricao}%`)
 
             return response.status(200).send({
                 status: true,

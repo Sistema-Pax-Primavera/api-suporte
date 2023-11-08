@@ -207,7 +207,7 @@ export default class ModuloController {
             // Converte a string para o formato aceito.
             const descricao = params.descricao.replace('%20', ' ').toLowerCase()
 
-            // Busca o módulo pelo id informado.
+            // Busca o módulo pela descrição informada.
             const modulo = await Modulo.query().whereILike('descricao', `%${descricao}%`)
 
             return response.status(200).send({
