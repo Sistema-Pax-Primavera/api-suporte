@@ -66,8 +66,10 @@ export default class UnidadeController {
 
             // Atualiza o objeto com os dados novos.
             unidade.merge({
-                descricao, razaoSocial, cnpj, telefone, email, cep, uf, municipio, bairro, rua, numero, 
-                complemento, inscricaoEstadual, inscricaoMunicipal, updatedBy: auth.user?.nome
+                descricao, razaoSocial, cnpj, telefone, email, cep,
+                uf, municipio, bairro, rua, numero, complemento,
+                inscricaoEstadual, inscricaoMunicipal,
+                updatedBy: auth.user?.nome
             })
 
             // Persiste no banco o objeto atualizado.
@@ -132,6 +134,7 @@ export default class UnidadeController {
         try {
             // Busca todas as unidades existentes.
             const unidades = await Unidade.query()
+                .orderBy('descricao', 'asc')
 
             // Verifica se não foi retornado nenhum registro.
             if (unidades.length <= 0) {
@@ -162,7 +165,9 @@ export default class UnidadeController {
     public async buscarAtivos({ response }: HttpContextContract): Promise<any> {
         try {
             // Busca todas as unidades ativas.
-            const unidades = await Unidade.query().where('ativo', true)
+            const unidades = await Unidade.query()
+                .where('ativo', true)
+                .orderBy('descricao', 'asc')
 
             // Verifica se não foi retornado nenhum registro.
             if (unidades.length <= 0) {
@@ -210,7 +215,7 @@ export default class UnidadeController {
     }
 
     /**
-     * Método para buscar a unidade por descricao.
+     * Método para buscar as unidades ativas por descricao.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
@@ -222,8 +227,16 @@ export default class UnidadeController {
             // Converte a string para o formato aceito.
             const descricao = params.descricao.replace('%20', ' ').toLowerCase()
 
+            console.log(descricao)
             // Busca a unidade pela descrição informada.
-            const unidade = await Unidade.query().whereILike('descricao', `%${descricao}%`)
+            const unidade = await Unidade.query()
+                .where('ativo', true)
+                .andWhere((query) => {
+                    query.whereILike('descricao', `%${descricao}%`)
+                        .orWhereILike('cnpj', `%${descricao}%`)
+                })
+                .orderBy('descricao', 'asc')
+
 
             return response.status(200).send({
                 status: true,

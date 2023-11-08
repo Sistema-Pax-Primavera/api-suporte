@@ -121,6 +121,7 @@ export default class ModuloController {
         try {
             // Busca todos os módulos existentes.
             const modulos = await Modulo.query()
+                .orderBy('descricao', 'asc')
 
             // Verifica se não foi retornado nenhum registro.
             if (modulos.length <= 0) {
@@ -151,7 +152,9 @@ export default class ModuloController {
     public async buscarAtivos({ response }: HttpContextContract): Promise<any> {
         try {
             // Busca todos os módulos ativos.
-            const modulos = await Modulo.query().where('ativo', true)
+            const modulos = await Modulo.query()
+                .where('ativo', true)
+                .orderBy('descricao', 'asc')
 
             // Verifica se não foi retornado nenhum registro.
             if (modulos.length <= 0) {
@@ -199,7 +202,7 @@ export default class ModuloController {
     }
 
     /**
-     * Método para buscar o módulo por descricao.
+     * Método para buscar os módulos ativos por descricao.
      *
      * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
      * @return {*} 
@@ -212,7 +215,10 @@ export default class ModuloController {
             const descricao = params.descricao.replace('%20', ' ').toLowerCase()
 
             // Busca o módulo pela descrição informada.
-            const modulo = await Modulo.query().whereILike('descricao', `%${descricao}%`)
+            const modulo = await Modulo.query()
+                .where('ativo', true)
+                .andWhereILike('descricao', `%${descricao}%`)
+                .orderBy('descricao', 'asc')
 
             return response.status(200).send({
                 status: true,
