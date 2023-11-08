@@ -54,8 +54,10 @@ export default class ModuloController {
             const { descricao } = await request.validate(CreateModuloValidator)
 
             // Atualiza o objeto com os dados novos.
-            modulo.descricao = descricao
-            modulo.updatedBy = auth.user?.nome ?? null
+            modulo.merge({
+                descricao: descricao,
+                updatedBy: auth.user?.nome
+            })
 
             // Persiste no banco o objeto atualizado.
             await modulo.save()
@@ -86,8 +88,10 @@ export default class ModuloController {
             const modulo = await Modulo.findOrFail(params.id)
 
             // Atualiza o objeto com os dados novos.
-            modulo.ativo = !modulo.ativo
-            modulo.updatedBy = auth.user?.nome ?? null
+            modulo.merge({
+                ativo: !modulo.ativo,
+                updatedBy: auth.user?.nome
+            })
 
             // Persiste no banco o objeto atualizado.
             await modulo.save()

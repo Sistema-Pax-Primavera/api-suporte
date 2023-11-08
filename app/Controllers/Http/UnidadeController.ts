@@ -55,7 +55,7 @@ export default class UnidadeController {
         try {
 
             // Busca a unidade pelo id informado.
-            let unidade = await Unidade.findOrFail(params.id)
+            const unidade = await Unidade.findOrFail(params.id)
 
             // Valida os campos informados.
             const {
@@ -65,22 +65,10 @@ export default class UnidadeController {
             } = await request.validate(CreateUnidadeValidator)
 
             // Atualiza o objeto com os dados novos.
-            unidade.descricao = descricao
-            unidade.razaoSocial = razaoSocial
-            unidade.cnpj = cnpj
-            unidade.telefone = telefone
-            unidade.email = email
-            unidade.cep = cep
-            unidade.uf = uf
-            unidade.municipio = municipio
-            unidade.bairro = bairro
-            unidade.rua = rua
-            unidade.numero = numero
-            unidade.complemento = complemento
-            unidade.inscricaoEstadual = inscricaoEstadual
-            unidade.inscricaoMunicipal = inscricaoMunicipal
-            unidade.updatedBy = auth.user?.nome ?? null
-
+            unidade.merge({
+                descricao, razaoSocial, cnpj, telefone, email, cep, uf, municipio, bairro, rua, numero, 
+                complemento, inscricaoEstadual, inscricaoMunicipal, updatedBy: auth.user?.nome
+            })
 
             // Persiste no banco o objeto atualizado.
             await unidade.save()
@@ -111,8 +99,10 @@ export default class UnidadeController {
             const unidade = await Unidade.findOrFail(params.id)
 
             // Atualiza o objeto com os dados novos.
-            unidade.ativo = !unidade.ativo
-            unidade.updatedBy = auth.user?.nome ?? null
+            unidade.merge({
+                ativo: !unidade.ativo,
+                updatedBy: auth.user?.nome
+            })
 
             // Persiste no banco o objeto atualizado.
             await unidade.save()
