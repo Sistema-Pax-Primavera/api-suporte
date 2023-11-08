@@ -41,7 +41,7 @@ export default class UsuarioController {
                 status: true,
                 message: "Usuário autorizado!",
                 data: {
-                    ...usuario,
+                    ...usuario?.toJSON(),
                     token: token.token
                 }
             })
