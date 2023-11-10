@@ -55,13 +55,15 @@ export default class FuncaoController {
             // Chama a função para vincular os módulos.
             await this.vincularModulos(modulos, funcao.id, auth.user?.nome)
 
+            // Carrega os módulos da função.
+            await funcao.load('modulos')
+
             return response.status(201).send({
                 status: true,
                 message: 'Registro cadastrado com sucesso!',
                 data: funcao
             })
         } catch (error) {
-            console.log(error)
             return response.status(error.status).send({
                 status: false,
                 message: error.message
@@ -97,6 +99,9 @@ export default class FuncaoController {
             // Chama a função para vincular os módulos
             await this.vincularModulos(modulos, funcao.id, auth.user?.nome)
 
+            // Carrega os módulos da função.
+            await funcao.load('modulos')
+
             return response.status(201).send({
                 status: true,
                 message: 'Registro atualizado com sucesso',
@@ -128,7 +133,6 @@ export default class FuncaoController {
                 updatedBy: auth.user?.nome
             })
 
-
             // Persiste no banco o objeto atualizado.
             await funcao.save()
 
@@ -136,6 +140,9 @@ export default class FuncaoController {
             await ModuloFuncao.query().update({ ativo: funcao.ativo, updatedBy: auth.user?.nome }).where({
                 funcaoId: funcao.id
             })
+
+            // Carrega os módulos da função.
+            await funcao.load('modulos')
 
             return response.status(201).send({
                 status: true,
@@ -165,6 +172,7 @@ export default class FuncaoController {
                 .preload('modulos', (query) => {
                     query.select(['id', 'descricao', 'ativo'])
                 })
+                .orderBy('descricao', 'asc')
 
             // Verifica se não foi retornado nenhum registro.
             if (funcoes.length <= 0) {
@@ -199,6 +207,7 @@ export default class FuncaoController {
                 .preload('modulos', (query) => {
                     query.select(['id', 'descricao', 'ativo'])
                 }).where('ativo', true)
+                .orderBy('descricao', 'asc')
 
             // Verifica se não foi retornado nenhum registro.
             if (funcoes.length <= 0) {
@@ -241,7 +250,6 @@ export default class FuncaoController {
             })
 
         } catch (error) {
-            console.log(error)
             return response.status(error.status).send({
                 status: false,
                 message: error.message
