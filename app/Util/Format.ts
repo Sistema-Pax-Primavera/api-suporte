@@ -130,7 +130,7 @@ export const validaCnpj = (value: string): boolean => {
     }
 }
 
-export const formatarExtras = (extras: Object): Object => {
+export const formatarExtras = (extras: Object): any => {
     const extrasLimpos = {};
     for (const key in extras) {
         if (Object.prototype.hasOwnProperty.call(extras, key)) {

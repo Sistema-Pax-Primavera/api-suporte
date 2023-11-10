@@ -7,11 +7,11 @@ export default class ModuloFuncao extends BaseModel {
   public static table = 'public.modulo_funcao'
 
   // ID do módulo a ser liberado.
-  @column()
+  @column({ isPrimary: true})
   public moduloId: number
 
   // ID da função a ser liberada.
-  @column()
+  @column({ isPrimary: true})
   public funcaoId: number
 
   // Aceita os valores (LER, GRAVAR). Especificando a ação que o usuário com determinada função poderá realizar no módulo.

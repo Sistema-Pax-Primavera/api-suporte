@@ -23,10 +23,17 @@ export default class CreateFuncaoValidator {
    *     ])
    *    ```
    */
+  
   public schema = schema.create({
     descricao: schema.string([
       rules.maxLength(150)
-    ])
+    ]),
+    modulos: schema.array().members(
+      schema.object().members({
+        moduloId: schema.number(),
+        acao: schema.enumSet(['LER', 'GRAVAR'])
+      })
+    )
   })
 
   /**

@@ -1,9 +1,37 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import CustomErrorException from 'App/Exceptions/CustomErrorException'
 import Funcao from 'App/Models/Funcao'
+import ModuloFuncao from 'App/Models/ModuloFuncao'
 import CreateFuncaoValidator from 'App/Validators/CreateFuncaoValidator'
 
 export default class FuncaoController {
+
+    /**
+     * Função para vincular os módulas a função especificada.
+     *
+     * @private
+     * @param {any[]} modulos
+     * @param {Number} funcaoId
+     * @param {(string | undefined | null)} usuario
+     * @memberof FuncaoController
+     */
+    private async vincularModulos(modulos: any[], funcaoId: number, usuario: string | undefined | null): Promise<void> {
+
+        await ModuloFuncao.query()
+            .where('funcaoId', funcaoId)
+            .update({ ativo: false, updatedBy: usuario })
+
+        const modulosFormatados = modulos.flatMap((item) => {
+            return {
+                moduloId: item.moduloId,
+                funcaoId: funcaoId,
+                acao: item.acao,
+                createdBy: usuario
+            }
+        })
+
+        await ModuloFuncao.updateOrCreateMany(['moduloId', 'funcaoId'], modulosFormatados)
+    }
 
     /**
      * Método para cadastrar função.
@@ -16,7 +44,7 @@ export default class FuncaoController {
         try {
 
             // Valida os campos informados.
-            const { descricao } = await request.validate(CreateFuncaoValidator)
+            const { descricao, modulos } = await request.validate(CreateFuncaoValidator)
 
             // Insere o registro no banco de dados.
             const funcao = await Funcao.create({
@@ -24,12 +52,16 @@ export default class FuncaoController {
                 createdBy: auth.user?.nome
             })
 
+            // Chama a função para vincular os módulos.
+            await this.vincularModulos(modulos, funcao.id, auth.user?.nome)
+
             return response.status(201).send({
                 status: true,
                 message: 'Registro cadastrado com sucesso!',
                 data: funcao
             })
         } catch (error) {
+            console.log(error)
             return response.status(error.status).send({
                 status: false,
                 message: error.message
@@ -51,14 +83,19 @@ export default class FuncaoController {
             const funcao = await Funcao.findOrFail(params.id)
 
             // Valida os campos informados.
-            const { descricao } = await request.validate(CreateFuncaoValidator)
+            const { descricao, modulos } = await request.validate(CreateFuncaoValidator)
 
             // Atualiza o objeto com os dados novos.
-            funcao.descricao = descricao
-            funcao.updatedBy = auth.user?.nome ?? null
+            funcao.merge({
+                descricao,
+                updatedBy: auth.user?.nome
+            })
 
             // Persiste no banco o objeto atualizado.
             await funcao.save()
+
+            // Chama a função para vincular os módulos
+            await this.vincularModulos(modulos, funcao.id, auth.user?.nome)
 
             return response.status(201).send({
                 status: true,
@@ -86,11 +123,19 @@ export default class FuncaoController {
             const funcao = await Funcao.findOrFail(params.id)
 
             // Atualiza o objeto com os dados novos.
-            funcao.ativo = !funcao.ativo
-            funcao.updatedBy = auth.user?.nome ?? null
+            funcao.merge({
+                ativo: !funcao.ativo,
+                updatedBy: auth.user?.nome
+            })
+
 
             // Persiste no banco o objeto atualizado.
             await funcao.save()
+
+            // Ativa / inativa os módulos da função.
+            await ModuloFuncao.query().update({ ativo: funcao.ativo, updatedBy: auth.user?.nome }).where({
+                funcaoId: funcao.id
+            })
 
             return response.status(201).send({
                 status: true,
@@ -117,6 +162,9 @@ export default class FuncaoController {
         try {
             // Busca todas as funções existentes.
             const funcoes = await Funcao.query()
+                .preload('modulos', (query) => {
+                    query.select(['id', 'descricao', 'ativo'])
+                })
 
             // Verifica se não foi retornado nenhum registro.
             if (funcoes.length <= 0) {
@@ -147,7 +195,10 @@ export default class FuncaoController {
     public async buscarAtivos({ response }: HttpContextContract): Promise<any> {
         try {
             // Busca todas as funções ativas.
-            const funcoes = await Funcao.query().where('ativo', true)
+            const funcoes = await Funcao.query()
+                .preload('modulos', (query) => {
+                    query.select(['id', 'descricao', 'ativo'])
+                }).where('ativo', true)
 
             // Verifica se não foi retornado nenhum registro.
             if (funcoes.length <= 0) {
@@ -178,12 +229,52 @@ export default class FuncaoController {
     public async buscarPorId({ response, params }: HttpContextContract): Promise<any> {
         try {
             // Busca a função pelo id informado.
-            const funcao = await Funcao.findOrFail(params.id)
+            const funcao = await Funcao.query()
+                .preload('modulos', (query) => {
+                    query.select(['id', 'descricao', 'ativo'])
+                }).where('id', params.id).firstOrFail()
 
             return response.status(200).send({
                 status: true,
                 message: `Registro retornado com sucesso`,
                 data: funcao
+            })
+
+        } catch (error) {
+            console.log(error)
+            return response.status(error.status).send({
+                status: false,
+                message: error.message
+            })
+        }
+    }
+
+    /**
+     * Método para buscar as funções ativas por descricao.
+     *
+     * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
+     * @return {*} 
+     * @memberof FuncaoController
+     */
+    public async buscarPorDescricao({ response, params }: HttpContextContract): Promise<any> {
+        try {
+
+            // Converte a string para o formato aceito.
+            const descricao = params.descricao.replace('%20', ' ').toLowerCase()
+
+            // Busca o módulo pela descrição informada.
+            const funcoes = await Funcao.query()
+                .preload('modulos', (query) => {
+                    query.select(['id', 'descricao', 'ativo'])
+                })
+                .where('ativo', true)
+                .andWhereILike('descricao', `%${descricao}%`)
+                .orderBy('descricao', 'asc')
+
+            return response.status(200).send({
+                status: true,
+                message: `Registro retornado com sucesso`,
+                data: funcoes
             })
 
         } catch (error) {
