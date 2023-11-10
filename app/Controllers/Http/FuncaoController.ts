@@ -17,19 +17,24 @@ export default class FuncaoController {
      */
     private async vincularModulos(modulos: any[], funcaoId: number, usuario: string | undefined | null): Promise<void> {
 
+        // Inativa todos os módulos liberados.  
         await ModuloFuncao.query()
             .where('funcaoId', funcaoId)
             .update({ ativo: false, updatedBy: usuario })
 
+        // Formata os módulos em um novo array.
         const modulosFormatados = modulos.flatMap((item) => {
             return {
                 moduloId: item.moduloId,
                 funcaoId: funcaoId,
                 acao: item.acao,
-                createdBy: usuario
+                ativo: true,
+                createdBy: usuario,
+                updatedBy: usuario
             }
         })
 
+        // Atualiza ou criar os registros na tabela.
         await ModuloFuncao.updateOrCreateMany(['moduloId', 'funcaoId'], modulosFormatados)
     }
 
