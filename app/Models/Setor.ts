@@ -18,19 +18,19 @@ export default class Setor extends BaseModel {
   public ativo: boolean
 
   // Data de criação do registro.
-  @column.dateTime({ autoCreate: true })
+  @column.dateTime({ autoCreate: true, serializeAs: null })
   public createdAt: DateTime
 
   // Nome do criador do registro.
-  @column()
+  @column({ serializeAs: null })
   public createdBy: string | null
 
   // Data de atualização do registro.
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  @column.dateTime({ autoCreate: true, autoUpdate: true, serializeAs: null })
   public updatedAt: DateTime
 
   // Nome do responsável pela atualização do registro.
-  @column()
+  @column({ serializeAs: null })
   public updatedBy: string | null
 
   /**

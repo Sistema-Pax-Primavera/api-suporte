@@ -4,7 +4,7 @@ import Setor from 'App/Models/Setor'
 import CreateSetorValidator from 'App/Validators/CreateSetorValidator'
 
 export default class SetorController {
-    
+
     /**
      * Método para cadastrar setor.
      *
@@ -20,10 +20,10 @@ export default class SetorController {
 
             // Insere o registro no banco de dados.
             const setor = await Setor
-            .create({
-                descricao,
-                createdBy: auth.user?.nome
-            })
+                .create({
+                    descricao,
+                    createdBy: auth.user?.nome
+                })
 
             return response.status(201).send({
                 status: true,
@@ -55,8 +55,10 @@ export default class SetorController {
             const { descricao } = await request.validate(CreateSetorValidator)
 
             // Atualiza o objeto com os dados novos.
-            setor.descricao = descricao
-            setor.updatedBy = auth.user?.nome ?? null
+            setor.merge({
+                descricao,
+                updatedBy: auth.user?.nome
+            })
 
             // Persiste no banco o objeto atualizado.
             await setor.save()
@@ -87,8 +89,10 @@ export default class SetorController {
             const setor = await Setor.findOrFail(params.id)
 
             // Atualiza o objeto com os dados novos.
-            setor.ativo = !setor.ativo
-            setor.updatedBy = auth.user?.nome ?? null
+            setor.merge({
+                ativo: !setor.ativo,
+                updatedBy: auth.user?.nome ?? null
+            })
 
             // Persiste no banco o objeto atualizado.
             await setor.save()
@@ -185,6 +189,39 @@ export default class SetorController {
                 status: true,
                 message: `Registro retornado com sucesso`,
                 data: setor
+            })
+
+        } catch (error) {
+            return response.status(error.status).send({
+                status: false,
+                message: error.message
+            })
+        }
+    }
+
+    /**
+ * Método para buscar os setores ativos por descricao.
+ *
+ * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
+ * @return {*} 
+ * @memberof SetorController
+ */
+    public async buscarPorDescricao({ response, params }: HttpContextContract): Promise<any> {
+        try {
+
+            // Converte a string para o formato aceito.
+            const descricao = params.descricao.replace('%20', ' ').toLowerCase()
+
+            // Busca o setor pela descrição informada.
+            const setores = await Setor.query()
+                .where('ativo', true)
+                .andWhereILike('descricao', `%${descricao}%`)
+                .orderBy('descricao', 'asc')
+
+            return response.status(200).send({
+                status: true,
+                message: `Registro retornado com sucesso`,
+                data: setores
             })
 
         } catch (error) {

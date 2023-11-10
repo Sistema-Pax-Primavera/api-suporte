@@ -59,7 +59,8 @@ Route.group(() => {
   Route.get('', 'SetorController.buscarTodos')
   Route.get('ativos', 'SetorController.buscarAtivos')
   Route.get(':id', 'SetorController.buscarPorId')
-}).prefix('api/v1/setor').middleware(['auth'])
+  Route.get('descricao/:descricao', 'SetorController.buscarPorDescricao').where('descricao', /^[%a-zA-Z0-9]+$/)
+}).prefix('api/v1/setor').middleware(['auth']).where('id', Route.matchers.number())
 
 Route.group(() => {
   Route.post('', 'UsuarioController.cadastrar')
