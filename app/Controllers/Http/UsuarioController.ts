@@ -4,8 +4,29 @@ import Usuario from 'App/Models/Usuario'
 import CreateUsuarioValidator from 'App/Validators/CreateUsuarioValidator'
 import UpdateUsuarioValidator from 'App/Validators/UpdateUsuarioValidator'
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
+import Permissao from 'App/Models/Permissao'
 
 export default class UsuarioController {
+
+    private async vincularPermissoes(permissoes: any[], usuarioId: number, usuario: string | null | undefined) {
+        await Permissao.query()
+            .where('usuarioId', usuarioId)
+            .update({ ativo: false, updatedBy: usuario })
+
+        const permissoesFormatadas = permissoes.flatMap((item) => {
+            return {
+                moduloId: item.moduloId,
+                unidadeId: item.unidadeId,
+                usuarioId: usuarioId,
+                acao: item.acao,
+                ativo: true,
+                createdBy: usuario,
+                updatedBy: usuario
+            }
+        })
+
+        await Permissao.updateOrCreateMany(['moduloId', 'unidadeId', 'usuarioId'], permissoesFormatadas)
+    }
 
     /**
      * Método para autenticar usuário.
@@ -35,13 +56,13 @@ export default class UsuarioController {
             })
 
             // Busca informações adicionais do usuario.
-            const usuario = await Usuario.find(token.user.id)
+            const usuario = await Usuario.findOrFail(token.user.id)
 
             return response.status(200).send({
                 status: true,
                 message: "Usuário autorizado!",
                 data: {
-                    ...usuario?.toJSON(),
+                    ...usuario.toJSON(),
                     token: token.token
                 }
             })
@@ -67,7 +88,7 @@ export default class UsuarioController {
             // Valida os campos informados.
             const {
                 unidadeId, setorId, funcaoId, nome, cpf,
-                password, porcentagemDesconto
+                password, porcentagemDesconto, permissoes
             } = await request.validate(CreateUsuarioValidator)
 
             // Insere o registro no banco de dados.
@@ -77,6 +98,8 @@ export default class UsuarioController {
                 password: password,
                 createdBy: auth.user?.nome
             })
+
+            await this.vincularPermissoes(permissoes, usuario.id, auth.user?.nome)
 
             return response.status(201).send({
                 status: true,
@@ -107,21 +130,22 @@ export default class UsuarioController {
             // Valida os campos informados.
             const {
                 unidadeId, setorId, funcaoId, nome,
-                password, porcentagemDesconto
+                password, porcentagemDesconto, permissoes
             } = await request.validate(UpdateUsuarioValidator)
 
             // Atualiza o objeto com os dados novos.
-            usuario.unidadeId = unidadeId,
-                usuario.setorId = setorId,
-                usuario.funcaoId = funcaoId,
-                usuario.nome = nome,
-                usuario.porcentagemDesconto = porcentagemDesconto,
-                usuario.password = password ?? usuario.password,
-                usuario.updatedBy = auth.user?.nome ?? null
-
+            usuario.merge({
+                unidadeId, setorId, funcaoId, nome,
+                password: password ?? usuario.password, 
+                porcentagemDesconto,
+                updatedBy: auth.user?.nome ?? null
+            })
+           
             // Persiste no banco o objeto atualizado.
             await usuario.save()
 
+            await this.vincularPermissoes(permissoes, usuario.id, auth.user?.nome)
+            
             return response.status(201).send({
                 status: true,
                 message: 'Registro atualizado com sucesso',
