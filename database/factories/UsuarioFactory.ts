@@ -7,7 +7,7 @@ export const UsuarioFactory = Factory.define(Usuario, ({ faker }) => {
     setor_id: 1,
     funcao_id: 1,
     nome: faker.person.fullName(),
-    cpf: '353.274.275-60',
+    cpf: '214.012.540-12',
     password: '1234',
     porcentagem_desconto: faker.number.int({ min: 0, max: 100 }),
     ativo: true,

@@ -399,7 +399,6 @@ export default class UsuarioController {
      */
     public async buscarPorDescricao({ response, params }: HttpContextContract): Promise<any> {
         try {
-
             // Converte a string para o formato aceito.
             const descricao = params.descricao.replace('%20', ' ').toLowerCase()
 

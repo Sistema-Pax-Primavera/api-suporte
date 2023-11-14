@@ -12,8 +12,7 @@ test.group('Usuário', async (group) => {
   test('Autenticar usuário', async ({ client }) => {
     const usuarioNovo = await UsuarioFactory.make()
     const usuario = await Usuario.create(usuarioNovo)
-
-    const response = await client.post('api/v1/usuario/login').form({
+    const response = await client.post('api/v1/login').form({
       cpf: usuario.cpf,
       senha: '1234'
     })
@@ -21,8 +20,8 @@ test.group('Usuário', async (group) => {
   })
 
   test('Autenticar usuário inválido', async ({ client }) => {
-    const response = await client.post('api/v1/usuario/login').form({
-      cpf: '353.274.275-60',
+    const response = await client.post('api/v1/login').form({
+      cpf: '448.597.760-97',
       senha: '1234'
     })
 
@@ -32,7 +31,22 @@ test.group('Usuário', async (group) => {
   test('Cadastrar usuário', async ({ client }) => {
     const usuario = await Usuario.query().firstOrFail()
     const usuarioNovo = await UsuarioFactory.make()
-    const response = await client.post('api/v1/usuario').form(usuarioNovo).loginAs(usuario)
+    const usuarioFormatado = {
+      ...usuarioNovo,
+      permissoes: [
+        {
+          unidadeId: 1,
+          moduloId: 1,
+          acao: ['LER', 'GRAVAR']
+        },
+        {
+          unidadeId: 2,
+          moduloId: 1,
+          acao: ['LER', 'GRAVAR']
+        }
+      ]
+    }
+    const response = await client.post('api/v1/usuario').form(usuarioFormatado).loginAs(usuario)
     response.assertStatus(201)
   });
 
@@ -40,7 +54,22 @@ test.group('Usuário', async (group) => {
     const usuario = await Usuario.query().firstOrFail()
     const usuarioAntigo = await Usuario.query().firstOrFail()
     const usuarioNovo = await UsuarioFactory.make()
-    const response = await client.put(`api/v1/usuario/${usuarioAntigo.id}`).form(usuarioNovo).loginAs(usuario)
+    const usuarioFormatado = {
+      ...usuarioNovo,
+      permissoes: [
+        {
+          unidadeId: 1,
+          moduloId: 1,
+          acao: ['LER', 'GRAVAR']
+        },
+        {
+          unidadeId: 2,
+          moduloId: 1,
+          acao: ['LER', 'GRAVAR']
+        }
+      ]
+    }
+    const response = await client.put(`api/v1/usuario/${usuarioAntigo.id}`).form(usuarioFormatado).loginAs(usuario)
     response.assertStatus(201)
   });
 
@@ -80,5 +109,11 @@ test.group('Usuário', async (group) => {
     const usuario = await Usuario.query().firstOrFail()
     const response = await client.get('api/v1/usuario/1231498').loginAs(usuario)
     response.assertStatus(404)
+  });
+
+  test('Buscar usuários por descricao', async ({ client }) => {
+    const usuario = await Usuario.query().firstOrFail()
+    const response = await client.get(`api/v1/usuario/descricao/TESTE`).loginAs(usuario)
+    response.assertStatus(200)
   });
 })
