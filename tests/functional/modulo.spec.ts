@@ -62,4 +62,11 @@ test.group('Módulo', async (group) => {
     const response = await client.get('api/v1/modulo/1231498').loginAs(usuario)
     response.assertStatus(404)
   });
+
+  test('Buscar módulos por descricao', async ({ client }) => {
+    const usuario = await Usuario.query().firstOrFail()
+    const modulo = await Modulo.query().firstOrFail()
+    const response = await client.get(`api/v1/modulo/descricao/${modulo.descricao}`).loginAs(usuario)
+    response.assertStatus(200)
+  });
 })
