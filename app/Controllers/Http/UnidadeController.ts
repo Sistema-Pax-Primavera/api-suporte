@@ -36,7 +36,6 @@ export default class UnidadeController {
                 data: unidade
             })
         } catch (error) {
-            console.log(error.messages)
             return response.status(error.status).send({
                 status: false,
                 message: error.message
@@ -227,7 +226,6 @@ export default class UnidadeController {
             // Converte a string para o formato aceito.
             const descricao = params.descricao.replace('%20', ' ').toLowerCase()
 
-            console.log(descricao)
             // Busca a unidade pela descrição informada.
             const unidade = await Unidade.query()
                 .where('ativo', true)

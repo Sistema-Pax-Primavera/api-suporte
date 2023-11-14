@@ -33,8 +33,8 @@ export default class UpdateUsuarioValidator {
     cpf: schema.string([
       rules.cpf()
     ]),
-    password: schema.string.nullable(),
-    porcentagemDesconto: schema.number(),
+    password: schema.string.nullableAndOptional(),
+    porcentagemDesconto: schema.number.nullableAndOptional(),
     permissoes: schema.array().members(
       schema.object().members({
         unidadeId: schema.number(),

@@ -34,7 +34,7 @@ export default class CreateUsuarioValidator {
       rules.cpf()
     ]),
     password: schema.string(),
-    porcentagemDesconto: schema.number(),
+    porcentagemDesconto: schema.number.nullableAndOptional(),
     permissoes: schema.array().members(
       schema.object().members({
         unidadeId: schema.number(),

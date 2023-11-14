@@ -200,12 +200,12 @@ export default class SetorController {
     }
 
     /**
- * Método para buscar os setores ativos por descricao.
- *
- * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
- * @return {*} 
- * @memberof SetorController
- */
+     * Método para buscar os setores ativos por descricao.
+     *
+     * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
+     * @return {*} 
+     * @memberof SetorController
+     */
     public async buscarPorDescricao({ response, params }: HttpContextContract): Promise<any> {
         try {
 

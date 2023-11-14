@@ -7,15 +7,15 @@ export default class Permissao extends BaseModel {
   public static table = 'public.permissao'
 
   // ID do usuário a ser liberado.
-  @column()
+  @column({ isPrimary: true })
   public usuarioId: number
 
   // ID do módulo a ser liberado.
-  @column()
+  @column({ isPrimary: true })
   public moduloId: number
 
   // ID da unidade a ser liberada.
-  @column()
+  @column({ isPrimary: true })
   public unidadeId: number
 
   // Aceita os valores (LER, GRAVAR). Especificando a ação que o usuário poderá realizar no módulo.

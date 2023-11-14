@@ -35,7 +35,7 @@ export default class Usuario extends BaseModel {
 
   // Porcentagem máxima de desconto que o usuário pode dar.
   @column()
-  public porcentagemDesconto: number
+  public porcentagemDesconto: number | null | undefined
 
   // Timestamp do ultimo acesso ao sistemas.
   @column.dateTime()

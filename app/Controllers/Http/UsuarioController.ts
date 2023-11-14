@@ -109,7 +109,7 @@ export default class UsuarioController {
         } catch (error) {
             return response.status(error.status).send({
                 status: false,
-                message: error.message
+                message: error.messages ?? error.message
             })
         }
     }
@@ -136,16 +136,16 @@ export default class UsuarioController {
             // Atualiza o objeto com os dados novos.
             usuario.merge({
                 unidadeId, setorId, funcaoId, nome,
-                password: password ?? usuario.password, 
+                password: password ?? usuario.password,
                 porcentagemDesconto,
-                updatedBy: auth.user?.nome ?? null
+                updatedBy: auth.user?.nome
             })
-           
+
             // Persiste no banco o objeto atualizado.
             await usuario.save()
 
             await this.vincularPermissoes(permissoes, usuario.id, auth.user?.nome)
-            
+
             return response.status(201).send({
                 status: true,
                 message: 'Registro atualizado com sucesso',
@@ -172,8 +172,10 @@ export default class UsuarioController {
             const usuario = await Usuario.findOrFail(params.id)
 
             // Atualiza o objeto com os dados novos.
-            usuario.ativo = !usuario.ativo
-            usuario.updatedBy = auth.user?.nome ?? null
+            usuario.merge({
+                ativo: !usuario.ativo,
+                updatedBy: auth.user?.nome
+            })
 
             // Persiste no banco o objeto atualizado.
             await usuario.save()
@@ -270,6 +272,42 @@ export default class UsuarioController {
                 status: true,
                 message: `Registro retornado com sucesso`,
                 data: usuario
+            })
+
+        } catch (error) {
+            return response.status(error.status).send({
+                status: false,
+                message: error.message
+            })
+        }
+    }
+
+    /**
+     * Método para buscar os usuários ativos por descricao.
+     *
+     * @param {HttpContextContract} ctx - O contexto da solicitação HTTP.
+     * @return {*} 
+     * @memberof UsuarioController
+     */
+    public async buscarPorDescricao({ response, params }: HttpContextContract): Promise<any> {
+        try {
+
+            // Converte a string para o formato aceito.
+            const descricao = params.descricao.replace('%20', ' ').toLowerCase()
+
+            // Busca o usuário pela descrição informada.
+            const usuarios = await Usuario.query()
+                .where('ativo', true)
+                .andWhere((query) => {
+                    query.whereILike('nome', `%${descricao}%`)
+                        .orWhereILike('cpf', `%${descricao}%`)
+                })
+                .orderBy('nome', 'asc')
+
+            return response.status(200).send({
+                status: true,
+                message: `Registro retornado com sucesso`,
+                data: usuarios
             })
 
         } catch (error) {
