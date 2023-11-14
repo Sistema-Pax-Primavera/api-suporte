@@ -62,4 +62,11 @@ test.group('Unidade', async (group) => {
     const response = await client.get('api/v1/unidade/1231498').loginAs(usuario)
     response.assertStatus(404)
   });
+
+  test('Buscar unidades por descricao', async ({ client }) => {
+    const usuario = await Usuario.query().firstOrFail()
+    const unidade = await Unidade.query().firstOrFail()
+    const response = await client.get(`api/v1/unidade/descricao/${unidade.descricao}`).loginAs(usuario)
+    response.assertStatus(200)
+  });
 })
