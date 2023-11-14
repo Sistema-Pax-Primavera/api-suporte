@@ -13,7 +13,18 @@ test.group('Função', async (group) => {
   test('Cadastrar função', async ({ client }) => {
     const usuario = await Usuario.query().firstOrFail()
     const funcao = await FuncaoFactory.make()
-    const response = await client.post('api/v1/funcao').form(funcao).loginAs(usuario)
+
+    const funcaoModulo = {
+      ...funcao,
+      modulos: [
+        {
+          moduloId: 1,
+          acao: ['LER', 'GRAVAR']
+        }
+      ]
+    }
+
+    const response = await client.post('api/v1/funcao').form(funcaoModulo).loginAs(usuario)
     response.assertStatus(201)
   });
 
@@ -21,7 +32,18 @@ test.group('Função', async (group) => {
     const usuario = await Usuario.query().firstOrFail()
     const funcaoAntigo = await Funcao.query().firstOrFail()
     const funcao = await FuncaoFactory.make()
-    const response = await client.put(`api/v1/funcao/${funcaoAntigo.id}`).form(funcao).loginAs(usuario)
+
+    const funcaoModulo = {
+      ...funcao,
+      modulos: [
+        {
+          moduloId: 1,
+          acao: ['LER', 'GRAVAR']
+        }
+      ]
+    }
+
+    const response = await client.put(`api/v1/funcao/${funcaoAntigo.id}`).form(funcaoModulo).loginAs(usuario)
     response.assertStatus(201)
   });
 
@@ -61,5 +83,12 @@ test.group('Função', async (group) => {
     const usuario = await Usuario.query().firstOrFail()
     const response = await client.get('api/v1/funcao/1231498').loginAs(usuario)
     response.assertStatus(404)
+  });
+
+  test('Buscar funções por descricao', async ({ client }) => {
+    const usuario = await Usuario.query().firstOrFail()
+    const funcao = await Funcao.query().firstOrFail()
+    const response = await client.get(`api/v1/funcao/descricao/${funcao.descricao}`).loginAs(usuario)
+    response.assertStatus(200)
   });
 })
