@@ -10,7 +10,7 @@ export default class FuncaoController {
     /**
      * Função para vincular os módulas a função especificada.
      *
-     * @private
+     * @public
      * @param {any[]} modulos
      * @param {Number} funcaoId
      * @param {(string | undefined | null)} usuario

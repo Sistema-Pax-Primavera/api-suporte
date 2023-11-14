@@ -15,13 +15,13 @@ export default class UsuarioController {
     /**
      * Função para vincular as permissões do usuário.
      *
-     * @private
+     * @public
      * @param {any[]} permissoes
      * @param {number} usuarioId
      * @param {(string | null | undefined)} usuario
      * @memberof UsuarioController
      */
-    private async vincularPermissoes(permissoes: any[], usuarioId: number, usuario: string | null | undefined) {
+    public async vincularPermissoes(permissoes: any[], usuarioId: number, usuario: string | null | undefined) {
         // Inativa todas as permissões existentes do usuário.
         await Permissao.query()
             .where('usuarioId', usuarioId)
