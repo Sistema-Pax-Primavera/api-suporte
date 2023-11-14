@@ -1,10 +1,14 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { rules, schema } from '@ioc:Adonis/Core/Validator'
 import CustomErrorException from 'App/Exceptions/CustomErrorException'
+import Cobrador from 'App/Models/Cobrador'
+import Funcao from 'App/Models/Funcao'
+import Modulo from 'App/Models/Modulo'
+import Permissao from 'App/Models/Permissao'
+import Unidade from 'App/Models/Unidade'
 import Usuario from 'App/Models/Usuario'
 import CreateUsuarioValidator from 'App/Validators/CreateUsuarioValidator'
 import UpdateUsuarioValidator from 'App/Validators/UpdateUsuarioValidator'
-import { schema, rules } from '@ioc:Adonis/Core/Validator'
-import Permissao from 'App/Models/Permissao'
 
 export default class UsuarioController {
 
@@ -13,19 +17,53 @@ export default class UsuarioController {
             .where('usuarioId', usuarioId)
             .update({ ativo: false, updatedBy: usuario })
 
-        const permissoesFormatadas = permissoes.flatMap((item) => {
-            return {
-                moduloId: item.moduloId,
-                unidadeId: item.unidadeId,
-                usuarioId: usuarioId,
-                acao: item.acao,
-                ativo: true,
-                createdBy: usuario,
-                updatedBy: usuario
+        const permissoesFormatadas: any[] = []
+
+        for (const item of permissoes) {
+            // Verifica se o módulo existe e está ativo.
+            let modulo = await Modulo.query()
+                .where('id', item.moduloId)
+                .where('ativo', true)
+                .first()
+
+            // Verifica se o módulo existe e está ativo.
+            let unidade = await Unidade.query()
+                .where('id', item.unidadeId)
+                .where('ativo', true)
+                .first()
+
+            if (modulo && unidade) {
+                permissoesFormatadas.push({
+                    moduloId: item.moduloId,
+                    unidadeId: item.unidadeId,
+                    usuarioId: usuarioId,
+                    acao: item.acao,
+                    ativo: true,
+                    createdBy: usuario,
+                    updatedBy: usuario
+                })
             }
-        })
+        }
 
         await Permissao.updateOrCreateMany(['moduloId', 'unidadeId', 'usuarioId'], permissoesFormatadas)
+    }
+
+    private async vincularCobrador(cobrador: any) {
+        const cob = await Cobrador.query().where('usuarioId', cobrador.usuarioId).first()
+
+        if (cob) {
+            cob.merge({
+                descricao: cobrador.descricao,
+                ativo: cobrador.ativo,
+                updatedBy: cobrador.usuario
+            })
+        } else {
+            await Cobrador.create({
+                usuarioId: cobrador.usuarioId,
+                descricao: cobrador.descricao,
+                createdBy: cobrador.usuario
+            })
+        }
     }
 
     /**
@@ -101,6 +139,22 @@ export default class UsuarioController {
 
             await this.vincularPermissoes(permissoes, usuario.id, auth.user?.nome)
 
+            const funcao = await Funcao.query()
+                .where('id', funcaoId)
+                .andWhereILike('descricao', '%COBRADOR%')
+                .first()
+
+            if (funcao) {
+                const cobrador: any = {
+                    usuarioId: usuario.id,
+                    descricao: usuario.nome,
+                    usuario: auth.user?.nome,
+                    ativo: true
+                }
+
+                await this.vincularCobrador(cobrador)
+            }
+
             return response.status(201).send({
                 status: true,
                 message: 'Registro cadastrado com sucesso!',
@@ -146,6 +200,22 @@ export default class UsuarioController {
 
             await this.vincularPermissoes(permissoes, usuario.id, auth.user?.nome)
 
+            const funcao = await Funcao.query()
+                .where('id', funcaoId)
+                .andWhereILike('descricao', '%COBRADOR%')
+                .first()
+
+            if (funcao) {
+                const cobrador: any = {
+                    usuarioId: usuario.id,
+                    descricao: usuario.nome,
+                    usuario: auth.user?.nome,
+                    ativo: usuario.ativo
+                }
+
+                await this.vincularCobrador(cobrador)
+            }
+
             return response.status(201).send({
                 status: true,
                 message: 'Registro atualizado com sucesso',
@@ -179,6 +249,14 @@ export default class UsuarioController {
 
             // Persiste no banco o objeto atualizado.
             await usuario.save()
+
+            await Permissao.query()
+                .where('usuarioId', usuario.id)
+                .update({ ativo: usuario.ativo, updatedBy: auth.user?.nome })
+
+            await Cobrador.query()
+                .where('usuarioId', usuario.id)
+                .update({ ativo: usuario.ativo, updatedBy: auth.user?.nome })
 
             return response.status(201).send({
                 status: true,

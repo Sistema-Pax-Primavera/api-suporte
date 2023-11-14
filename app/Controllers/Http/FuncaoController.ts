@@ -153,9 +153,9 @@ export default class FuncaoController {
             await funcao.save()
 
             // Ativa / inativa os módulos da função.
-            await ModuloFuncao.query().update({ ativo: funcao.ativo, updatedBy: auth.user?.nome }).where({
-                funcaoId: funcao.id
-            })
+            await ModuloFuncao.query()
+                .where('funcaoId', funcao.id)
+                .update({ ativo: funcao.ativo, updatedBy: auth.user?.nome })
 
             // Carrega os módulos da função.
             await funcao.load('modulos')
