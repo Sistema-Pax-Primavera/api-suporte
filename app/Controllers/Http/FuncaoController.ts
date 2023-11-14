@@ -1,6 +1,7 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import CustomErrorException from 'App/Exceptions/CustomErrorException'
 import Funcao from 'App/Models/Funcao'
+import Modulo from 'App/Models/Modulo'
 import ModuloFuncao from 'App/Models/ModuloFuncao'
 import CreateFuncaoValidator from 'App/Validators/CreateFuncaoValidator'
 
@@ -22,17 +23,27 @@ export default class FuncaoController {
             .where('funcaoId', funcaoId)
             .update({ ativo: false, updatedBy: usuario })
 
+        const modulosFormatados: any[] = []
+
         // Formata os módulos em um novo array.
-        const modulosFormatados = modulos.flatMap((item) => {
-            return {
-                moduloId: item.moduloId,
-                funcaoId: funcaoId,
-                acao: item.acao,
-                ativo: true,
-                createdBy: usuario,
-                updatedBy: usuario
+        for (const item of modulos) {
+            // Verifica se o módulo existe e está ativo.
+            let modulo = await Modulo.query()
+                .where('id', item.moduloId)
+                .where('ativo', true)
+                .first()
+
+            if (modulo) {
+                modulosFormatados.push({
+                    moduloId: item.moduloId,
+                    funcaoId: funcaoId,
+                    acao: item.acao,
+                    ativo: true,
+                    createdBy: usuario,
+                    updatedBy: usuario
+                })
             }
-        })
+        }
 
         // Atualiza ou criar os registros na tabela.
         await ModuloFuncao.updateOrCreateMany(['moduloId', 'funcaoId'], modulosFormatados)
