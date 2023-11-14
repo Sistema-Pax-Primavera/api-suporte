@@ -62,4 +62,11 @@ test.group('Setor', async (group) => {
     const response = await client.get('api/v1/setor/1231498').loginAs(usuario)
     response.assertStatus(404)
   });
+
+  test('Buscar setores por descricao', async ({ client }) => {
+    const usuario = await Usuario.query().firstOrFail()
+    const setor = await Setor.query().firstOrFail()
+    const response = await client.get(`api/v1/setor/descricao/${setor.descricao}`).loginAs(usuario)
+    response.assertStatus(200)
+  });
 })
