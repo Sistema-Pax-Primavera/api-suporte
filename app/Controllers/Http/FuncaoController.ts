@@ -16,7 +16,7 @@ export default class FuncaoController {
      * @param {(string | undefined | null)} usuario
      * @memberof FuncaoController
      */
-    private async vincularModulos(modulos: any[], funcaoId: number, usuario: string | undefined | null): Promise<void> {
+    public async vincularModulos(modulos: any[], funcaoId: number, usuario: string | undefined | null): Promise<void> {
 
         // Inativa todos os módulos liberados.  
         await ModuloFuncao.query()
