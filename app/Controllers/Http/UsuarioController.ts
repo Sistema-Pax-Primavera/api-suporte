@@ -116,7 +116,10 @@ export default class UsuarioController {
             })
 
             // Busca informações adicionais do usuario.
-            const usuario = await Usuario.findOrFail(token.user.id)
+            const usuario = await Usuario.query()
+                .preload('permissoes')
+                .where('id', token.user.id)
+                .firstOrFail()
 
             return response.status(200).send({
                 status: true,
@@ -374,7 +377,10 @@ export default class UsuarioController {
     public async buscarPorId({ response, params }: HttpContextContract): Promise<any> {
         try {
             // Busca o usuário pelo id informado.
-            const usuario = await Usuario.findOrFail(params.id)
+            const usuario = await Usuario.query()
+                .preload('permissoes')
+                .where('id', params.id)
+                .firstOrFail()
 
             return response.status(200).send({
                 status: true,

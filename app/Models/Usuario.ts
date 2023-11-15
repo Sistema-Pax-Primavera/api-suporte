@@ -1,7 +1,8 @@
 import Hash from '@ioc:Adonis/Core/Hash'
-import { BaseModel, beforeSave, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, HasMany, beforeSave, column, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import { formatarNumero, formatarString } from 'App/Util/Format'
 import { DateTime } from 'luxon'
+import Permissao from './Permissao'
 
 export default class Usuario extends BaseModel {
   public static table = 'public.usuario'
@@ -50,20 +51,65 @@ export default class Usuario extends BaseModel {
   public ativo: boolean
 
   // Data de criação do registro.
-  @column.dateTime({ autoCreate: true })
+  @column.dateTime({ autoCreate: true, serializeAs: null })
   public createdAt: DateTime
 
   // Nome do criador do registro.
-  @column()
+  @column({ serializeAs: null })
   public createdBy: string | null
 
   // Data de atualização do registro.
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  @column.dateTime({ autoCreate: true, autoUpdate: true, serializeAs: null })
   public updatedAt: DateTime
 
   // Nome do responsável pela atualização do registro.
-  @column()
+  @column({ serializeAs: null })
   public updatedBy: string | null
+
+  // Relacionamento de busca das permissões do usuário.
+  @hasMany(() => Permissao, {
+    onQuery: (query) => {
+      query
+        .join('public.modulo', 'permissao.modulo_id', 'modulo.id')
+        .join('public.unidade', 'permissao.unidade_id', 'unidade.id')
+        .preload('modulo')
+        .preload('unidade')
+        .where('permissao.ativo', true)
+        .andWhere('public.unidade.ativo', true)
+        .andWhere('public.modulo.ativo', true)
+    }
+  })
+  public permissoes: HasMany<typeof Permissao>
+
+  /**
+  * Método toJSON personalizado para formatar o retorno das informações adicionais.
+  *
+  * @return {Object} 
+  * @memberof Unidade
+  */
+  public toJSON(): Object {
+    const permissoesFormatadas = this.permissoes ? {
+      permissoes: this.permissoes.map((item) => {
+        return {
+          ...item.toJSON()
+        }
+      })
+    } : {}
+
+    return {
+      id: this.id,
+      unidade_id: this.unidadeId,
+      setor_id: this.setorId,
+      funcao_id: this.funcaoId,
+      nome: this.nome,
+      cpf: this.cpf,
+      porcentagem_desconto: this.porcentagemDesconto,
+      ultimo_acesso: this.ultimoAcesso,
+      ultimo_sincronismo: this.ultimoSincronismo,
+      ativo: this.ativo,
+      ...permissoesFormatadas
+    }
+  }
 
   /**
   * Método de gancho (hook) que gera um hash da senha antes de salvá-la
@@ -76,7 +122,6 @@ export default class Usuario extends BaseModel {
   public static async hashPassword(user: Usuario) {
     if (user.$dirty.password) {
       user.password = await Hash.make(user.password)
-
     }
   }
 
