@@ -25,7 +25,7 @@ export default class extends BaseSchema {
    * @protected
    * @type {string}
    */
-  protected tableName: string = 'mensagem_mobile_venda'
+  protected tableName: string = 'mensagem_mobile'
 
   /**
    * Método 'up' da migração.

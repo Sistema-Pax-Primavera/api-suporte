@@ -3,7 +3,7 @@ import { BaseModel, beforeSave, column } from '@ioc:Adonis/Lucid/Orm'
 import { formatarString } from 'App/Util/Format'
 
 export default class MensagemMobileVenda extends BaseModel {
-  public static table = 'venda.mensagem_mobile_venda'
+  public static table = 'venda.mensagem_mobile'
 
   @column({ isPrimary: true })
   public id: number
