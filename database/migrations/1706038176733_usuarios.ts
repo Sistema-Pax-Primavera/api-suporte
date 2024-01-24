@@ -49,7 +49,6 @@ export default class extends BaseSchema {
           table.string('nome', 150).notNullable()
           table.string('cpf', 11).notNullable().unique()
           table.string('senha').notNullable()
-          table.string('senha_app').nullable()
           table.decimal('porcentagem_desconto', 10, 2).nullable().defaultTo(0).comment('Porcentagem máxima de desconto que o usuário pode aplicar nos recebimentos. Caso seja definido como 0, segue o padrão das regras de desconto.')
           table.timestamp('ultimo_acesso').nullable().comment('Data/Hora do ultimo acesso do usuário.')
           table.timestamp('ultimo_sincronismo').nullable().comment('Caso seja um cobrador/vendedor. Armazena Data/Hora do ultimo sincronismo realizado.')
