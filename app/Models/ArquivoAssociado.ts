@@ -1,16 +1,20 @@
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
 
-export default class Especie extends BaseModel {
+export default class ArquivoAssociado extends BaseModel {
   // Definição do nome da tabela.
-  public static table = 'public.especie'
+  public static table = 'arquivo.associado'
 
   @column({ isPrimary: true })
   public id: number
 
-  // Nome do espécie.
+  // ID do associado.
   @column()
-  public descricao: string
+  public associadoId: number
+
+  // Caminho do documento.
+  @column()
+  public documento: string
 
   // Indica se o resgistro está ativo.
   @column()
