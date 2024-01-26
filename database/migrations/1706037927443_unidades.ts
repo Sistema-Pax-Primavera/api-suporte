@@ -1,4 +1,4 @@
-import BaseSchema from '@ioc:Adonis/Lucid/Schema'
+import { BaseSchema } from "@adonisjs/lucid/schema";
 
 /**
  * Classe de migração para criar a tabela 'unidade'.

@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column } from '@adonisjs/lucid/orm'
 
 export default class Associado extends BaseModel {
   public static table = 'associado.associado'

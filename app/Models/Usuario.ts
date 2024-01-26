@@ -1,5 +1,5 @@
-import Hash from '@ioc:Adonis/Core/Hash'
-import { BaseModel, beforeSave, column } from '@ioc:Adonis/Lucid/Orm'
+import hash from '@adonisjs/core/services/hash'
+import { BaseModel, beforeSave, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
 export default class Usuario extends BaseModel {
@@ -82,7 +82,7 @@ export default class Usuario extends BaseModel {
   @beforeSave()
   public static async hashPassword(user: Usuario) {
     if (user.$dirty.password) {
-      user.password = await Hash.make(user.password)
+      user.password =hashit Hash.make(user.password)
     }
   }
 }

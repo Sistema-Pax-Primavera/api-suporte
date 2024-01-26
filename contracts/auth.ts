@@ -5,7 +5,7 @@
  * file.
  */
 
-import Usuario from 'App/Models/Usuario'
+import Usuario from '#app/Models/Usuario'
 
 declare module '@ioc:Adonis/Addons/Auth' {
   /*

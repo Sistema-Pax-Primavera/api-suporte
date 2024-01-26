@@ -1,5 +1,5 @@
-import BaseSeeder from '@ioc:Adonis/Lucid/Seeder'
-import UsuarioFactory from 'Database/factories/UsuarioFactory'
+import BaseSeeder from '@adonisjs/lucid/seeders'
+import UsuarioFactory from '#database/factories/UsuarioFactory'
 
 export default class UsuarioSeeder extends BaseSeeder {
   public async run() {

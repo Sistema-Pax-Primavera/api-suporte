@@ -1,6 +1,6 @@
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
-import UnidadeDevedora from './UnidadeDevedora'
+import UnidadeDevedora from './UnidadeDevedora.js'
 
 export default class TitularVenda extends BaseModel {
   public static table = 'venda.titular_venda'
