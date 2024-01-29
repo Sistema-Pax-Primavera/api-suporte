@@ -20,6 +20,11 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', async ({ view }) => {
-  return view.render('welcome')
-})
+Route.group(()=>{
+  Route.get('', 'AdicionalController.buscarTodos')
+  Route.get('ativos', 'AdicionalController.buscarAtivos')
+  Route.get(':id', 'AdicionalController.buscarPorId')
+  Route.post('', 'AdicionalController.cadastrar')
+  Route.put(':id', 'AdicionalController.atualizar')
+  Route.patch(':id', 'AdicionalController.ativar')
+}).prefix('adicional')
