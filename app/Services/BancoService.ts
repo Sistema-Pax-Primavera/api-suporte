@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import Banco from "App/Models/Banco"
 
-export default class AdicionalService {
+export default class BancoService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await Banco.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await Banco.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await Banco.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(banco: any) {
+        return await Banco.create(banco)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novoBanco: any, id: number) {
+        let banco = await Banco.findOrFail(id)
+        banco.merge(novoBanco)
+        return await banco.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let banco = await Banco.findOrFail(id)
+        banco.ativo = !banco.ativo
+        return await banco.save()
     }
 
 }

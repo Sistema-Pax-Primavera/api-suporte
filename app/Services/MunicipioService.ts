@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import Municipio from "App/Models/Municipio"
 
-export default class AdicionalService {
+export default class MunicipioService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await Municipio.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await Municipio.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await Municipio.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(municipio: any) {
+        return await Municipio.create(municipio)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novoMunicipio: any, id: number) {
+        let municipio = await Municipio.findOrFail(id)
+        municipio.merge(novoMunicipio)
+        return await municipio.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let municipio = await Municipio.findOrFail(id)
+        municipio.ativo = !municipio.ativo
+        return await municipio.save()
     }
 
 }

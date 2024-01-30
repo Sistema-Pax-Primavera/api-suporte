@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import CategoriaSuporte from "App/Models/CategoriaSuporte"
 
-export default class AdicionalService {
+export default class CategoriaSuporteService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await CategoriaSuporte.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await CategoriaSuporte.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await CategoriaSuporte.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(categoriaSuporte: any) {
+        return await CategoriaSuporte.create(categoriaSuporte)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novaCategoriaSuporte: any, id: number) {
+        let categoriaSuporte = await CategoriaSuporte.findOrFail(id)
+        categoriaSuporte.merge(novaCategoriaSuporte)
+        return await categoriaSuporte.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let categoriaSuporte = await CategoriaSuporte.findOrFail(id)
+        categoriaSuporte.ativo = !categoriaSuporte.ativo
+        return await categoriaSuporte.save()
     }
 
 }

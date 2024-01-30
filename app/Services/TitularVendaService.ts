@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import TitularVenda from "App/Models/TitularVenda"
 
-export default class AdicionalService {
+export default class TitularVendaService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await TitularVenda.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await TitularVenda.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await TitularVenda.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(titularVenda: any) {
+        return await TitularVenda.create(titularVenda)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novoTitularVenda: any, id: number) {
+        let titularVenda = await TitularVenda.findOrFail(id)
+        titularVenda.merge(novoTitularVenda)
+        return await titularVenda.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let titularVenda = await TitularVenda.findOrFail(id)
+        titularVenda.ativo = !titularVenda.ativo
+        return await titularVenda.save()
     }
 
 }

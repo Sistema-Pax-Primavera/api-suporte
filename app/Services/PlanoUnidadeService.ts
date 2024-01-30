@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import PlanoUnidade from "App/Models/PlanoUnidade"
 
-export default class AdicionalService {
+export default class PlanoUnidadeService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await PlanoUnidade.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await PlanoUnidade.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await PlanoUnidade.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(planoUnidade: any) {
+        return await PlanoUnidade.create(planoUnidade)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novoPlanoUnidade: any, id: number) {
+        let planoUnidade = await PlanoUnidade.findOrFail(id)
+        planoUnidade.merge(novoPlanoUnidade)
+        return await planoUnidade.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let planoUnidade = await PlanoUnidade.findOrFail(id)
+        planoUnidade.ativo = !planoUnidade.ativo
+        return await planoUnidade.save()
     }
 
 }

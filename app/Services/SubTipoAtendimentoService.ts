@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import SubTipoAtendimento from "App/Models/SubTipoAtendimento"
 
-export default class AdicionalService {
+export default class SubTipoAtendimentoService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await SubTipoAtendimento.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await SubTipoAtendimento.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await SubTipoAtendimento.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(subTipoAtendimento: any) {
+        return await SubTipoAtendimento.create(subTipoAtendimento)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novoSubTipoAtendimento: any, id: number) {
+        let subTipoAtendimento = await SubTipoAtendimento.findOrFail(id)
+        subTipoAtendimento.merge(novoSubTipoAtendimento)
+        return await subTipoAtendimento.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let subTipoAtendimento = await SubTipoAtendimento.findOrFail(id)
+        subTipoAtendimento.ativo = !subTipoAtendimento.ativo
+        return await subTipoAtendimento.save()
     }
 
 }

@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import Financeiro from "App/Models/Financeiro"
 
-export default class AdicionalService {
+export default class FinanceiroService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await Financeiro.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await Financeiro.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await Financeiro.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(financeiro: any) {
+        return await Financeiro.create(financeiro)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novoFinanceiro: any, id: number) {
+        let financeiro = await Financeiro.findOrFail(id)
+        financeiro.merge(novoFinanceiro)
+        return await financeiro.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let financeiro = await Financeiro.findOrFail(id)
+        financeiro.ativo = !financeiro.ativo
+        return await financeiro.save()
     }
 
 }

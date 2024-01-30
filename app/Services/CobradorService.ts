@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import Cobrador from "App/Models/Cobrador"
 
-export default class AdicionalService {
+export default class CobradorService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await Cobrador.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await Cobrador.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await Cobrador.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(cobrador: any) {
+        return await Cobrador.create(cobrador)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novoCobrador: any, id: number) {
+        let cobrador = await Cobrador.findOrFail(id)
+        cobrador.merge(novoCobrador)
+        return await cobrador.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let cobrador = await Cobrador.findOrFail(id)
+        cobrador.ativo = !cobrador.ativo
+        return await cobrador.save()
     }
 
 }

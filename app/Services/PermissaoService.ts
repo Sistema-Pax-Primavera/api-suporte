@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import Permissao from "App/Models/Permissao"
 
-export default class AdicionalService {
+export default class PermissaoService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await Permissao.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await Permissao.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await Permissao.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(permissao: any) {
+        return await Permissao.create(permissao)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novaPermissao: any, id: number) {
+        let permissao = await Permissao.findOrFail(id)
+        permissao.merge(novaPermissao)
+        return await permissao.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let permissao = await Permissao.findOrFail(id)
+        permissao.ativo = !permissao.ativo
+        return await permissao.save()
     }
 
 }

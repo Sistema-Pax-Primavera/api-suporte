@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import Raca from "App/Models/Raca"
 
-export default class AdicionalService {
+export default class RacaService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await Raca.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await Raca.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await Raca.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(raca: any) {
+        return await Raca.create(raca)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novaRaca: any, id: number) {
+        let raca = await Raca.findOrFail(id)
+        raca.merge(novaRaca)
+        return await raca.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let raca = await Raca.findOrFail(id)
+        raca.ativo = !raca.ativo
+        return await raca.save()
     }
 
 }

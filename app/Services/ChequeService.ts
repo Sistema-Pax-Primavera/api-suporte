@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import Cheque from "App/Models/Cheque"
 
-export default class AdicionalService {
+export default class ChequeService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await Cheque.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await Cheque.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await Cheque.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(cheque: any) {
+        return await Cheque.create(cheque)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novoCheque: any, id: number) {
+        let cheque = await Cheque.findOrFail(id)
+        cheque.merge(novoCheque)
+        return await cheque.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let cheque = await Cheque.findOrFail(id)
+        cheque.ativo = !cheque.ativo
+        return await cheque.save()
     }
 
 }

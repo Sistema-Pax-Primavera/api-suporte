@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import Setor from "App/Models/Setor"
 
-export default class AdicionalService {
+export default class SetorService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await Setor.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await Setor.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await Setor.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(setor: any) {
+        return await Setor.create(setor)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novoSetor: any, id: number) {
+        let setor = await Setor.findOrFail(id)
+        setor.merge(novoSetor)
+        return await setor.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let setor = await Setor.findOrFail(id)
+        setor.ativo = !setor.ativo
+        return await setor.save()
     }
 
 }

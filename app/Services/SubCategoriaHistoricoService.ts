@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import SubCategoriaHistorico from "App/Models/SubCategoriaHistorico"
 
-export default class AdicionalService {
+export default class SubCategoriaHistoricoService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await SubCategoriaHistorico.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await SubCategoriaHistorico.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await SubCategoriaHistorico.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(subCategoriaHistorico: any) {
+        return await SubCategoriaHistorico.create(subCategoriaHistorico)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novaSubCategoriaHistorico: any, id: number) {
+        let subCategoriaHistorico = await SubCategoriaHistorico.findOrFail(id)
+        subCategoriaHistorico.merge(novaSubCategoriaHistorico)
+        return await subCategoriaHistorico.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let subCategoriaHistorico = await SubCategoriaHistorico.findOrFail(id)
+        subCategoriaHistorico.ativo = !subCategoriaHistorico.ativo
+        return await subCategoriaHistorico.save()
     }
 
 }

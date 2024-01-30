@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import Funcao from "App/Models/Funcao"
 
-export default class AdicionalService {
+export default class FuncaoService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await Funcao.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await Funcao.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await Funcao.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(funcao: any) {
+        return await Funcao.create(funcao)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novaFuncao: any, id: number) {
+        let funcao = await Funcao.findOrFail(id)
+        funcao.merge(novaFuncao)
+        return await funcao.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let funcao = await Funcao.findOrFail(id)
+        funcao.ativo = !funcao.ativo
+        return await funcao.save()
     }
 
 }

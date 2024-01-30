@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import TemplateUnidade from "App/Models/TemplateUnidade"
 
-export default class AdicionalService {
+export default class TemplateUnidadeService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await TemplateUnidade.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await TemplateUnidade.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await TemplateUnidade.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(templateUnidade: any) {
+        return await TemplateUnidade.create(templateUnidade)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novoTemplateUnidade: any, id: number) {
+        let templateUnidade = await TemplateUnidade.findOrFail(id)
+        templateUnidade.merge(novoTemplateUnidade)
+        return await templateUnidade.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let templateUnidade = await TemplateUnidade.findOrFail(id)
+        templateUnidade.ativo = !templateUnidade.ativo
+        return await templateUnidade.save()
     }
 
 }

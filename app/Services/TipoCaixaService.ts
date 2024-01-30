@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import TipoCaixa from "App/Models/TipoCaixa"
 
-export default class AdicionalService {
+export default class TipoCaixaService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await TipoCaixa.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await TipoCaixa.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await TipoCaixa.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(tipoCaixa: any) {
+        return await TipoCaixa.create(tipoCaixa)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novoTipoCaixa: any, id: number) {
+        let tipoCaixa = await TipoCaixa.findOrFail(id)
+        tipoCaixa.merge(novoTipoCaixa)
+        return await tipoCaixa.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let tipoCaixa = await TipoCaixa.findOrFail(id)
+        tipoCaixa.ativo = !tipoCaixa.ativo
+        return await tipoCaixa.save()
     }
 
 }

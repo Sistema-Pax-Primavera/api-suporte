@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import Fornecedor from "App/Models/Fornecedor"
 
-export default class AdicionalService {
+export default class FornecedorService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await Fornecedor.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await Fornecedor.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await Fornecedor.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(fornecedor: any) {
+        return await Fornecedor.create(fornecedor)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novoFornecedor: any, id: number) {
+        let fornecedor = await Fornecedor.findOrFail(id)
+        fornecedor.merge(novoFornecedor)
+        return await fornecedor.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let fornecedor = await Fornecedor.findOrFail(id)
+        fornecedor.ativo = !fornecedor.ativo
+        return await fornecedor.save()
     }
 
 }

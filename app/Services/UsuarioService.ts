@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import Usuario from "App/Models/Usuario"
 
-export default class AdicionalService {
+export default class UsuarioService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await Usuario.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await Usuario.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await Usuario.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(usuario: any) {
+        return await Usuario.create(usuario)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novoUsuario: any, id: number) {
+        let usuario = await Usuario.findOrFail(id)
+        usuario.merge(novoUsuario)
+        return await usuario.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let usuario = await Usuario.findOrFail(id)
+        usuario.ativo = !usuario.ativo
+        return await usuario.save()
     }
 
 }

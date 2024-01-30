@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import Contato from "App/Models/Contato"
 
-export default class AdicionalService {
+export default class ContatoService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await Contato.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await Contato.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await Contato.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(contato: any) {
+        return await Contato.create(contato)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novoContato: any, id: number) {
+        let contato = await Contato.findOrFail(id)
+        contato.merge(novoContato)
+        return await contato.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let contato = await Contato.findOrFail(id)
+        contato.ativo = !contato.ativo
+        return await contato.save()
     }
 
 }

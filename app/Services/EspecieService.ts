@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import Especie from "App/Models/Especie"
 
-export default class AdicionalService {
+export default class EspecieService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await Especie.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await Especie.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await Especie.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(especie: any) {
+        return await Especie.create(especie)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novaEspecie: any, id: number) {
+        let especie = await Especie.findOrFail(id)
+        especie.merge(novaEspecie)
+        return await especie.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let especie = await Especie.findOrFail(id)
+        especie.ativo = !especie.ativo
+        return await especie.save()
     }
 
 }

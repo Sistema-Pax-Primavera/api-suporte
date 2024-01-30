@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import EstadoCivil from "App/Models/EstadoCivil"
 
-export default class AdicionalService {
+export default class EstadoCivilService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await EstadoCivil.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await EstadoCivil.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await EstadoCivil.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(estadoCivil: any) {
+        return await EstadoCivil.create(estadoCivil)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novoEstadoCivil: any, id: number) {
+        let estadoCivil = await EstadoCivil.findOrFail(id)
+        estadoCivil.merge(novoEstadoCivil)
+        return await estadoCivil.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let estadoCivil = await EstadoCivil.findOrFail(id)
+        estadoCivil.ativo = !estadoCivil.ativo
+        return await estadoCivil.save()
     }
 
 }

@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import FormaPagamento from "App/Models/FormaPagamento"
 
-export default class AdicionalService {
+export default class FormaPagamentoService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await FormaPagamento.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await FormaPagamento.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await FormaPagamento.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(formaPagamento: any) {
+        return await FormaPagamento.create(formaPagamento)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novaFormaPagamento: any, id: number) {
+        let formaPagamento = await FormaPagamento.findOrFail(id)
+        formaPagamento.merge(novaFormaPagamento)
+        return await formaPagamento.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let formaPagamento = await FormaPagamento.findOrFail(id)
+        formaPagamento.ativo = !formaPagamento.ativo
+        return await formaPagamento.save()
     }
 
 }

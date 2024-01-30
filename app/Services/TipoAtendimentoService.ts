@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import TipoAtendimento from "App/Models/TipoAtendimento"
 
-export default class AdicionalService {
+export default class TipoAtendimentoService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await TipoAtendimento.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await TipoAtendimento.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await TipoAtendimento.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(tipoAtendimento: any) {
+        return await TipoAtendimento.create(tipoAtendimento)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novoTipoAtendimento: any, id: number) {
+        let tipoAtendimento = await TipoAtendimento.findOrFail(id)
+        tipoAtendimento.merge(novoTipoAtendimento)
+        return await tipoAtendimento.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let tipoAtendimento = await TipoAtendimento.findOrFail(id)
+        tipoAtendimento.ativo = !tipoAtendimento.ativo
+        return await tipoAtendimento.save()
     }
 
 }

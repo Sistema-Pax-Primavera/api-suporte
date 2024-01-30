@@ -1,38 +1,38 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 
-import AdicionalService from "App/Services/AdicionalService";
+import HistoricoFinanceiroService from "App/Services/HistoricoFinanceiroService";
 
-export default class AdicionalController {
+export default class HistoricoFinanceiroController {
 
-    private adicionalService = new AdicionalService()
+    private historicoFinanceiroService = new HistoricoFinanceiroService()
 
     public async buscarTodos({ response }: HttpContextContract): Promise<any> {
-        return response.status(200).send(await this.adicionalService.buscarTodos())
+        return response.status(200).send(await this.historicoFinanceiroService.buscarTodos())
     }
 
     public async buscarAtivos({ response }: HttpContextContract): Promise<any> {
-        return response.status(200).send(await this.adicionalService.buscarAtivos())
+        return response.status(200).send(await this.historicoFinanceiroService.buscarAtivos())
     }
 
     public async buscarPorId({ params, response }: HttpContextContract): Promise<any> {
         const { id } = params
-        return response.status(200).send(await this.adicionalService.buscarPorId(id))
+        return response.status(200).send(await this.historicoFinanceiroService.buscarPorId(id))
     }
 
     public async cadastrar({ request, response }: HttpContextContract): Promise<any> {
-        const adicional = request.all()
-        return response.status(200).send(await this.adicionalService.cadastrar(adicional))
+        const historicoFinanceiro = request.all()
+        return response.status(200).send(await this.historicoFinanceiroService.cadastrar(historicoFinanceiro))
     }
 
     public async atualizar({ request, params, response }: HttpContextContract): Promise<any> {
         const { id } = params
-        const adicional = request.all()
-        return response.status(200).send(await this.adicionalService.atualizar(adicional, id))
+        const historicoFinanceiro = request.all()
+        return response.status(200).send(await this.historicoFinanceiroService.atualizar(historicoFinanceiro, id))
     }
 
     public async ativar({ params, response }: HttpContextContract): Promise<any> {
         const { id } = params
-        return response.status(200).send(await this.adicionalService.ativar(id))
+        return response.status(200).send(await this.historicoFinanceiroService.ativar(id))
     }
 
 }

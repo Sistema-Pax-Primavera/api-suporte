@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import Profissao from "App/Models/Profissao"
 
-export default class AdicionalService {
+export default class ProfissaoService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await Profissao.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await Profissao.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await Profissao.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(profissao: any) {
+        return await Profissao.create(profissao)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novo_profissao: any, id: number) {
+        let profissao = await Profissao.findOrFail(id)
+        profissao.merge(novo_profissao)
+        return await profissao.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let profissao = await Profissao.findOrFail(id)
+        profissao.ativo = !profissao.ativo
+        return await profissao.save()
     }
 
 }

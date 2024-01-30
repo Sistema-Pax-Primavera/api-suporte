@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import Historico from "App/Models/Historico"
 
-export default class AdicionalService {
+export default class HistoricoService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await Historico.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await Historico.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await Historico.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(historico: any) {
+        return await Historico.create(historico)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novoHistorico: any, id: number) {
+        let historico = await Historico.findOrFail(id)
+        historico.merge(novoHistorico)
+        return await historico.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let historico = await Historico.findOrFail(id)
+        historico.ativo = !historico.ativo
+        return await historico.save()
     }
 
 }

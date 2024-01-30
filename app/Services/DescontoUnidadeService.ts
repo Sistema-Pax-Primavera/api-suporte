@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import DescontoUnidade from "App/Models/DescontoUnidade"
 
-export default class AdicionalService {
+export default class DescontoUnidadeService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await DescontoUnidade.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await DescontoUnidade.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await DescontoUnidade.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(descontoUnidade: any) {
+        return await DescontoUnidade.create(descontoUnidade)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novoDescontoUnidade: any, id: number) {
+        let descontoUnidade = await DescontoUnidade.findOrFail(id)
+        descontoUnidade.merge(novoDescontoUnidade)
+        return await descontoUnidade.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let descontoUnidade = await DescontoUnidade.findOrFail(id)
+        descontoUnidade.ativo = !descontoUnidade.ativo
+        return await descontoUnidade.save()
     }
 
 }

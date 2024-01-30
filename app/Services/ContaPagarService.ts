@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import ContaPagar from "App/Models/ContaPagar"
 
-export default class AdicionalService {
+export default class ContaPagarService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await ContaPagar.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await ContaPagar.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await ContaPagar.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(contaPagar: any) {
+        return await ContaPagar.create(contaPagar)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novaContaPagar: any, id: number) {
+        let contaPagar = await ContaPagar.findOrFail(id)
+        contaPagar.merge(novaContaPagar)
+        return await contaPagar.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let contaPagar = await ContaPagar.findOrFail(id)
+        contaPagar.ativo = !contaPagar.ativo
+        return await contaPagar.save()
     }
 
 }

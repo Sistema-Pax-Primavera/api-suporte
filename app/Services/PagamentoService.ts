@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import Pagamento from "App/Models/Pagamento"
 
-export default class AdicionalService {
+export default class PagamentoService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await Pagamento.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await Pagamento.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await Pagamento.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(pagamento: any) {
+        return await Pagamento.create(pagamento)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novoPagamento: any, id: number) {
+        let pagamento = await Pagamento.findOrFail(id)
+        pagamento.merge(novoPagamento)
+        return await pagamento.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let pagamento = await Pagamento.findOrFail(id)
+        pagamento.ativo = !pagamento.ativo
+        return await pagamento.save()
     }
 
 }

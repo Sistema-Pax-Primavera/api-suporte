@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import CategoriaItem from "App/Models/CategoriaItem"
 
-export default class AdicionalService {
+export default class CategoriaItemService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await CategoriaItem.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await CategoriaItem.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await CategoriaItem.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(categoriaItem: any) {
+        return await CategoriaItem.create(categoriaItem)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novaCategoriaItem: any, id: number) {
+        let categoriaItem = await CategoriaItem.findOrFail(id)
+        categoriaItem.merge(novaCategoriaItem)
+        return await categoriaItem.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let categoriaItem = await CategoriaItem.findOrFail(id)
+        categoriaItem.ativo = !categoriaItem.ativo
+        return await categoriaItem.save()
     }
 
 }

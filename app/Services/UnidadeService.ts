@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import Unidade from "App/Models/Unidade"
 
-export default class AdicionalService {
+export default class UnidadeService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await Unidade.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await Unidade.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await Unidade.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(unidade: any) {
+        return await Unidade.create(unidade)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novaUnidade: any, id: number) {
+        let unidade = await Unidade.findOrFail(id)
+        unidade.merge(novaUnidade)
+        return await unidade.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let unidade = await Unidade.findOrFail(id)
+        unidade.ativo = !unidade.ativo
+        return await unidade.save()
     }
 
 }

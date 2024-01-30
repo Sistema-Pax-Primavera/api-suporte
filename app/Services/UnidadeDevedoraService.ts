@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import UnidadeDevedora from "App/Models/UnidadeDevedora"
 
-export default class AdicionalService {
+export default class UnidadeDevedoraService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await UnidadeDevedora.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await UnidadeDevedora.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await UnidadeDevedora.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(unidadeDevedora: any) {
+        return await UnidadeDevedora.create(unidadeDevedora)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novaUnidadeDevedora: any, id: number) {
+        let unidadeDevedora = await UnidadeDevedora.findOrFail(id)
+        unidadeDevedora.merge(novaUnidadeDevedora)
+        return await unidadeDevedora.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let unidadeDevedora = await UnidadeDevedora.findOrFail(id)
+        unidadeDevedora.ativo = !unidadeDevedora.ativo
+        return await unidadeDevedora.save()
     }
 
 }

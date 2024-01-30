@@ -1,33 +1,33 @@
-import Adicional from "App/Models/Adicional"
+import Bairro from "App/Models/Bairro"
 
-export default class AdicionalService {
+export default class BairroService {
 
     public async buscarTodos() {
-        return await Adicional.query()
+        return await Bairro.query()
     }
 
     public async buscarAtivos() {
-        return await Adicional.query().where({ "ativo": true })
+        return await Bairro.query().where({ "ativo": true })
     }
 
     public async buscarPorId(id: number) {
-        return await Adicional.findOrFail(id)
+        return await Bairro.findOrFail(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await Adicional.create(adicional)
+    public async cadastrar(bairro: any) {
+        return await Bairro.create(bairro)
     }
 
-    public async atualizar(novo_adicional: any, id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.merge(novo_adicional)
-        return await adicional.save()
+    public async atualizar(novoBairro: any, id: number) {
+        let bairro = await Bairro.findOrFail(id)
+        bairro.merge(novoBairro)
+        return await bairro.save()
     }
 
     public async ativar(id: number) {
-        let adicional = await Adicional.findOrFail(id)
-        adicional.ativo = !adicional.ativo
-        return await adicional.save()
+        let bairro = await Bairro.findOrFail(id)
+        bairro.ativo = !bairro.ativo
+        return await bairro.save()
     }
 
 }

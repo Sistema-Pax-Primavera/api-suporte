@@ -1,38 +1,38 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 
-import AdicionalService from "App/Services/AdicionalService";
+import EspecieService from "App/Services/EspecieService";
 
-export default class AdicionalController {
+export default class EspecieController {
 
-    private adicionalService = new AdicionalService()
+    private especieService = new EspecieService()
 
     public async buscarTodos({ response }: HttpContextContract): Promise<any> {
-        return response.status(200).send(await this.adicionalService.buscarTodos())
+        return response.status(200).send(await this.especieService.buscarTodos())
     }
 
     public async buscarAtivos({ response }: HttpContextContract): Promise<any> {
-        return response.status(200).send(await this.adicionalService.buscarAtivos())
+        return response.status(200).send(await this.especieService.buscarAtivos())
     }
 
     public async buscarPorId({ params, response }: HttpContextContract): Promise<any> {
         const { id } = params
-        return response.status(200).send(await this.adicionalService.buscarPorId(id))
+        return response.status(200).send(await this.especieService.buscarPorId(id))
     }
 
     public async cadastrar({ request, response }: HttpContextContract): Promise<any> {
-        const adicional = request.all()
-        return response.status(200).send(await this.adicionalService.cadastrar(adicional))
+        const especie = request.all()
+        return response.status(200).send(await this.especieService.cadastrar(especie))
     }
 
     public async atualizar({ request, params, response }: HttpContextContract): Promise<any> {
         const { id } = params
-        const adicional = request.all()
-        return response.status(200).send(await this.adicionalService.atualizar(adicional, id))
+        const especie = request.all()
+        return response.status(200).send(await this.especieService.atualizar(especie, id))
     }
 
     public async ativar({ params, response }: HttpContextContract): Promise<any> {
         const { id } = params
-        return response.status(200).send(await this.adicionalService.ativar(id))
+        return response.status(200).send(await this.especieService.ativar(id))
     }
 
 }
