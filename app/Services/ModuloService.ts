@@ -1,33 +1,31 @@
 import Modulo from "App/Models/Modulo"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class ModuloService {
+    serviceDatabase = new CrudDatabase(Modulo)
 
     public async buscarTodos() {
-        return await Modulo.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await Modulo.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await Modulo.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(modulo: any) {
-        return await Modulo.create(modulo)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novoModulo: any, id: number) {
-        let modulo = await Modulo.findOrFail(id)
-        modulo.merge(novoModulo)
-        return await modulo.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let modulo = await Modulo.findOrFail(id)
-        modulo.ativo = !modulo.ativo
-        return await modulo.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

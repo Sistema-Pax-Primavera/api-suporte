@@ -1,33 +1,31 @@
 import ContaUsuario from "App/Models/ContaUsuario"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class ContaUsuarioService {
+    serviceDatabase = new CrudDatabase(ContaUsuario)
 
     public async buscarTodos() {
-        return await ContaUsuario.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await ContaUsuario.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await ContaUsuario.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(contaUsuario: any) {
-        return await ContaUsuario.create(contaUsuario)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novaContaUsuario: any, id: number) {
-        let contaUsuario = await ContaUsuario.findOrFail(id)
-        contaUsuario.merge(novaContaUsuario)
-        return await contaUsuario.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let contaUsuario = await ContaUsuario.findOrFail(id)
-        contaUsuario.ativo = !contaUsuario.ativo
-        return await contaUsuario.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

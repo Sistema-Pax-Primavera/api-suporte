@@ -1,33 +1,31 @@
 import Template from "App/Models/Template"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class TemplateService {
+    serviceDatabase = new CrudDatabase(Template)
 
     public async buscarTodos() {
-        return await Template.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await Template.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await Template.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(template: any) {
-        return await Template.create(template)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novoTemplate: any, id: number) {
-        let template = await Template.findOrFail(id)
-        template.merge(novoTemplate)
-        return await template.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let template = await Template.findOrFail(id)
-        template.ativo = !template.ativo
-        return await template.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

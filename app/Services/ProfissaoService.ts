@@ -1,33 +1,31 @@
 import Profissao from "App/Models/Profissao"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class ProfissaoService {
+    serviceDatabase = new CrudDatabase(Profissao)
 
     public async buscarTodos() {
-        return await Profissao.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await Profissao.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await Profissao.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(profissao: any) {
-        return await Profissao.create(profissao)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novo_profissao: any, id: number) {
-        let profissao = await Profissao.findOrFail(id)
-        profissao.merge(novo_profissao)
-        return await profissao.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let profissao = await Profissao.findOrFail(id)
-        profissao.ativo = !profissao.ativo
-        return await profissao.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

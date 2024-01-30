@@ -1,33 +1,31 @@
 import Especie from "App/Models/Especie"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class EspecieService {
+    serviceDatabase = new CrudDatabase(Especie)
 
     public async buscarTodos() {
-        return await Especie.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await Especie.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await Especie.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(especie: any) {
-        return await Especie.create(especie)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novaEspecie: any, id: number) {
-        let especie = await Especie.findOrFail(id)
-        especie.merge(novaEspecie)
-        return await especie.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let especie = await Especie.findOrFail(id)
-        especie.ativo = !especie.ativo
-        return await especie.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

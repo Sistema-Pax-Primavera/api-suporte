@@ -1,33 +1,31 @@
 import Regiao from "App/Models/Regiao"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class RegiaoService {
+    serviceDatabase = new CrudDatabase(Regiao)
 
     public async buscarTodos() {
-        return await Regiao.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await Regiao.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await Regiao.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(regiao: any) {
-        return await Regiao.create(regiao)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novaRegiao: any, id: number) {
-        let regiao = await Regiao.findOrFail(id)
-        regiao.merge(novaRegiao)
-        return await regiao.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let regiao = await Regiao.findOrFail(id)
-        regiao.ativo = !regiao.ativo
-        return await regiao.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

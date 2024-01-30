@@ -1,33 +1,31 @@
 import PlanoUnidade from "App/Models/PlanoUnidade"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class PlanoUnidadeService {
+    serviceDatabase = new CrudDatabase(PlanoUnidade)
 
     public async buscarTodos() {
-        return await PlanoUnidade.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await PlanoUnidade.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await PlanoUnidade.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(planoUnidade: any) {
-        return await PlanoUnidade.create(planoUnidade)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novoPlanoUnidade: any, id: number) {
-        let planoUnidade = await PlanoUnidade.findOrFail(id)
-        planoUnidade.merge(novoPlanoUnidade)
-        return await planoUnidade.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let planoUnidade = await PlanoUnidade.findOrFail(id)
-        planoUnidade.ativo = !planoUnidade.ativo
-        return await planoUnidade.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

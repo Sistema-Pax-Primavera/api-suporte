@@ -1,33 +1,31 @@
 import ModuloFuncao from "App/Models/ModuloFuncao"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class ModuloFuncaoService {
+    serviceDatabase = new CrudDatabase(ModuloFuncao)
 
     public async buscarTodos() {
-        return await ModuloFuncao.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await ModuloFuncao.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await ModuloFuncao.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(moduloFuncao: any) {
-        return await ModuloFuncao.create(moduloFuncao)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novoModuloFuncao: any, id: number) {
-        let moduloFuncao = await ModuloFuncao.findOrFail(id)
-        moduloFuncao.merge(novoModuloFuncao)
-        return await moduloFuncao.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let moduloFuncao = await ModuloFuncao.findOrFail(id)
-        moduloFuncao.ativo = !moduloFuncao.ativo
-        return await moduloFuncao.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

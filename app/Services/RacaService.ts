@@ -1,33 +1,31 @@
 import Raca from "App/Models/Raca"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class RacaService {
+    serviceDatabase = new CrudDatabase(Raca)
 
     public async buscarTodos() {
-        return await Raca.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await Raca.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await Raca.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(raca: any) {
-        return await Raca.create(raca)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novaRaca: any, id: number) {
-        let raca = await Raca.findOrFail(id)
-        raca.merge(novaRaca)
-        return await raca.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let raca = await Raca.findOrFail(id)
-        raca.ativo = !raca.ativo
-        return await raca.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

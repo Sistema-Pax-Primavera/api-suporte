@@ -1,33 +1,31 @@
 import Contato from "App/Models/Contato"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class ContatoService {
+    serviceDatabase = new CrudDatabase(Contato)
 
     public async buscarTodos() {
-        return await Contato.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await Contato.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await Contato.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(contato: any) {
-        return await Contato.create(contato)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novoContato: any, id: number) {
-        let contato = await Contato.findOrFail(id)
-        contato.merge(novoContato)
-        return await contato.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let contato = await Contato.findOrFail(id)
-        contato.ativo = !contato.ativo
-        return await contato.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

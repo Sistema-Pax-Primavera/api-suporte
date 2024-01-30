@@ -1,33 +1,31 @@
 import Banco from "App/Models/Banco"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class BancoService {
+    serviceDatabase = new CrudDatabase(Banco)
 
     public async buscarTodos() {
-        return await Banco.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await Banco.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await Banco.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(banco: any) {
-        return await Banco.create(banco)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novoBanco: any, id: number) {
-        let banco = await Banco.findOrFail(id)
-        banco.merge(novoBanco)
-        return await banco.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let banco = await Banco.findOrFail(id)
-        banco.ativo = !banco.ativo
-        return await banco.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

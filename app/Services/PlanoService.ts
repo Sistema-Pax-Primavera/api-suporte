@@ -1,33 +1,31 @@
 import Plano from "App/Models/Plano"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class PlanoService {
+    serviceDatabase = new CrudDatabase(Plano)
 
     public async buscarTodos() {
-        return await Plano.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await Plano.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await Plano.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(plano: any) {
-        return await Plano.create(plano)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novoPlano: any, id: number) {
-        let plano = await Plano.findOrFail(id)
-        plano.merge(novoPlano)
-        return await plano.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let plano = await Plano.findOrFail(id)
-        plano.ativo = !plano.ativo
-        return await plano.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

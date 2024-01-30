@@ -1,33 +1,31 @@
 import Atendimento from "App/Models/Atendimento"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class AtendimentoService {
+    serviceDatabase = new CrudDatabase(Atendimento)
 
     public async buscarTodos() {
-        return await Atendimento.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await Atendimento.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await Atendimento.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(atendimento: any) {
-        return await Atendimento.create(atendimento)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novoAtendimento: any, id: number) {
-        let atendimento = await Atendimento.findOrFail(id)
-        atendimento.merge(novoAtendimento)
-        return await atendimento.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let atendimento = await Atendimento.findOrFail(id)
-        atendimento.ativo = !atendimento.ativo
-        return await atendimento.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

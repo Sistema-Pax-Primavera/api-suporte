@@ -1,33 +1,31 @@
 import SubCategoriaHistorico from "App/Models/SubCategoriaHistorico"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class SubCategoriaHistoricoService {
+    serviceDatabase = new CrudDatabase(SubCategoriaHistorico)
 
     public async buscarTodos() {
-        return await SubCategoriaHistorico.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await SubCategoriaHistorico.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await SubCategoriaHistorico.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(subCategoriaHistorico: any) {
-        return await SubCategoriaHistorico.create(subCategoriaHistorico)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novaSubCategoriaHistorico: any, id: number) {
-        let subCategoriaHistorico = await SubCategoriaHistorico.findOrFail(id)
-        subCategoriaHistorico.merge(novaSubCategoriaHistorico)
-        return await subCategoriaHistorico.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let subCategoriaHistorico = await SubCategoriaHistorico.findOrFail(id)
-        subCategoriaHistorico.ativo = !subCategoriaHistorico.ativo
-        return await subCategoriaHistorico.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

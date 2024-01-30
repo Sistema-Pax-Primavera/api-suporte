@@ -16,12 +16,12 @@ export default class AdicionalService {
         return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(adicional: any) {
-        return await this.serviceDatabase.insert(adicional)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novoAdicional: any, id: number) {
-        return await this.serviceDatabase.update(id, novoAdicional)
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {

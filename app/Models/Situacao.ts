@@ -1,4 +1,4 @@
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, beforeSave, column } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
 
 export default class Situacao extends BaseModel {
@@ -10,7 +10,7 @@ export default class Situacao extends BaseModel {
 
   // Nome da situação.
   @column()
-  public descricao: string | null
+  public descricao: string
 
   // Indica se o resgistro está ativo.
   @column()
@@ -31,4 +31,11 @@ export default class Situacao extends BaseModel {
   // Nome do responsável pela atualização do registro.
   @column()
   public updatedBy: string | null | undefined
+
+  @beforeSave()
+  public static async format(data: Situacao){
+    data.descricao = data.descricao?.toUpperCase()
+    data.createdBy = data.createdBy?.toUpperCase()
+    data.updatedBy = data.updatedBy?.toUpperCase()
+  }
 }

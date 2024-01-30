@@ -1,33 +1,31 @@
 import AssociadoItem from "App/Models/AssociadoItem"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class AssociadoItemService {
+    serviceDatabase = new CrudDatabase(AssociadoItem)
 
     public async buscarTodos() {
-        return await AssociadoItem.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await AssociadoItem.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await AssociadoItem.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(associadoItem: any) {
-        return await AssociadoItem.create(associadoItem)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novoAssociadoItem: any, id: number) {
-        let associadoItem = await AssociadoItem.findOrFail(id)
-        associadoItem.merge(novoAssociadoItem)
-        return await associadoItem.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let associadoItem = await AssociadoItem.findOrFail(id)
-        associadoItem.ativo = !associadoItem.ativo
-        return await associadoItem.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

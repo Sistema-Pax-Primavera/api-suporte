@@ -1,18 +1,14 @@
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, beforeSave, column } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
 
-export default class SubTipoAtendimento extends BaseModel {
+export default class TipoAtendimento extends BaseModel {
   // Definição do nome da tabela.
-  public static table = 'public.sub_tipo_atendimento'
+  public static table = 'public.tipo_atendimento'
 
   @column({ isPrimary: true })
   public id: number
 
-  // ID do tipo de atendimento vinculado ao sub-tipo.
-  @column()
-  public tipoAtendimentoId: number
-
-  // Nome do sub-tipo de atendimento.
+  // Nome do tipo de atendimento.
   @column()
   public descricao: string
 
@@ -35,4 +31,11 @@ export default class SubTipoAtendimento extends BaseModel {
   // Nome do responsável pela atualização do registro.
   @column()
   public updatedBy: string | null | undefined
+
+  @beforeSave()
+  public static async format(data: TipoAtendimento){
+    data.descricao = data.descricao?.toUpperCase()
+    data.createdBy = data.createdBy?.toUpperCase()
+    data.updatedBy = data.updatedBy?.toUpperCase()
+  }
 }

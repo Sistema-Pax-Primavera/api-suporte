@@ -1,33 +1,31 @@
 import AdicionalUnidade from "App/Models/AdicionalUnidade"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class AdicionalUnidadeService {
+    serviceDatabase = new CrudDatabase(AdicionalUnidade)
 
     public async buscarTodos() {
-        return await AdicionalUnidade.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await AdicionalUnidade.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await AdicionalUnidade.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(adicionalUnidade: any) {
-        return await AdicionalUnidade.create(adicionalUnidade)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novoAdicionalUnidade: any, id: number) {
-        let adicionalUnidade = await AdicionalUnidade.findOrFail(id)
-        adicionalUnidade.merge(novoAdicionalUnidade)
-        return await adicionalUnidade.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let adicionalUnidade = await AdicionalUnidade.findOrFail(id)
-        adicionalUnidade.ativo = !adicionalUnidade.ativo
-        return await adicionalUnidade.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

@@ -1,33 +1,31 @@
 import MensagemMobileVenda from "App/Models/MensagemMobileVenda"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class MensagemMobileVendaService {
+    serviceDatabase = new CrudDatabase(MensagemMobileVenda)
 
     public async buscarTodos() {
-        return await MensagemMobileVenda.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await MensagemMobileVenda.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await MensagemMobileVenda.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(mensagemMobileVenda: any) {
-        return await MensagemMobileVenda.create(mensagemMobileVenda)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novaMensagemMobile: any, id: number) {
-        let mensagemMobileVenda = await MensagemMobileVenda.findOrFail(id)
-        mensagemMobileVenda.merge(novaMensagemMobile)
-        return await mensagemMobileVenda.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let mensagemMobileVenda = await MensagemMobileVenda.findOrFail(id)
-        mensagemMobileVenda.ativo = !mensagemMobileVenda.ativo
-        return await mensagemMobileVenda.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

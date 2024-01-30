@@ -1,33 +1,31 @@
 import ParentescoUnidade from "App/Models/ParentescoUnidade"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class ParentescoUnidadeService {
+    serviceDatabase = new CrudDatabase(ParentescoUnidade)
 
     public async buscarTodos() {
-        return await ParentescoUnidade.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await ParentescoUnidade.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await ParentescoUnidade.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(parentescoUnidade: any) {
-        return await ParentescoUnidade.create(parentescoUnidade)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novoParentescoUnidade: any, id: number) {
-        let parentescoUnidade = await ParentescoUnidade.findOrFail(id)
-        parentescoUnidade.merge(novoParentescoUnidade)
-        return await parentescoUnidade.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let parentescoUnidade = await ParentescoUnidade.findOrFail(id)
-        parentescoUnidade.ativo = !parentescoUnidade.ativo
-        return await parentescoUnidade.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

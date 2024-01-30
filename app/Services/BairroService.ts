@@ -1,33 +1,31 @@
 import Bairro from "App/Models/Bairro"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class BairroService {
+    serviceDatabase = new CrudDatabase(Bairro)
 
     public async buscarTodos() {
-        return await Bairro.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await Bairro.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await Bairro.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(bairro: any) {
-        return await Bairro.create(bairro)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novoBairro: any, id: number) {
-        let bairro = await Bairro.findOrFail(id)
-        bairro.merge(novoBairro)
-        return await bairro.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let bairro = await Bairro.findOrFail(id)
-        bairro.ativo = !bairro.ativo
-        return await bairro.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

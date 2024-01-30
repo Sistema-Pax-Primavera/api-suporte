@@ -1,33 +1,31 @@
 import Solicitacao from "App/Models/Solicitacao"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class SolicitacaoService {
+    serviceDatabase = new CrudDatabase(Solicitacao)
 
     public async buscarTodos() {
-        return await Solicitacao.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await Solicitacao.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await Solicitacao.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(solicitacao: any) {
-        return await Solicitacao.create(solicitacao)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novaSolicitacao: any, id: number) {
-        let solicitacao = await Solicitacao.findOrFail(id)
-        solicitacao.merge(novaSolicitacao)
-        return await solicitacao.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let solicitacao = await Solicitacao.findOrFail(id)
-        solicitacao.ativo = !solicitacao.ativo
-        return await solicitacao.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

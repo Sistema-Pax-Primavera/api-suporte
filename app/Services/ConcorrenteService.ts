@@ -1,33 +1,31 @@
 import Concorrente from "App/Models/Concorrente"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class ConcorrenteService {
+    serviceDatabase = new CrudDatabase(Concorrente)
 
     public async buscarTodos() {
-        return await Concorrente.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await Concorrente.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await Concorrente.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(concorrente: any) {
-        return await Concorrente.create(concorrente)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novaConcorrente: any, id: number) {
-        let concorrente = await Concorrente.findOrFail(id)
-        concorrente.merge(novaConcorrente)
-        return await concorrente.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let concorrente = await Concorrente.findOrFail(id)
-        concorrente.ativo = !concorrente.ativo
-        return await concorrente.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

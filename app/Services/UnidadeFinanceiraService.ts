@@ -1,33 +1,31 @@
 import UnidadeFinanceira from "App/Models/UnidadeFinanceira"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class UnidadeFinanceiraService {
+    serviceDatabase = new CrudDatabase(UnidadeFinanceira)
 
     public async buscarTodos() {
-        return await UnidadeFinanceira.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await UnidadeFinanceira.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await UnidadeFinanceira.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(unidadeFinanceira: any) {
-        return await UnidadeFinanceira.create(unidadeFinanceira)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novaUnidadeFinanceira: any, id: number) {
-        let unidadeFinanceira = await UnidadeFinanceira.findOrFail(id)
-        unidadeFinanceira.merge(novaUnidadeFinanceira)
-        return await unidadeFinanceira.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let unidadeFinanceira = await UnidadeFinanceira.findOrFail(id)
-        unidadeFinanceira.ativo = !unidadeFinanceira.ativo
-        return await unidadeFinanceira.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

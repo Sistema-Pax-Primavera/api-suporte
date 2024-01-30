@@ -1,33 +1,31 @@
 import ContaPagar from "App/Models/ContaPagar"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class ContaPagarService {
+    serviceDatabase = new CrudDatabase(ContaPagar)
 
     public async buscarTodos() {
-        return await ContaPagar.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await ContaPagar.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await ContaPagar.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(contaPagar: any) {
-        return await ContaPagar.create(contaPagar)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novaContaPagar: any, id: number) {
-        let contaPagar = await ContaPagar.findOrFail(id)
-        contaPagar.merge(novaContaPagar)
-        return await contaPagar.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let contaPagar = await ContaPagar.findOrFail(id)
-        contaPagar.ativo = !contaPagar.ativo
-        return await contaPagar.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

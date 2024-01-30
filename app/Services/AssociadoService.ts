@@ -1,33 +1,31 @@
 import Associado from "App/Models/Associado"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class AssociadoService {
+    serviceDatabase = new CrudDatabase(Associado)
 
     public async buscarTodos() {
-        return await Associado.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await Associado.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await Associado.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(associado: any) {
-        return await Associado.create(associado)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novoAssociado: any, id: number) {
-        let associado = await Associado.findOrFail(id)
-        associado.merge(novoAssociado)
-        return await associado.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let associado = await Associado.findOrFail(id)
-        associado.ativo = !associado.ativo
-        return await associado.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

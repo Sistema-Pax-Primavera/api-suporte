@@ -1,33 +1,31 @@
 import Setor from "App/Models/Setor"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class SetorService {
+    serviceDatabase = new CrudDatabase(Setor)
 
     public async buscarTodos() {
-        return await Setor.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await Setor.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await Setor.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(setor: any) {
-        return await Setor.create(setor)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novoSetor: any, id: number) {
-        let setor = await Setor.findOrFail(id)
-        setor.merge(novoSetor)
-        return await setor.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let setor = await Setor.findOrFail(id)
-        setor.ativo = !setor.ativo
-        return await setor.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

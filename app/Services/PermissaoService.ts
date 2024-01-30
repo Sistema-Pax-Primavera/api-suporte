@@ -1,33 +1,31 @@
 import Permissao from "App/Models/Permissao"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class PermissaoService {
+    serviceDatabase = new CrudDatabase(Permissao)
 
     public async buscarTodos() {
-        return await Permissao.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await Permissao.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await Permissao.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(permissao: any) {
-        return await Permissao.create(permissao)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novaPermissao: any, id: number) {
-        let permissao = await Permissao.findOrFail(id)
-        permissao.merge(novaPermissao)
-        return await permissao.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let permissao = await Permissao.findOrFail(id)
-        permissao.ativo = !permissao.ativo
-        return await permissao.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

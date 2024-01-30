@@ -1,33 +1,31 @@
 import CategoriaSuporte from "App/Models/CategoriaSuporte"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class CategoriaSuporteService {
+    serviceDatabase = new CrudDatabase(CategoriaSuporte)
 
     public async buscarTodos() {
-        return await CategoriaSuporte.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await CategoriaSuporte.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await CategoriaSuporte.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(categoriaSuporte: any) {
-        return await CategoriaSuporte.create(categoriaSuporte)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novaCategoriaSuporte: any, id: number) {
-        let categoriaSuporte = await CategoriaSuporte.findOrFail(id)
-        categoriaSuporte.merge(novaCategoriaSuporte)
-        return await categoriaSuporte.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let categoriaSuporte = await CategoriaSuporte.findOrFail(id)
-        categoriaSuporte.ativo = !categoriaSuporte.ativo
-        return await categoriaSuporte.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

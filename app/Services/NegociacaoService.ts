@@ -1,33 +1,31 @@
 import Negociacao from "App/Models/Negociacao"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class NegociacaoService {
+    serviceDatabase = new CrudDatabase(Negociacao)
 
     public async buscarTodos() {
-        return await Negociacao.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await Negociacao.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await Negociacao.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(negociacao: any) {
-        return await Negociacao.create(negociacao)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novaNegociacao: any, id: number) {
-        let negociacao = await Negociacao.findOrFail(id)
-        negociacao.merge(novaNegociacao)
-        return await negociacao.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let negociacao = await Negociacao.findOrFail(id)
-        negociacao.ativo = !negociacao.ativo
-        return await negociacao.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

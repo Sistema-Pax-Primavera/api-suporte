@@ -1,33 +1,31 @@
 import Parcela from "App/Models/Parcela"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class ParcelaService {
+    serviceDatabase = new CrudDatabase(Parcela)
 
     public async buscarTodos() {
-        return await Parcela.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await Parcela.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await Parcela.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(parcela: any) {
-        return await Parcela.create(parcela)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novaParcela: any, id: number) {
-        let parcela = await Parcela.findOrFail(id)
-        parcela.merge(novaParcela)
-        return await parcela.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let parcela = await Parcela.findOrFail(id)
-        parcela.ativo = !parcela.ativo
-        return await parcela.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

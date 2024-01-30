@@ -85,4 +85,11 @@ export default class Usuario extends BaseModel {
       user.password = await Hash.make(user.password)
     }
   }
+
+  @beforeSave()
+  public static async format(data: Usuario){
+    data.nome = data.nome?.toUpperCase()
+    data.createdBy = data.createdBy?.toUpperCase()
+    data.updatedBy = data.updatedBy?.toUpperCase()
+  }
 }

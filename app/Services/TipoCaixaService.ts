@@ -1,33 +1,31 @@
 import TipoCaixa from "App/Models/TipoCaixa"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class TipoCaixaService {
+    serviceDatabase = new CrudDatabase(TipoCaixa)
 
     public async buscarTodos() {
-        return await TipoCaixa.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await TipoCaixa.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await TipoCaixa.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(tipoCaixa: any) {
-        return await TipoCaixa.create(tipoCaixa)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novoTipoCaixa: any, id: number) {
-        let tipoCaixa = await TipoCaixa.findOrFail(id)
-        tipoCaixa.merge(novoTipoCaixa)
-        return await tipoCaixa.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let tipoCaixa = await TipoCaixa.findOrFail(id)
-        tipoCaixa.ativo = !tipoCaixa.ativo
-        return await tipoCaixa.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

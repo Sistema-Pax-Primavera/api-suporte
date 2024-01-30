@@ -1,33 +1,31 @@
 import UnidadeDevedora from "App/Models/UnidadeDevedora"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class UnidadeDevedoraService {
+    serviceDatabase = new CrudDatabase(UnidadeDevedora)
 
     public async buscarTodos() {
-        return await UnidadeDevedora.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await UnidadeDevedora.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await UnidadeDevedora.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(unidadeDevedora: any) {
-        return await UnidadeDevedora.create(unidadeDevedora)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novaUnidadeDevedora: any, id: number) {
-        let unidadeDevedora = await UnidadeDevedora.findOrFail(id)
-        unidadeDevedora.merge(novaUnidadeDevedora)
-        return await unidadeDevedora.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let unidadeDevedora = await UnidadeDevedora.findOrFail(id)
-        unidadeDevedora.ativo = !unidadeDevedora.ativo
-        return await unidadeDevedora.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

@@ -1,33 +1,31 @@
 import TitularVenda from "App/Models/TitularVenda"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class TitularVendaService {
+    serviceDatabase = new CrudDatabase(TitularVenda)
 
     public async buscarTodos() {
-        return await TitularVenda.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await TitularVenda.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await TitularVenda.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(titularVenda: any) {
-        return await TitularVenda.create(titularVenda)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novoTitularVenda: any, id: number) {
-        let titularVenda = await TitularVenda.findOrFail(id)
-        titularVenda.merge(novoTitularVenda)
-        return await titularVenda.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let titularVenda = await TitularVenda.findOrFail(id)
-        titularVenda.ativo = !titularVenda.ativo
-        return await titularVenda.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

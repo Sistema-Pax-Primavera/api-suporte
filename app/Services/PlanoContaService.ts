@@ -1,33 +1,31 @@
 import PlanoConta from "App/Models/PlanoConta"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class PlanoContaService {
+    serviceDatabase = new CrudDatabase(PlanoConta)
 
     public async buscarTodos() {
-        return await PlanoConta.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await PlanoConta.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await PlanoConta.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(planoConta: any) {
-        return await PlanoConta.create(planoConta)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novoPlanoConta: any, id: number) {
-        let planoConta = await PlanoConta.findOrFail(id)
-        planoConta.merge(novoPlanoConta)
-        return await planoConta.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let planoConta = await PlanoConta.findOrFail(id)
-        planoConta.ativo = !planoConta.ativo
-        return await planoConta.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

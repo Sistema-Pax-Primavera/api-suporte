@@ -1,22 +1,14 @@
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, beforeSave, column } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
 
-export default class Bairro extends BaseModel {
+export default class RegiaoBairro extends BaseModel {
   // Definição do nome da tabela.
-  public static table = 'cobranca.bairro'
+  public static table = 'cobranca.regiao_bairro'
 
   @column({ isPrimary: true })
   public id: number
 
-  // ID do município vinculado ao bairro.
-  @column()
-  public municipioId: number
-
-  // ID da região vinculada ao bairro.
-  @column()
-  public regiaoBairroId: number | null | undefined
-
-  // Nome do bairro.
+  // Nome da região do bairro.
   @column()
   public descricao: string
 
@@ -39,4 +31,11 @@ export default class Bairro extends BaseModel {
   // Nome do responsável pela atualização do registro.
   @column()
   public updatedBy: string | null | undefined
+
+  @beforeSave()
+  public static async format(data: RegiaoBairro){
+    data.descricao = data.descricao?.toUpperCase()
+    data.createdBy = data.createdBy?.toUpperCase()
+    data.updatedBy = data.updatedBy?.toUpperCase()
+  }
 }

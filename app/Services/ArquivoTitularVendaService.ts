@@ -1,33 +1,31 @@
 import ArquivoTitularVenda from "App/Models/ArquivoTitularVenda"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class ArquivoTitularVendaService {
+    serviceDatabase = new CrudDatabase(ArquivoTitularVenda)
 
     public async buscarTodos() {
-        return await ArquivoTitularVenda.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await ArquivoTitularVenda.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await ArquivoTitularVenda.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(arquivoTitularVenda: any) {
-        return await ArquivoTitularVenda.create(arquivoTitularVenda)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novoArquivoTitularVenda: any, id: number) {
-        let arquivoTitularVenda = await ArquivoTitularVenda.findOrFail(id)
-        arquivoTitularVenda.merge(novoArquivoTitularVenda)
-        return await arquivoTitularVenda.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let arquivoTitularVenda = await ArquivoTitularVenda.findOrFail(id)
-        arquivoTitularVenda.ativo = !arquivoTitularVenda.ativo
-        return await arquivoTitularVenda.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

@@ -1,33 +1,31 @@
 import HistoricoAssociado from "App/Models/HistoricoAssociado"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class HistoricoAssociadoService {
+    serviceDatabase = new CrudDatabase(HistoricoAssociado)
 
     public async buscarTodos() {
-        return await HistoricoAssociado.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await HistoricoAssociado.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await HistoricoAssociado.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(historicoAssociado: any) {
-        return await HistoricoAssociado.create(historicoAssociado)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novoHistoricoAssociado: any, id: number) {
-        let historicoAssociado = await HistoricoAssociado.findOrFail(id)
-        historicoAssociado.merge(novoHistoricoAssociado)
-        return await historicoAssociado.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let historicoAssociado = await HistoricoAssociado.findOrFail(id)
-        historicoAssociado.ativo = !historicoAssociado.ativo
-        return await historicoAssociado.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

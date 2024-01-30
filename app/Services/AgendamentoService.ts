@@ -1,33 +1,31 @@
 import Agendamento from "App/Models/Agendamento"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class AgendamentoService {
+    serviceDatabase = new CrudDatabase(Agendamento)
 
     public async buscarTodos() {
-        return await Agendamento.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await Agendamento.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await Agendamento.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(agendamento: any) {
-        return await Agendamento.create(agendamento)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novoAgendamento: any, id: number) {
-        let agendamento = await Agendamento.findOrFail(id)
-        agendamento.merge(novoAgendamento)
-        return await agendamento.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let agendamento = await Agendamento.findOrFail(id)
-        agendamento.ativo = !agendamento.ativo
-        return await agendamento.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

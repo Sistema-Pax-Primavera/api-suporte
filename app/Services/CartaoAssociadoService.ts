@@ -1,33 +1,31 @@
 import CartaoAssociado from "App/Models/CartaoAssociado"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class CartaoAssociadoService {
+    serviceDatabase = new CrudDatabase(CartaoAssociado)
 
     public async buscarTodos() {
-        return await CartaoAssociado.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await CartaoAssociado.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await CartaoAssociado.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(cartaoAssociado: any) {
-        return await CartaoAssociado.create(cartaoAssociado)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novoCartaoAssociado: any, id: number) {
-        let cartaoAssociado = await CartaoAssociado.findOrFail(id)
-        cartaoAssociado.merge(novoCartaoAssociado)
-        return await cartaoAssociado.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let cartaoAssociado = await CartaoAssociado.findOrFail(id)
-        cartaoAssociado.ativo = !cartaoAssociado.ativo
-        return await cartaoAssociado.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

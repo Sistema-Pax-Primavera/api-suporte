@@ -1,33 +1,31 @@
 import PlanoItem from "App/Models/PlanoItem"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class PlanoItemService {
+    serviceDatabase = new CrudDatabase(PlanoItem)
 
     public async buscarTodos() {
-        return await PlanoItem.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await PlanoItem.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await PlanoItem.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(planoItem: any) {
-        return await PlanoItem.create(planoItem)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novoPlanoItem: any, id: number) {
-        let planoItem = await PlanoItem.findOrFail(id)
-        planoItem.merge(novoPlanoItem)
-        return await planoItem.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let planoItem = await PlanoItem.findOrFail(id)
-        planoItem.ativo = !planoItem.ativo
-        return await planoItem.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

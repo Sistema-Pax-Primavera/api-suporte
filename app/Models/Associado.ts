@@ -1,5 +1,5 @@
+import { BaseModel, beforeSave, column } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
 
 export default class Associado extends BaseModel {
   public static table = 'associado.associado'
@@ -310,4 +310,10 @@ export default class Associado extends BaseModel {
   // Nome do responsável pela atualização do registro.
   @column()
   public updatedBy: string | null | undefined
+
+  @beforeSave()
+  public static async format(data: Associado){
+    data.createdBy = data.createdBy?.toUpperCase()
+    data.updatedBy = data.updatedBy?.toUpperCase()
+  }
 }

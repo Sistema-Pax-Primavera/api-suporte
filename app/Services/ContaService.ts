@@ -1,33 +1,31 @@
 import Conta from "App/Models/Conta"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class ContaService {
+    serviceDatabase = new CrudDatabase(Conta)
 
     public async buscarTodos() {
-        return await Conta.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await Conta.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await Conta.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(conta: any) {
-        return await Conta.create(conta)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novaConta: any, id: number) {
-        let conta = await Conta.findOrFail(id)
-        conta.merge(novaConta)
-        return await conta.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let conta = await Conta.findOrFail(id)
-        conta.ativo = !conta.ativo
-        return await conta.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

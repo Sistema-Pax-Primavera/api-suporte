@@ -1,33 +1,31 @@
 import Pagamento from "App/Models/Pagamento"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class PagamentoService {
+    serviceDatabase = new CrudDatabase(Pagamento)
 
     public async buscarTodos() {
-        return await Pagamento.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await Pagamento.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await Pagamento.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(pagamento: any) {
-        return await Pagamento.create(pagamento)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novoPagamento: any, id: number) {
-        let pagamento = await Pagamento.findOrFail(id)
-        pagamento.merge(novoPagamento)
-        return await pagamento.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let pagamento = await Pagamento.findOrFail(id)
-        pagamento.ativo = !pagamento.ativo
-        return await pagamento.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

@@ -1,33 +1,31 @@
 import CategoriaHistorico from "App/Models/CategoriaHistorico"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class CategoriaHistoricoService {
+    serviceDatabase = new CrudDatabase(CategoriaHistorico)
 
     public async buscarTodos() {
-        return await CategoriaHistorico.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await CategoriaHistorico.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await CategoriaHistorico.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(categoriaHistorico: any) {
-        return await CategoriaHistorico.create(categoriaHistorico)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novaCategoriaHistorico: any, id: number) {
-        let categoriaHistorico = await CategoriaHistorico.findOrFail(id)
-        categoriaHistorico.merge(novaCategoriaHistorico)
-        return await categoriaHistorico.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let categoriaHistorico = await CategoriaHistorico.findOrFail(id)
-        categoriaHistorico.ativo = !categoriaHistorico.ativo
-        return await categoriaHistorico.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

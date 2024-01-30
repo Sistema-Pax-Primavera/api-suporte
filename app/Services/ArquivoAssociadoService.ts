@@ -1,33 +1,31 @@
 import ArquivoAssociado from "App/Models/ArquivoAssociado"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class ArquivoAssociadoService {
+    serviceDatabase = new CrudDatabase(ArquivoAssociado)
 
     public async buscarTodos() {
-        return await ArquivoAssociado.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await ArquivoAssociado.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await ArquivoAssociado.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(arquivoAssociado: any) {
-        return await ArquivoAssociado.create(arquivoAssociado)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novoArquivoAssociado: any, id: number) {
-        let arquivoAssociado = await ArquivoAssociado.findOrFail(id)
-        arquivoAssociado.merge(novoArquivoAssociado)
-        return await arquivoAssociado.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let arquivoAssociado = await ArquivoAssociado.findOrFail(id)
-        arquivoAssociado.ativo = !arquivoAssociado.ativo
-        return await arquivoAssociado.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

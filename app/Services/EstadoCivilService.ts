@@ -1,33 +1,31 @@
 import EstadoCivil from "App/Models/EstadoCivil"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class EstadoCivilService {
+    serviceDatabase = new CrudDatabase(EstadoCivil)
 
     public async buscarTodos() {
-        return await EstadoCivil.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await EstadoCivil.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await EstadoCivil.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(estadoCivil: any) {
-        return await EstadoCivil.create(estadoCivil)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novoEstadoCivil: any, id: number) {
-        let estadoCivil = await EstadoCivil.findOrFail(id)
-        estadoCivil.merge(novoEstadoCivil)
-        return await estadoCivil.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let estadoCivil = await EstadoCivil.findOrFail(id)
-        estadoCivil.ativo = !estadoCivil.ativo
-        return await estadoCivil.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

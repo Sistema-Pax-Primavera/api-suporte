@@ -1,33 +1,31 @@
 import DescontoUnidade from "App/Models/DescontoUnidade"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class DescontoUnidadeService {
+    serviceDatabase = new CrudDatabase(DescontoUnidade)
 
     public async buscarTodos() {
-        return await DescontoUnidade.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await DescontoUnidade.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await DescontoUnidade.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(descontoUnidade: any) {
-        return await DescontoUnidade.create(descontoUnidade)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novoDescontoUnidade: any, id: number) {
-        let descontoUnidade = await DescontoUnidade.findOrFail(id)
-        descontoUnidade.merge(novoDescontoUnidade)
-        return await descontoUnidade.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let descontoUnidade = await DescontoUnidade.findOrFail(id)
-        descontoUnidade.ativo = !descontoUnidade.ativo
-        return await descontoUnidade.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

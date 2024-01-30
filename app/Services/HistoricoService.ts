@@ -1,33 +1,31 @@
 import Historico from "App/Models/Historico"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class HistoricoService {
+    serviceDatabase = new CrudDatabase(Historico)
 
     public async buscarTodos() {
-        return await Historico.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await Historico.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await Historico.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(historico: any) {
-        return await Historico.create(historico)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novoHistorico: any, id: number) {
-        let historico = await Historico.findOrFail(id)
-        historico.merge(novoHistorico)
-        return await historico.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let historico = await Historico.findOrFail(id)
-        historico.ativo = !historico.ativo
-        return await historico.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

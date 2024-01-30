@@ -1,33 +1,31 @@
 import Funcao from "App/Models/Funcao"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class FuncaoService {
+    serviceDatabase = new CrudDatabase(Funcao)
 
     public async buscarTodos() {
-        return await Funcao.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await Funcao.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await Funcao.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(funcao: any) {
-        return await Funcao.create(funcao)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novaFuncao: any, id: number) {
-        let funcao = await Funcao.findOrFail(id)
-        funcao.merge(novaFuncao)
-        return await funcao.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let funcao = await Funcao.findOrFail(id)
-        funcao.ativo = !funcao.ativo
-        return await funcao.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

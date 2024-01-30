@@ -1,33 +1,31 @@
 import DependenteVenda from "App/Models/DependenteVenda"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class DependenteVendaService {
+    serviceDatabase = new CrudDatabase(DependenteVenda)
 
     public async buscarTodos() {
-        return await DependenteVenda.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await DependenteVenda.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await DependenteVenda.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(dependenteVenda: any) {
-        return await DependenteVenda.create(dependenteVenda)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novoDependenteVenda: any, id: number) {
-        let dependenteVenda = await DependenteVenda.findOrFail(id)
-        dependenteVenda.merge(novoDependenteVenda)
-        return await dependenteVenda.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let dependenteVenda = await DependenteVenda.findOrFail(id)
-        dependenteVenda.ativo = !dependenteVenda.ativo
-        return await dependenteVenda.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

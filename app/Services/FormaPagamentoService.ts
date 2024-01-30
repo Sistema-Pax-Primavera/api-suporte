@@ -1,33 +1,31 @@
 import FormaPagamento from "App/Models/FormaPagamento"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class FormaPagamentoService {
+    serviceDatabase = new CrudDatabase(FormaPagamento)
 
     public async buscarTodos() {
-        return await FormaPagamento.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await FormaPagamento.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await FormaPagamento.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(formaPagamento: any) {
-        return await FormaPagamento.create(formaPagamento)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novaFormaPagamento: any, id: number) {
-        let formaPagamento = await FormaPagamento.findOrFail(id)
-        formaPagamento.merge(novaFormaPagamento)
-        return await formaPagamento.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let formaPagamento = await FormaPagamento.findOrFail(id)
-        formaPagamento.ativo = !formaPagamento.ativo
-        return await formaPagamento.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }

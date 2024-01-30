@@ -1,33 +1,31 @@
 import SubTipoAtendimento from "App/Models/SubTipoAtendimento"
+import CrudDatabase from "App/Utils/CrudDatabase"
 
 export default class SubTipoAtendimentoService {
+    serviceDatabase = new CrudDatabase(SubTipoAtendimento)
 
     public async buscarTodos() {
-        return await SubTipoAtendimento.query()
+        return await this.serviceDatabase.findAll()
     }
 
     public async buscarAtivos() {
-        return await SubTipoAtendimento.query().where({ "ativo": true })
+        return await this.serviceDatabase.findByFilter({ ativo: true })
     }
 
     public async buscarPorId(id: number) {
-        return await SubTipoAtendimento.findOrFail(id)
+        return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(subTipoAtendimento: any) {
-        return await SubTipoAtendimento.create(subTipoAtendimento)
+    public async cadastrar(data: any) {
+        return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(novoSubTipoAtendimento: any, id: number) {
-        let subTipoAtendimento = await SubTipoAtendimento.findOrFail(id)
-        subTipoAtendimento.merge(novoSubTipoAtendimento)
-        return await subTipoAtendimento.save()
+    public async atualizar(data: any, id: number) {
+        return await this.serviceDatabase.update(id, data)
     }
 
     public async ativar(id: number) {
-        let subTipoAtendimento = await SubTipoAtendimento.findOrFail(id)
-        subTipoAtendimento.ativo = !subTipoAtendimento.ativo
-        return await subTipoAtendimento.save()
+        return await this.serviceDatabase.activate(id)
     }
 
 }
