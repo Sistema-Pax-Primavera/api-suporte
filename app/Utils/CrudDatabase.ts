@@ -110,7 +110,7 @@ export default class CrudDatabase<T extends typeof BaseModel> {
 
     public async findByFilter(filter: object) {
         try {
-            const documents = await this.model.query(filter)
+            const documents = await this.model.query().where(filter)
             return { status: true, data: documents }
         } catch (error) {
             return { status: false, message: 'Find by filter failed', error: error.message }
