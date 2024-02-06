@@ -8,7 +8,7 @@ interface AdicionalInterface {
     [key: string]: FieldOptions
 }
 
-const adicionalFields: AdicionalInterface = {
+const fields: AdicionalInterface = {
     descricao: { type: 'string', required: true, unique: true },
     pet: { type: 'boolean', required: true, default: false },
     porte: { type: 'string', required: false, enumValues: portes },
@@ -38,7 +38,7 @@ export default class AdicionalService {
     public async cadastrar(data: object) {
         data["createdBy"] = 'ADMIN'
         
-        const verify = await validateFields(data, adicionalFields, this.serviceDatabase)
+        const verify = await validateFields(data, fields, this.serviceDatabase)
         if (!verify["status"]) throw new CustomError(verify["message"], 404)
 
         return await this.serviceDatabase.insert(data)
@@ -46,9 +46,9 @@ export default class AdicionalService {
 
     public async atualizar(data: object, id: number) {
         data["createdBy"] = 'ADMIN'
-        adicionalFields["updatedBy"].required = true
+        fields["updatedBy"].required = true
         
-        const verify = await validateFields(data, adicionalFields, this.serviceDatabase)
+        const verify = await validateFields(data, fields, this.serviceDatabase)
         if (!verify["status"]) throw new CustomError(verify["message"], 404)
 
         return await this.serviceDatabase.update(id, data)

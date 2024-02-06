@@ -1,5 +1,23 @@
+import CustomError from "App/Exceptions/CustomError"
 import Bairro from "App/Models/Bairro"
 import CrudDatabase from "App/Utils/CrudDatabase"
+import validateFields from "App/Utils/Functions"
+import { FieldOptions } from "App/Utils/Globals"
+
+interface BairroInterface {
+    [key: string]: FieldOptions
+}
+
+const fields: BairroInterface = {
+    municipioId: { type: 'number', required: true },
+    regiaoBairroId: { type: 'number', required: false },
+    descricao: { type: 'string', required: true },
+    ativo: { type: 'boolean', required: false, default: true },
+    createdBy: { type: 'string', required: true },
+    createdAt: { type: 'datetime', required: false, format: 'yyyy-MM-dd HH:mm:ss' },
+    updatedBy: { type: 'string', required: false },
+    updatedAt: { type: 'datetime', required: false, format: 'yyyy-MM-dd HH:mm:ss' }
+}
 
 export default class BairroService {
     serviceDatabase = new CrudDatabase(Bairro)
@@ -16,11 +34,22 @@ export default class BairroService {
         return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(data: any) {
+    public async cadastrar(data: object) {
+        data["createdBy"] = 'ADMIN'
+
+        const verify = await validateFields(data, fields, this.serviceDatabase)
+        if (!verify["status"]) throw new CustomError(verify["message"], 404)
+
         return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(data: any, id: number) {
+    public async atualizar(data: object, id: number) {
+        data["createdBy"] = 'ADMIN'
+        fields["updatedBy"].required = true
+
+        const verify = await validateFields(data, fields, this.serviceDatabase)
+        if (!verify["status"]) throw new CustomError(verify["message"], 404)
+
         return await this.serviceDatabase.update(id, data)
     }
 

@@ -1,5 +1,21 @@
+import CustomError from "App/Exceptions/CustomError"
 import Funcao from "App/Models/Funcao"
 import CrudDatabase from "App/Utils/CrudDatabase"
+import validateFields from "App/Utils/Functions"
+import { FieldOptions } from "App/Utils/Globals"
+
+interface FuncaoInterface {
+    [key: string]: FieldOptions
+}
+
+const fields: FuncaoInterface = {
+    descricao: { type: 'string', required: true },
+    ativo: { type: 'boolean', required: false, default: true },
+    createdBy: { type: 'string', required: true },
+    createdAt: { type: 'datetime', required: false, format: 'yyyy-MM-dd HH:mm:ss' },
+    updatedBy: { type: 'string', required: false },
+    updatedAt: { type: 'datetime', required: false, format: 'yyyy-MM-dd HH:mm:ss' }
+}
 
 export default class FuncaoService {
     serviceDatabase = new CrudDatabase(Funcao)
@@ -16,11 +32,22 @@ export default class FuncaoService {
         return await this.serviceDatabase.findById(id)
     }
 
-    public async cadastrar(data: any) {
+    public async cadastrar(data: object) {
+        data["createdBy"] = 'ADMIN'
+
+        const verify = await validateFields(data, fields, this.serviceDatabase)
+        if (!verify["status"]) throw new CustomError(verify["message"], 404)
+
         return await this.serviceDatabase.insert(data)
     }
 
-    public async atualizar(data: any, id: number) {
+    public async atualizar(data: object, id: number) {
+        data["createdBy"] = 'ADMIN'
+        fields["updatedBy"].required = true
+
+        const verify = await validateFields(data, fields, this.serviceDatabase)
+        if (!verify["status"]) throw new CustomError(verify["message"], 404)
+
         return await this.serviceDatabase.update(id, data)
     }
 
